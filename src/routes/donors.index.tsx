@@ -101,7 +101,7 @@ function DonorsPage() {
       const first = next[0];
       if (first) {
         navigate({
-          search: (prev) => ({
+          search: (prev: SearchValues) => ({
             ...prev,
             sort: first.id as SearchValues["sort"],
             dir: first.desc ? "desc" : "asc",
@@ -118,10 +118,10 @@ function DonorsPage() {
   });
 
   const setSearch = (patch: Partial<SearchValues>) =>
-    navigate({ search: (prev) => ({ ...prev, ...patch, page: 1 }) });
+    navigate({ search: (prev: SearchValues) => ({ ...prev, ...patch, page: 1 }) });
 
   const setDensity = (d: Density) =>
-    navigate({ search: (prev) => ({ ...prev, density: d }) });
+    navigate({ search: (prev: SearchValues) => ({ ...prev, density: d }) });
 
   const totalPages = Math.max(1, Math.ceil(data.total / PAGE_SIZE));
   const startIdx = data.total === 0 ? 0 : (search.page - 1) * PAGE_SIZE + 1;
@@ -183,7 +183,7 @@ function DonorsPage() {
         activeFilters={activeFilters}
         onClearAll={() =>
           navigate({
-            search: (prev) => ({
+            search: (prev: SearchValues) => ({
               ...prev,
               q: "",
               tissue: "all",
@@ -257,7 +257,7 @@ function DonorsPage() {
               className="h-8"
               disabled={search.page <= 1}
               onClick={() =>
-                navigate({ search: (prev) => ({ ...prev, page: prev.page - 1 }) })
+                navigate({ search: (prev: SearchValues) => ({ ...prev, page: prev.page - 1 }) })
               }
             >
               <ChevronLeft className="size-3.5" /> Prev
@@ -268,7 +268,7 @@ function DonorsPage() {
               className="h-8"
               disabled={search.page >= totalPages}
               onClick={() =>
-                navigate({ search: (prev) => ({ ...prev, page: prev.page + 1 }) })
+                navigate({ search: (prev: SearchValues) => ({ ...prev, page: prev.page + 1 }) })
               }
             >
               Next <ChevronRight className="size-3.5" />
