@@ -247,24 +247,58 @@ export async function getDonor(id: string): Promise<Donor> {
   return clone(d);
 }
 
+// FastAPI: GET /donors/next-id
+export function nextDonorId(): string {
+  const year = new Date().getFullYear();
+  const prefix = `D-${year}-`;
+  let max = 0;
+  for (const d of store.donors) {
+    if (!d.id.startsWith(prefix)) continue;
+    const n = parseInt(d.id.slice(prefix.length), 10);
+    if (!Number.isNaN(n) && n > max) max = n;
+  }
+  return `${prefix}${String(max + 1).padStart(4, "0")}`;
+}
+
+export interface CreateDonorInput {
+  id: string;
+  tissueType: "BT" | "MS";
+  documents?: { type: DocumentType; fileName: string; pageCount?: number }[];
+}
+
 // FastAPI: POST /donors
-export async function createDonor(input: { id: string; tissueType: "BT" | "MS" }): Promise<Donor> {
+export async function createDonor(input: CreateDonorInput): Promise<Donor> {
   await wait();
   if (store.donors.some((d) => d.id === input.id)) {
     throw new Error(`Donor ID ${input.id} already exists`);
   }
+  const createdAt = new Date().toISOString();
+  const docs: DonorDocument[] = (input.documents ?? []).map((doc, i) => ({
+    id: `doc-${Date.now()}-${i}`,
+    donorId: input.id,
+    type: doc.type,
+    fileName: doc.fileName,
+    pageCount: doc.pageCount ?? 2,
+    uploadedAt: createdAt,
+    status: "extracted",
+  }));
   const donor: Donor = {
     id: input.id,
     tenantId: store.tenant.id,
     tissueType: input.tissueType,
-    createdAt: new Date().toISOString(),
+    createdAt,
     createdBy: actorName(),
-    documents: [],
+    documents: docs,
     fields: [],
     evaluation: null,
   };
   store.donors.unshift(donor);
-  appendAudit({ donorId: donor.id, actor: actorName(), action: "donor.created", detail: `Donor ${donor.id} created (${donor.tissueType})` });
+  appendAudit({
+    donorId: donor.id,
+    actor: actorName(),
+    action: "donor.created",
+    detail: `Donor ${donor.id} created (${donor.tissueType})${docs.length ? ` with ${docs.length} document${docs.length === 1 ? "" : "s"}` : ""}`,
+  });
   return clone(donor);
 }
 

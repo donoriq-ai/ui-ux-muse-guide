@@ -1,80 +1,65 @@
 
-# Phase 2A — Auth shell (UI only, mock API)
+# Next up: Phase 2B — New Donor wizard
 
-Scope: build the sign-in / sign-up / reset / sign-out UI on the existing mock API, and gate the app behind a real `_authenticated` layout. No Lovable Cloud, no real backend. Same flat language as Donors/Workspace.
+Auth shell is in. The biggest demo-value gap now is **creating a donor**. `/donors/new` exists but is a stub — clicking "New donor" from the workspace dead-ends. This phase makes intake feel real end-to-end, still on the mock API.
 
-After this lands I'll propose Phase 2B (New Donor wizard) — the next highest demo-value slice per the original plan.
+## Goals
 
-## 1. Mock auth state
+- A guided multi-step wizard that produces a donor record matching the same shape Workspace renders.
+- Same flat "warm paper" language: hairline borders, no shadows, compact type — consistent with the ID/badge sizing pass we just did.
+- Zero backend work. Everything lands in `mockApi` and re-uses the existing seed types.
 
-The mock API already exposes `login`, `signup`, `setRole`, `getCurrentUser`. We add the bits an auth shell needs:
+## Wizard steps
 
-- `logout()` — clears `currentUserId`, marks an audit entry.
-- Persist the signed-in user id to `localStorage` (`tissueqa.session`) so a refresh keeps you signed in. Loaded once into `store.currentUserId` on module init; cleared on logout.
-- Add `requestPasswordReset(email)` and `resetPassword(token, newPassword)` as fake-success endpoints (no email, no token validation — just the right shape).
+Single route `/_authenticated/donors/new`, stepper across the top, one panel visible at a time. Draft persisted to `localStorage` (`tissueqa.draft.newDonor`) so a refresh doesn't lose work.
 
-No schema changes.
+1. **Identifiers** — Donor ID (auto-suggested next `2026-XXX`, editable), case/source ref, date received.
+2. **Demographics & consent** — age, sex, cause of death, consent type, consent date.
+3. **Tissues recovered** — multi-select chips (Bone, Skin, Cornea, Cardiovascular, Tendon…). Selection drives which extraction groups appear in the workspace later.
+4. **Serology & screening** — required marker panel (HIV, HBV, HCV, Syphilis, HTLV) with result + date per row. Inline validation only — no scoring yet.
+5. **Documents** — drag/drop zone (mock: just records filename + size + type). Required doc checklist (consent, medical history, serology report) with red/amber/green dots.
+6. **Review & submit** — read-only summary using the same `SectionCard` components as the workspace, so the user sees exactly what they're about to create. Submit calls `mockApi.createDonor(draft)`, clears the draft, routes to `/donors/$id`.
 
-## 2. Router context auth gate
+Footer bar: Back / Save draft / Continue. Cancel returns to `/donors` and asks to discard if dirty.
 
-- Add `_authenticated.tsx` pathless layout. `beforeLoad` reads the mock current user (via the query client cache or a direct `mockApi.getCurrentUserSync()` helper) and `throw redirect({ to: "/login", search: { redirect: location.href } })` if not signed in.
-- Move protected routes under `_authenticated/`:
-  - `donors.index.tsx` → `_authenticated/donors.index.tsx`
-  - `donors.$id.tsx` → `_authenticated/donors.$id.tsx`
-  - `donors.$id.report.tsx` stays public (printable, accessed via link with token later — keep simple for now and put it under `_authenticated/` too; report is internal).
-  - `donors.new.tsx`, `audit.tsx`, `settings.tsx` → all under `_authenticated/`.
-- Public routes: `index.tsx` (currently redirects to /donors — keep), `login`, `signup`, `forgot-password`, `reset-password`.
-- `__root.tsx`'s "bare layout" heuristic gets simpler: bare for any route under `/login`, `/signup`, `/forgot-password`, `/reset-password`, and the printable report.
+## Mock API additions
 
-## 3. Screens
+- `createDonor(input)` — generates id, computes initial `eligibilityStatus = "intermediate"`, seeds empty extractions for the selected tissues, writes audit entry.
+- `nextDonorId()` — `2026-NNN` based on current max.
+- Draft helpers (`saveDraft`, `loadDraft`, `clearDraft`) — pure localStorage, no schema.
 
-Built with existing shadcn primitives + flat tokens. All use the same centered card on warm paper: hairline border, no shadow, ~360px wide.
+## Consistency pass (rolled in)
 
-- **`/login`** — email + password, "Forgot password?" link, "Need an account? Sign up". Submit calls `mockApi.login`, invalidates `currentUserQuery`, navigates to `search.redirect ?? "/donors"`.
-- **`/signup`** — name, email, password. Submits to `mockApi.signup`, then redirects to `/donors`.
-- **`/forgot-password`** — email field; on submit shows "If an account exists, we sent a link" (mock; doesn't actually send anything).
-- **`/reset-password`** — new password + confirm; on submit calls mock, toasts success, redirects to `/login`.
+While we're touching intake-adjacent UI, fix the remaining size/weight inconsistencies you flagged:
+- Audit page row meta type sized to match the workspace timeline.
+- Settings page section headers down to the same `text-sm font-medium` we now use for "Eligibility" / "Extractions".
+- Sidebar active-item weight matched to the new badge weight so nothing reads heavier than the donor ID.
 
-Quality bar:
-- Real `<form>` with proper labels, inline error states, disabled-while-pending button.
-- Inline validation (email format, min 8 char password). No new libs — small custom validators.
-- Branded header strip: same logo/wordmark used in the sidebar.
-- Skip link / autofocus on first field.
-
-## 4. Sidebar / top bar wiring
-
-- `TopBar` user menu "Sign out" item is wired: calls `mockApi.logout()`, invalidates current-user query, `navigate({ to: "/login" })`.
-- "Profile" stays disabled (no profile screen yet).
-- Role switcher stays — useful for demoing role-gated UI later. Add a small "Demo" label so it doesn't read like a real account control.
-- If the current-user query returns null (post-logout, mid-load) the sidebar still mounts but the user-menu shows a "Sign in" link instead of the avatar.
-
-## 5. Seed-data SSR hydration fix (rolled into this pass)
-
-`src/lib/api/seed.ts` calls `new Date()` at module load to compute `createdAt`/`evaluatedAt`. Server and client evaluate at different moments → hydration mismatch warnings on the workspace header. Fix: derive all seed timestamps from a single deterministic anchor (e.g. `BASE_TIME = new Date('2026-05-15T09:00:00Z').getTime()`) with per-donor offsets. Same data, no drift, removes the warnings without `suppressHydrationWarning` band-aids.
-
-## 6. Files
+## Files
 
 **New**
-- `src/routes/_authenticated.tsx` — layout + redirect gate.
-- `src/routes/forgot-password.tsx`
-- `src/routes/reset-password.tsx`
-- `src/components/auth/AuthCard.tsx` — shared centered card shell with logo + title + slot.
-- `src/components/auth/FormField.tsx` — label + input + inline error.
+- `src/components/donor-wizard/Stepper.tsx`
+- `src/components/donor-wizard/WizardShell.tsx` (header + footer bar + draft hook)
+- `src/components/donor-wizard/steps/Identifiers.tsx`
+- `…/Demographics.tsx`, `…/Tissues.tsx`, `…/Serology.tsx`, `…/Documents.tsx`, `…/Review.tsx`
+- `src/hooks/useDonorDraft.ts`
 
 **Edited**
-- `src/routes/login.tsx`, `src/routes/signup.tsx` — replace `Phase2Stub` with real forms.
-- `src/routes/__root.tsx` — extend `bare` matcher, register `_authenticated` route.
-- Move `donors.index.tsx`, `donors.$id.tsx`, `donors.$id.report.tsx`, `donors.new.tsx`, `audit.tsx`, `settings.tsx` into the `_authenticated/` segment. (TanStack flat naming: `_authenticated.donors.index.tsx`, etc.)
-- `src/components/TopBar.tsx` — wire Sign out, conditional menu when signed out.
-- `src/lib/api/mockApi.ts` — add `logout`, `requestPasswordReset`, `resetPassword`, `getCurrentUserSync`; localStorage persistence.
-- `src/lib/api/seed.ts` — deterministic timestamps.
+- `src/routes/_authenticated/donors.new.tsx` — replace stub with wizard shell.
+- `src/lib/api/mockApi.ts` — `createDonor`, `nextDonorId`, draft helpers.
+- `src/routes/_authenticated/audit.tsx`, `…/settings.tsx`, `src/components/AppSidebar.tsx` — type-size sweep.
 
-**Out of scope (deferred)**
-- Real Lovable Cloud / Supabase wiring.
-- Email delivery, real reset tokens.
-- Profiles table, RBAC enforcement beyond the existing role switcher.
-- Social login.
+## Out of scope
 
-## 7. Review point
+- Real file upload / storage.
+- Auto-scoring eligibility from serology results (deferred to Phase 2C alongside the extraction grouping rework you asked about — long serology/grays lists need their own organize pass, best done once we have real intake data flowing).
+- Lovable Cloud wiring.
 
-After this: try sign-out → bounce to /login → sign back in → redirected back to the page you were on. Donor workspace hydration warnings gone. Then we tackle Phase 2B (New Donor wizard).
+## After this
+
+Phase 2C candidate list, pick one when 2B lands:
+1. **Extraction organization rework** — group/collapse/filter the long lists you flagged (serology, grays).
+2. **Report screen polish** — `/donors/$id/report` is still skeletal.
+3. **Audit & settings flesh-out**.
+
+My recommendation: 2B now (unlocks the whole intake → workspace loop), then 2C = extraction organization (directly addresses your earlier feedback about long scrolls).
