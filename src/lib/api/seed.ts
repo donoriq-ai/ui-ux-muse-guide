@@ -10,6 +10,10 @@ import type {
 } from "./types";
 import { RULESET_VERSION } from "./types";
 
+// Deterministic anchor — seed timestamps must be identical on SSR and client
+// to avoid hydration drift. Bump this if you want to "advance the clock".
+const BASE_TIME = new Date("2026-05-15T09:00:00Z").getTime();
+
 // All synthetic. No PHI. Citations point at real seed images bundled in src/assets/docs/.
 
 export const seedTenant: Tenant = {
