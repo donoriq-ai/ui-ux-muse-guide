@@ -41,17 +41,17 @@ interface StatusBadgeProps {
 export function StatusBadge({ state, size = "md", className }: StatusBadgeProps) {
   const c = config[state];
   const sizes = {
-    sm: "h-6 text-[11px] px-2 gap-1",
-    md: "h-7 text-xs px-2.5 gap-1.5",
-    lg: "h-9 text-sm px-3.5 gap-2 font-semibold",
+    sm: "h-5 text-[10.5px] px-1.5 gap-1",
+    md: "h-6 text-[11px] px-2 gap-1.5",
+    lg: "h-8 text-xs px-3 gap-2 font-semibold",
   };
-  const iconSize = { sm: 12, md: 14, lg: 16 }[size];
+  const iconSize = { sm: 11, md: 13, lg: 15 }[size];
   return (
     <span
       role="status"
       aria-label={c.label}
       className={cn(
-        "inline-flex items-center rounded-md border font-medium tracking-wide uppercase",
+        "inline-flex items-center rounded border font-medium tracking-wider uppercase",
         sizes[size],
         c.classes,
         className,

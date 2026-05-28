@@ -57,7 +57,7 @@ export function SourceSheet({
 
         <div className="flex-1 overflow-auto p-5 bg-surface-muted">
           {imgSrc && (
-            <div className="relative mx-auto bg-white border border-border-strong shadow-elevated" style={{ width: "min(100%, 520px)" }}>
+            <div className="relative mx-auto bg-white border border-border-strong" style={{ width: "min(100%, 520px)" }}>
               <img src={imgSrc} alt="Source page preview (synthetic)" className="block w-full h-auto" />
               {bbox && (
                 <div

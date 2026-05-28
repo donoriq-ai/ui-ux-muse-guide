@@ -32,12 +32,12 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
         <Link to="/donors" className="flex items-center gap-2.5 px-2 h-12">
-          <span className="grid place-items-center size-8 rounded-md bg-primary text-primary-foreground shrink-0">
-            <Activity size={18} strokeWidth={2.4} />
+          <span className="grid place-items-center size-7 rounded bg-primary text-primary-foreground shrink-0">
+            <Activity size={15} strokeWidth={2.4} />
           </span>
           {!collapsed && (
             <div className="flex flex-col leading-tight">
-              <span className="font-semibold text-sm text-sidebar-foreground">TissueQA</span>
+              <span className="font-medium text-sm text-sidebar-foreground">TissueQA</span>
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Donor review</span>
             </div>
           )}

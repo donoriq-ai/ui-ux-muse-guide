@@ -38,13 +38,13 @@ export function TopBar() {
   });
 
   return (
-    <header className="no-print h-14 border-b border-border bg-surface/80 backdrop-blur sticky top-0 z-30">
+    <header className="no-print h-12 border-b border-border bg-background/95 backdrop-blur sticky top-0 z-30">
       <div className="h-full flex items-center gap-3 px-3 sm:px-4">
         <SidebarTrigger className="-ml-1" />
 
-        <div className="hidden sm:flex items-center gap-2 pl-2 pr-3 border-l border-border h-8">
-          <Building2 size={14} className="text-muted-foreground" />
-          <span className="text-sm font-medium">{tenant?.name ?? "—"}</span>
+        <div className="hidden sm:flex items-center gap-2 pl-2 pr-3 border-l border-border h-7">
+          <Building2 size={13} className="text-muted-foreground" />
+          <span className="text-xs font-medium">{tenant?.name ?? "—"}</span>
         </div>
 
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
