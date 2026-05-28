@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DonorsIndexRouteImport } from './routes/donors.index'
+import { Route as DonorsIdRouteImport } from './routes/donors.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const DonorsIndexRoute = DonorsIndexRouteImport.update({
   path: '/donors/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DonorsIdRoute = DonorsIdRouteImport.update({
+  id: '/donors/$id',
+  path: '/donors/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/donors/$id': typeof DonorsIdRoute
   '/donors/': typeof DonorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/donors/$id': typeof DonorsIdRoute
   '/donors': typeof DonorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/donors/$id': typeof DonorsIdRoute
   '/donors/': typeof DonorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/donors/'
+  fullPaths: '/' | '/donors/$id' | '/donors/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/donors'
-  id: '__root__' | '/' | '/donors/'
+  to: '/' | '/donors/$id' | '/donors'
+  id: '__root__' | '/' | '/donors/$id' | '/donors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DonorsIdRoute: typeof DonorsIdRoute
   DonorsIndexRoute: typeof DonorsIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DonorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/donors/$id': {
+      id: '/donors/$id'
+      path: '/donors/$id'
+      fullPath: '/donors/$id'
+      preLoaderRoute: typeof DonorsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DonorsIdRoute: DonorsIdRoute,
   DonorsIndexRoute: DonorsIndexRoute,
 }
 export const routeTree = rootRouteImport
