@@ -364,6 +364,8 @@ function Dropzone({ onDrop, label, sublabel }: { onDrop: () => void; label: stri
 
 // ─────────────────────────────── Extraction tab ─────────────────────────────
 
+type ExtractionFilter = "all" | "flagged" | "unreviewed";
+
 function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation: (c: Citation) => void }) {
   const qc = useQueryClient();
 
@@ -376,121 +378,142 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
     },
   });
 
-  const grouped = useMemo(() => {
-    const byDoc = new Map<string, ExtractedField[]>();
-    for (const f of donor.fields) {
-      const arr = byDoc.get(f.documentId) ?? [];
-      arr.push(f);
-      byDoc.set(f.documentId, arr);
-    }
+  const [selectedDoc, setSelectedDoc] = useState<string>("__all");
+  const [filter, setFilter] = useState<ExtractionFilter>("all");
+  const [q, setQ] = useState("");
+
+  const docsById = useMemo(
+    () => new Map(donor.documents.map((d) => [d.id, d])),
+    [donor.documents],
+  );
+
+  const railGroups: RailGroup[] = useMemo(() => {
     return donor.documents
-      .map((d) => ({ doc: d, fields: byDoc.get(d.id) ?? [] }))
-      .filter((g) => g.fields.length > 0);
+      .map((doc) => {
+        const fs = donor.fields.filter((f) => f.documentId === doc.id);
+        return {
+          doc,
+          total: fs.length,
+          flagged: fs.filter((f) => f.flaggedLowConfidence).length,
+          unreviewed: fs.filter((f) => !f.reviewed).length,
+        };
+      })
+      .filter((g) => g.total > 0);
   }, [donor.documents, donor.fields]);
 
-  const flaggedCount = donor.fields.filter((f) => f.flaggedLowConfidence).length;
-  const reviewedCount = donor.fields.filter((f) => f.reviewed).length;
+  const totalAll = donor.fields.length;
+  const flaggedAll = donor.fields.filter((f) => f.flaggedLowConfidence).length;
+  const reviewedAll = donor.fields.filter((f) => f.reviewed).length;
 
-  return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-        <span><span className="text-foreground font-medium">{donor.fields.length}</span> extracted fields</span>
-        <span><span className="text-foreground font-medium">{reviewedCount}</span> reviewed</span>
-        <span className="text-indeterminate-foreground">
-          <AlertCircle className="inline h-3.5 w-3.5 mr-1" />
-          {flaggedCount} below confidence threshold
-        </span>
+  const visible = useMemo(() => {
+    let arr = donor.fields;
+    if (selectedDoc !== "__all") arr = arr.filter((f) => f.documentId === selectedDoc);
+    if (filter === "flagged") arr = arr.filter((f) => f.flaggedLowConfidence);
+    if (filter === "unreviewed") arr = arr.filter((f) => !f.reviewed);
+    if (q.trim()) {
+      const needle = q.toLowerCase();
+      arr = arr.filter(
+        (f) =>
+          f.label.toLowerCase().includes(needle) ||
+          f.key.toLowerCase().includes(needle) ||
+          (f.value ?? "").toLowerCase().includes(needle),
+      );
+    }
+    return arr;
+  }, [donor.fields, selectedDoc, filter, q]);
+
+  if (totalAll === 0) {
+    return (
+      <div className="rounded-md border border-dashed border-border bg-surface-muted/40 py-16 text-center">
+        <Sparkles className="h-5 w-5 mx-auto text-muted-foreground" />
+        <h3 className="mt-3 text-sm font-medium">No extracted fields yet</h3>
+        <p className="text-xs text-muted-foreground mt-1">
+          Upload documents and run extraction from the Documents tab.
+        </p>
       </div>
+    );
+  }
 
-      {grouped.length === 0 ? (
-        <EmptyExtraction />
-      ) : (
-        grouped.map(({ doc, fields }) => (
-          <SectionCard
-            key={doc.id}
-            title={DOCUMENT_TYPE_LABELS[doc.type]}
-            description={<span className="font-mono">{doc.fileName} · {doc.pageCount}p</span>}
-          >
-            <table className="w-full text-sm">
-              <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-surface-muted/40">
-                <tr className="text-left">
-                  <th className="px-4 py-2.5 font-medium w-[28%]">Field</th>
-                  <th className="px-4 py-2.5 font-medium w-[26%]">Value</th>
-                  <th className="px-4 py-2.5 font-medium w-[16%]">Confidence</th>
-                  <th className="px-4 py-2.5 font-medium">Source</th>
-                  <th className="px-4 py-2.5 font-medium text-right w-[100px]">Reviewed</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {fields.map((f) => (
-                  <FieldRow
-                    key={f.id}
-                    field={f}
-                    onToggle={(v) => setReviewed.mutate({ fieldId: f.id, reviewed: v })}
-                    onOpenCitation={onOpenCitation}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </SectionCard>
-        ))
+  const selectedDocMeta = selectedDoc === "__all" ? null : docsById.get(selectedDoc) ?? null;
+
+  const FilterBtn = ({ value, label, count }: { value: ExtractionFilter; label: string; count?: number }) => (
+    <button
+      type="button"
+      onClick={() => setFilter(value)}
+      className={cn(
+        "h-7 px-2.5 rounded border text-xs font-medium inline-flex items-center gap-1.5 transition-colors",
+        filter === value
+          ? "border-foreground/30 bg-surface-muted text-foreground"
+          : "border-border bg-surface text-muted-foreground hover:text-foreground",
       )}
-    </div>
+    >
+      {label}
+      {typeof count === "number" && (
+        <span className="font-mono text-[10px] tabular-nums text-muted-foreground">{count}</span>
+      )}
+    </button>
   );
-}
 
-function FieldRow({
-  field,
-  onToggle,
-  onOpenCitation,
-}: {
-  field: ExtractedField;
-  onToggle: (v: boolean) => void;
-  onOpenCitation: (c: Citation) => void;
-}) {
-  const flagged = field.flaggedLowConfidence;
   return (
-    <tr className={cn("group", flagged && "bg-indeterminate-soft/30")}>
-      <td className="px-4 py-2.5">
-        <div className="text-sm font-medium text-foreground inline-flex items-center gap-2">
-          {flagged && <AlertCircle className="h-3.5 w-3.5 text-indeterminate-foreground" />}
-          {field.label}
+    <div className="grid gap-4 md:grid-cols-[220px_1fr]">
+      <DocumentRail
+        groups={railGroups}
+        totalAll={totalAll}
+        flaggedAll={flaggedAll}
+        selected={selectedDoc}
+        onSelect={setSelectedDoc}
+      />
+
+      <div className="min-w-0 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="text-[13px] font-medium text-foreground">
+              {selectedDocMeta ? DOCUMENT_TYPE_LABELS[selectedDocMeta.type] : "All documents"}
+            </h2>
+            <p className="text-[11px] text-muted-foreground font-mono mt-0.5 truncate">
+              {selectedDocMeta
+                ? `${selectedDocMeta.fileName} · ${selectedDocMeta.pageCount}p`
+                : `${railGroups.length} documents`}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+            <span><span className="text-foreground font-medium tabular-nums">{visible.length}</span> shown</span>
+            <span className="text-border">·</span>
+            <span><span className="text-foreground font-medium tabular-nums">{reviewedAll}</span>/{totalAll} reviewed</span>
+            {flaggedAll > 0 && (
+              <>
+                <span className="text-border">·</span>
+                <span className="text-indeterminate-foreground inline-flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {flaggedAll} flagged
+                </span>
+              </>
+            )}
+          </div>
         </div>
-        <div className="font-mono text-[10px] text-muted-foreground mt-0.5">{field.key}</div>
-      </td>
-      <td className="px-4 py-2.5">
-        {field.value ? (
-          <span className="font-mono text-[13px]">{field.value}</span>
-        ) : (
-          <span className="text-xs text-muted-foreground italic">— not extracted —</span>
-        )}
-      </td>
-      <td className="px-4 py-2.5"><ConfidenceMeter value={field.confidence} /></td>
-      <td className="px-4 py-2.5"><CitationChip citation={field.citation} onClick={onOpenCitation} /></td>
-      <td className="px-4 py-2.5 text-right">
-        <label className="inline-flex items-center gap-2 cursor-pointer">
-          <Checkbox
-            checked={field.reviewed}
-            onCheckedChange={(v) => onToggle(!!v)}
-            aria-label={`Mark ${field.label} reviewed`}
-          />
-          {flagged && !field.reviewed && (
-            <span className="text-[10px] uppercase tracking-wider text-indeterminate-foreground font-semibold">Verify</span>
-          )}
-        </label>
-      </td>
-    </tr>
-  );
-}
 
-function EmptyExtraction() {
-  return (
-    <div className="rounded-lg border border-dashed border-border-strong bg-surface-muted/40 py-16 text-center">
-      <Sparkles className="h-6 w-6 mx-auto text-muted-foreground" />
-      <h3 className="mt-3 text-sm font-medium">No extracted fields yet</h3>
-      <p className="text-xs text-muted-foreground mt-1">
-        Upload documents and run extraction from the Documents tab.
-      </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <Input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search fields…"
+            className="h-8 text-xs w-full sm:w-64"
+          />
+          <div className="flex items-center gap-1.5">
+            <FilterBtn value="all" label="All" count={totalAll} />
+            <FilterBtn value="flagged" label="Flagged" count={flaggedAll} />
+            <FilterBtn value="unreviewed" label="Unreviewed" count={totalAll - reviewedAll} />
+          </div>
+        </div>
+
+        <ExtractionFieldTable
+          fields={visible}
+          docsById={docsById}
+          showDocColumn={selectedDoc === "__all"}
+          onToggle={(fieldId, v) => setReviewed.mutate({ fieldId, reviewed: v })}
+          onOpenCitation={onOpenCitation}
+        />
+      </div>
     </div>
   );
 }
