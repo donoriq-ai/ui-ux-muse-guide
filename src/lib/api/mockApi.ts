@@ -31,12 +31,38 @@ interface Store {
 }
 
 const donors = buildSeedDonors();
+const SESSION_KEY = "tissueqa.session";
+
+function readSession(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return window.localStorage.getItem(SESSION_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function writeSession(userId: string | null) {
+  if (typeof window === "undefined") return;
+  try {
+    if (userId) window.localStorage.setItem(SESSION_KEY, userId);
+    else window.localStorage.removeItem(SESSION_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+const initialSessionUserId = readSession();
 const store: Store = {
   tenant: { ...seedTenant },
   users: seedUsers.map((u) => ({ ...u })),
   donors,
   audit: buildSeedAudit(donors),
-  currentUserId: seedUsers[0].id, // start as coordinator
+  // currentUserId always points at a valid mock user so role-aware UI keeps
+  // working; the actual sign-in state lives in localStorage (SESSION_KEY).
+  currentUserId:
+    (initialSessionUserId && seedUsers.find((u) => u.id === initialSessionUserId)?.id) ??
+    seedUsers[0].id,
 };
 
 const wait = (ms = 400) => new Promise((r) => setTimeout(r, ms));
@@ -52,6 +78,13 @@ function appendAudit(entry: Omit<AuditEntry, "id" | "timestamp">) {
 
 function actorName(): string {
   return store.users.find((u) => u.id === store.currentUserId)?.name ?? "unknown";
+}
+
+// ─────────────────────────── Session (UI-only) ───────────────────────────────
+
+/** Synchronous check used by route guards. Safe on the server (returns false). */
+export function hasSession(): boolean {
+  return readSession() !== null;
 }
 
 // ─────────────────────────── Auth / session ──────────────────────────────────
