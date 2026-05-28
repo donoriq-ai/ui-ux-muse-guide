@@ -681,7 +681,7 @@ function AuditTab({ donorId }: { donorId: string }) {
         <ol className="divide-y divide-border">
           {data.map((entry) => (
             <li key={entry.id} className="px-5 py-3 flex items-start gap-4 text-sm">
-              <span className="font-mono text-[11px] text-muted-foreground w-44 shrink-0 mt-0.5">
+              <span className="font-mono text-[11px] text-muted-foreground w-44 shrink-0 mt-0.5" suppressHydrationWarning>
                 {new Date(entry.timestamp).toLocaleString()}
               </span>
               <span className="font-mono text-[11px] text-primary bg-primary-soft px-1.5 py-0.5 rounded shrink-0 mt-0.5">
