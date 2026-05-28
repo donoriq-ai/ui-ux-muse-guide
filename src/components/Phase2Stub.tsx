@@ -15,6 +15,13 @@ export function Phase2Stub({ title, description, backTo, backLabel, backParams, 
     ? "min-h-screen grid place-items-center p-6"
     : "max-w-2xl mx-auto p-6 sm:p-12";
 
+  let href = backTo;
+  if (backParams) {
+    for (const [k, v] of Object.entries(backParams)) {
+      href = href.replace(`$${k}`, v);
+    }
+  }
+
   return (
     <div className={wrapper}>
       <div className="rounded-xl border border-border bg-card shadow-card p-8 sm:p-10 w-full text-center">
@@ -25,10 +32,9 @@ export function Phase2Stub({ title, description, backTo, backLabel, backParams, 
         <p className="mt-2 text-sm text-muted-foreground max-w-md mx-auto">{description}</p>
         <div className="mt-6">
           <Button asChild>
-            {/* @ts-expect-error: dynamic to is fine for stub */}
-            <Link to={backTo} params={backParams}>
+            <a href={href}>
               {backLabel} <ArrowRight className="ml-1.5 h-4 w-4" />
-            </Link>
+            </a>
           </Button>
         </div>
       </div>
