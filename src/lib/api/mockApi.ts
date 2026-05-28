@@ -90,24 +90,52 @@ export function hasSession(): boolean {
 // ─────────────────────────── Auth / session ──────────────────────────────────
 
 // FastAPI: POST /auth/login
-export async function login(_email: string, _password: string): Promise<User> {
+export async function login(email: string, _password: string): Promise<User> {
   await wait(300);
+  // Try to match an existing seeded user by email; otherwise stay as the
+  // current mock identity. Either way, persist a session token.
+  const match = store.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+  if (match) store.currentUserId = match.id;
+  writeSession(store.currentUserId);
+  appendAudit({ actor: actorName(), action: "auth.login", detail: email });
   return clone(store.users.find((u) => u.id === store.currentUserId)!);
 }
 
 // FastAPI: POST /auth/signup
 export async function signup(input: { email: string; name: string }): Promise<User> {
   await wait(300);
-  const user: User = {
+  const existing = store.users.find((u) => u.email.toLowerCase() === input.email.toLowerCase());
+  const user: User = existing ?? {
     id: `u-${Date.now()}`,
     email: input.email,
     name: input.name,
     role: "coordinator",
     tenantId: store.tenant.id,
   };
-  store.users.push(user);
+  if (!existing) store.users.push(user);
   store.currentUserId = user.id;
+  writeSession(user.id);
+  appendAudit({ actor: user.name, action: "auth.signup", detail: input.email });
   return clone(user);
+}
+
+// FastAPI: POST /auth/logout
+export async function logout(): Promise<void> {
+  await wait(120);
+  appendAudit({ actor: actorName(), action: "auth.logout", detail: "" });
+  writeSession(null);
+}
+
+// FastAPI: POST /auth/password/reset-request
+export async function requestPasswordReset(email: string): Promise<void> {
+  await wait(300);
+  appendAudit({ actor: email, action: "auth.password_reset_requested", detail: email });
+}
+
+// FastAPI: POST /auth/password/reset
+export async function resetPassword(_token: string, _newPassword: string): Promise<void> {
+  await wait(300);
+  appendAudit({ actor: actorName(), action: "auth.password_reset", detail: "Password updated" });
 }
 
 // FastAPI: GET /auth/me
