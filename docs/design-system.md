@@ -1,59 +1,69 @@
 # TissueQA design system — playbook
 
-Phase 1 reference. Every Phase 2 screen consumes these tokens and primitives. Do not introduce ad-hoc colors, badges, or chips.
+Phase 1.5: minimal flat. Warm paper, hairline borders, **no shadows anywhere**.
 
-## Tokens (defined in `src/styles.css`)
+## Tokens (`src/styles.css`)
 
 ### Color
-- **Surfaces** — `--background` (near-white with cool tint), `--surface` (pure white card surface), `--surface-muted` (table headers, inset zones).
-- **Primary** — deep teal (`oklch(0.46 0.08 200)`). Used for: branding, primary buttons, focus rings, rule chips, active sidebar items.
-- **Primary soft** — used for rule chips, criterion ID pills, primary-tinted backgrounds.
-- **States** — every state has solid + foreground + soft variants:
-  - `--accept` (green) → ACCEPT, COMPLETE, "present", "extracted"
-  - `--reject` (red) → REJECT, hard fails
-  - `--indeterminate` (amber) → INDETERMINATE, INCOMPLETE, low confidence, "missing"
+- **Surfaces** — `--background` warm paper `#FAFAF7`, `--surface` `#FFF`, `--surface-muted` `#F5F4EF` for table headers / inset zones.
+- **Borders** — 1px hairline, `--border` `#EFEDE6` default, `--border-strong` `#E8E6DF` for emphasized edges (sticky-column divider, table header bottom).
+- **Primary** — desaturated deep teal `oklch(0.45 0.06 200)`. Brand chrome only; states use their own palette.
+- **States** — solid + foreground + soft for `--accept`, `--reject`, `--indeterminate`. Always paired with an icon + uppercase label — never color alone.
 
-Color is **never the only signal**. Every status badge includes an icon and an uppercase text label.
+### Shadows
+**None.** A global `@layer utilities` rule neutralizes every Tailwind shadow utility (`shadow-sm` → `shadow-2xl`, `shadow-card`, `shadow-elevated`). If you need separation, use a border.
+
+### Radius
+`--radius: 0.375rem` (6px). Chips/badges use 4px (`rounded`). No pill shapes except where the StatusBadge size variant calls for it.
 
 ### Typography
-- UI: **Inter** (400/500/600/700)
-- Citations, criterion IDs, donor IDs, field values, bbox coords, timestamps in tables: **JetBrains Mono** (`font-mono`)
+- UI: **Inter** 400/500/600. Headings default to `font-medium` (not `semibold`).
+- Mono: **JetBrains Mono** for Donor IDs, criterion IDs, field values, bbox coords, timestamps in tables, all citation/rule chips.
 
-### Radius & elevation
-- `--radius: 0.5rem` (default `rounded-md` lands on this)
-- `--shadow-card` for static cards, `--shadow-elevated` for sheets/dialogs
+### Layout
+- `.page-pad` → `padding-inline: clamp(16px, 3vw, 32px); padding-block: clamp(16px, 2.5vw, 28px);`
+- No `max-w-[1400px]` cap on data screens — they go edge-to-edge inside the sidebar shell.
 
-## Primitives (in `src/components/`)
+## Primitives
 
-| Component | When to use |
+| Component | Notes |
 |---|---|
-| `StatusBadge` | Any ACCEPT / REJECT / INDETERMINATE / COMPLETE / INCOMPLETE state. Size `sm` in tables, `md` in cards, `lg` in screen headers. |
-| `TissueTypeBadge` | Donor's tissue type. Use `expanded` form on detail screens, short form in tables. |
-| `CitationChip` | Every reference to a source document. Mono, clickable when interactive. Renders "no source" placeholder when null. |
-| `RuleChip` | AATB and CFR references. Mono. Always render via this — never hand-roll the styling. |
-| `ConfidenceMeter` | 0–100% bar with threshold tick. Amber when below threshold. |
-| `SectionCard` | Standard card wrapper with optional title/description/action. Use for every grouped section. |
-| `SourceSheet` | Right-side sheet showing synthetic page + bbox for a citation. Controlled by `(citation, setCitation)` state in the parent. |
-| `SyntheticDataBadge` | Top bar only. Persistent reminder this is not production data. |
+| `StatusBadge` | `sm` 20px (tables), `md` 24px (cards), `lg` 32px (headers). Tighter than v1. |
+| `TissueTypeBadge` | 20px chip, hairline border, dot accent. |
+| `CitationChip` / `RuleChip` | Mono, 24px, hairline borders. |
+| `ConfidenceMeter` | 1.5px bar + threshold tick + mono % readout. |
+| `SectionCard` | Hairline border, no shadow, 14px header padding. |
+| `SourceSheet` | Right sheet, hairline left border, scrim only. |
+| `FilterChip` | Toolbar-only dismissible filter token. |
+| `DataTable` | Virtualized via `@tanstack/react-virtual`, headless state via `@tanstack/react-table`. Sticky header, sticky first column, comfortable (44px) or compact (32px). |
+| `DataTableToolbar` + `ToolbarSelect` | Search + filter selects + density toggle + column visibility. |
+
+## Donor list — URL contract
+
+Search params on `/donors` are the source of truth. State is shareable + survives refresh.
+
+| Param | Type | Default |
+|---|---|---|
+| `q` | string | `""` |
+| `tissue` | `"BT" \| "MS" \| "all"` | `all` |
+| `rec` | `"ACCEPT" \| "REJECT" \| "INDETERMINATE" \| "none" \| "all"` | `all` |
+| `comp` | `"COMPLETE" \| "INCOMPLETE" \| "all"` | `all` |
+| `sort` | column id | `createdAt` |
+| `dir` | `"asc" \| "desc"` | `desc` |
+| `page` | int | `1` |
+| `density` | `"comfortable" \| "compact"` | `comfortable` |
+
+Server-paginated (mocked) at 200 rows/page; virtualization renders only the visible window. Mock seed ships ~250 synthetic donors.
 
 ## Composition rules
 
-- **Tables**: 11px uppercase-tracked headers on `surface-muted/40`, row dividers `divide-border`, hover `bg-accent/40`. Donor IDs and field keys always in `font-mono`.
-- **Cards**: 1px `border-border`, `shadow-card`, header `bg-surface` separated by `border-b`.
-- **Chips**: 24px tall (`h-6`), 2-unit horizontal padding, mono for citations/rules, sans for tags.
-- **Disclaimer**: The "Recommendation only" disclaimer is rendered as an info-style row on the Eligibility tab and at the top of the report. Wording is fixed — do not paraphrase.
-- **Audit-writing actions** (mark reviewed, field reviewed, upload, etc.) always toast on success and invalidate `qk.audit(donorId)` + the donor query.
-
-## Copy tone
-
-- Clinical, not chatty. No emoji, no exclamation marks.
-- State labels are uppercase (`ACCEPT`, `INCOMPLETE`).
-- Reasoning line on findings is prefixed with **"Insight (not a determination)"** — fixed wording.
-- Never reproduce AATB standard text. Only show numbers like `§H12.600` and `21 CFR 1271.85`.
+- **Tables**: 10.5px uppercase header text on `surface-muted`, hairline row dividers, hover = `surface-muted/60`. First column sticky on horizontal scroll.
+- **Cards**: hairline border, no shadow, header `bg-surface` separated by `border-b`.
+- **Sheets / dialogs**: hairline border, scrim, no shadow.
+- **Disclaimer** + AATB wording rules unchanged from v1.
 
 ## Accessibility
-
-- Every status uses icon + text + color (never color alone).
-- All interactive chips have `focus-visible:ring-2 ring-ring`.
-- Tabs, dialogs, sheets, dropdowns use shadcn primitives (Radix) — keyboard nav comes free.
-- Confidence meter has an aria-label with the percentage.
+- Status uses icon + text + color (never color alone).
+- All interactive chips/buttons have `focus-visible:ring-2 ring-ring`.
+- Sticky table headers preserve scroll affordance; sortable headers are real `<button>`s.
+- Confidence meter has aria-label with percentage.
