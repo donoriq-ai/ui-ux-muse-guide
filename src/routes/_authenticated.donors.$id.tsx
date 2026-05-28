@@ -22,7 +22,9 @@ import { SectionCard } from "@/components/SectionCard";
 import { SourceSheet } from "@/components/SourceSheet";
 import { DocStatusBadge } from "@/components/DocStatusBadge";
 import { DocumentRail, type RailGroup } from "@/components/extraction/DocumentRail";
-import { ExtractionFieldTable } from "@/components/extraction/ExtractionFieldTable";
+import { DocumentExtractionPanel } from "@/components/extraction/DocumentExtractionPanel";
+import type { ExtractionDensity } from "@/components/extraction/ExtractionFieldTable";
+import { useCollapsedGroups } from "@/hooks/useCollapsedGroups";
 import { Input } from "@/components/ui/input";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
