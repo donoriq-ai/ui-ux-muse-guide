@@ -9,7 +9,7 @@ import { CompletenessSection } from "@/components/report/CompletenessSection";
 import { FieldsAppendix } from "@/components/report/FieldsAppendix";
 import { SignatureBlock } from "@/components/report/SignatureBlock";
 
-export const Route = createFileRoute("/_authenticated/donors/$id/report")({
+export const Route = createFileRoute("/_authenticated/donors/$id_/report")({
   head: ({ params }) => ({ meta: [{ title: `Donor Report — ${params.id}` }] }),
   loader: async ({ params, context }) => {
     try {

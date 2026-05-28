@@ -226,4 +226,10 @@
 
   .report-avoid-break { break-inside: avoid; page-break-inside: avoid; }
   .report-break-before { break-before: page; page-break-before: always; }
+
+  .report-root h2 { break-after: avoid; page-break-after: avoid; }
+  .report-root table { break-inside: auto; page-break-inside: auto; }
+  .report-root thead { display: table-header-group; }
+  .report-root tr { break-inside: avoid; page-break-inside: avoid; }
+  .report-root .report-print-flush { padding: 0 !important; }
 }

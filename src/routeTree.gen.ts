@@ -20,7 +20,7 @@ import { Route as AuthenticatedAuditRouteImport } from './routes/_authenticated.
 import { Route as AuthenticatedDonorsIndexRouteImport } from './routes/_authenticated.donors.index'
 import { Route as AuthenticatedDonorsNewRouteImport } from './routes/_authenticated.donors.new'
 import { Route as AuthenticatedDonorsIdRouteImport } from './routes/_authenticated.donors.$id'
-import { Route as AuthenticatedDonorsIdReportRouteImport } from './routes/_authenticated.donors.$id.report'
+import { Route as AuthenticatedDonorsIdReportRouteImport } from './routes/_authenticated.donors.$id_.report'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -79,9 +79,9 @@ const AuthenticatedDonorsIdRoute = AuthenticatedDonorsIdRouteImport.update({
 } as any)
 const AuthenticatedDonorsIdReportRoute =
   AuthenticatedDonorsIdReportRouteImport.update({
-    id: '/report',
-    path: '/report',
-    getParentRoute: () => AuthenticatedDonorsIdRoute,
+    id: '/donors/$id_/report',
+    path: '/donors/$id/report',
+    getParentRoute: () => AuthenticatedRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -92,7 +92,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/audit': typeof AuthenticatedAuditRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/donors/$id': typeof AuthenticatedDonorsIdRouteWithChildren
+  '/donors/$id': typeof AuthenticatedDonorsIdRoute
   '/donors/new': typeof AuthenticatedDonorsNewRoute
   '/donors/': typeof AuthenticatedDonorsIndexRoute
   '/donors/$id/report': typeof AuthenticatedDonorsIdReportRoute
@@ -105,7 +105,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/audit': typeof AuthenticatedAuditRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/donors/$id': typeof AuthenticatedDonorsIdRouteWithChildren
+  '/donors/$id': typeof AuthenticatedDonorsIdRoute
   '/donors/new': typeof AuthenticatedDonorsNewRoute
   '/donors': typeof AuthenticatedDonorsIndexRoute
   '/donors/$id/report': typeof AuthenticatedDonorsIdReportRoute
@@ -120,10 +120,10 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/_authenticated/audit': typeof AuthenticatedAuditRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/_authenticated/donors/$id': typeof AuthenticatedDonorsIdRouteWithChildren
+  '/_authenticated/donors/$id': typeof AuthenticatedDonorsIdRoute
   '/_authenticated/donors/new': typeof AuthenticatedDonorsNewRoute
   '/_authenticated/donors/': typeof AuthenticatedDonorsIndexRoute
-  '/_authenticated/donors/$id/report': typeof AuthenticatedDonorsIdReportRoute
+  '/_authenticated/donors/$id_/report': typeof AuthenticatedDonorsIdReportRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -165,7 +165,7 @@ export interface FileRouteTypes {
     | '/_authenticated/donors/$id'
     | '/_authenticated/donors/new'
     | '/_authenticated/donors/'
-    | '/_authenticated/donors/$id/report'
+    | '/_authenticated/donors/$id_/report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -256,43 +256,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDonorsIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/donors/$id/report': {
-      id: '/_authenticated/donors/$id/report'
-      path: '/report'
+    '/_authenticated/donors/$id_/report': {
+      id: '/_authenticated/donors/$id_/report'
+      path: '/donors/$id/report'
       fullPath: '/donors/$id/report'
       preLoaderRoute: typeof AuthenticatedDonorsIdReportRouteImport
-      parentRoute: typeof AuthenticatedDonorsIdRoute
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
-interface AuthenticatedDonorsIdRouteChildren {
-  AuthenticatedDonorsIdReportRoute: typeof AuthenticatedDonorsIdReportRoute
-}
-
-const AuthenticatedDonorsIdRouteChildren: AuthenticatedDonorsIdRouteChildren = {
-  AuthenticatedDonorsIdReportRoute: AuthenticatedDonorsIdReportRoute,
-}
-
-const AuthenticatedDonorsIdRouteWithChildren =
-  AuthenticatedDonorsIdRoute._addFileChildren(
-    AuthenticatedDonorsIdRouteChildren,
-  )
-
 interface AuthenticatedRouteChildren {
   AuthenticatedAuditRoute: typeof AuthenticatedAuditRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-  AuthenticatedDonorsIdRoute: typeof AuthenticatedDonorsIdRouteWithChildren
+  AuthenticatedDonorsIdRoute: typeof AuthenticatedDonorsIdRoute
   AuthenticatedDonorsNewRoute: typeof AuthenticatedDonorsNewRoute
   AuthenticatedDonorsIndexRoute: typeof AuthenticatedDonorsIndexRoute
+  AuthenticatedDonorsIdReportRoute: typeof AuthenticatedDonorsIdReportRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAuditRoute: AuthenticatedAuditRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-  AuthenticatedDonorsIdRoute: AuthenticatedDonorsIdRouteWithChildren,
+  AuthenticatedDonorsIdRoute: AuthenticatedDonorsIdRoute,
   AuthenticatedDonorsNewRoute: AuthenticatedDonorsNewRoute,
   AuthenticatedDonorsIndexRoute: AuthenticatedDonorsIndexRoute,
+  AuthenticatedDonorsIdReportRoute: AuthenticatedDonorsIdReportRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -310,3 +299,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
