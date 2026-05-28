@@ -535,7 +535,7 @@ function CompletenessTab({ donor }: { donor: Donor }) {
     <SectionCard
       title="Required documents & fields"
       description="Driven by the donor's tissue type."
-      action={<StatusBadge state={state} size="md" />}
+      action={<StatusBadge state={state} size="sm" />}
     >
       <div className="px-5 py-4 border-b border-border bg-surface">
         <p className="text-sm">
@@ -590,7 +590,7 @@ function EligibilityTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitatio
           <banner.Icon className={cn("h-6 w-6 shrink-0 mt-0.5", banner.text)} />
           <div className="min-w-0">
             <div className={cn("text-xs uppercase tracking-widest font-semibold", banner.text)}>Recommendation</div>
-            <div className={cn("text-2xl sm:text-3xl font-semibold tracking-tight mt-0.5", banner.text)}>{banner.label}</div>
+            <div className={cn("text-lg sm:text-xl font-medium tracking-tight mt-0.5", banner.text)}>{banner.label}</div>
             <p className="text-xs text-muted-foreground mt-2 max-w-2xl">
               Computed by ruleset <span className="font-mono">{rulesetVersion}</span> against extracted fields and required documents.
             </p>
@@ -617,7 +617,7 @@ function EligibilityTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitatio
 
 function FindingCard({ finding, onOpenCitation }: { finding: RuleFinding; onOpenCitation: (c: Citation) => void }) {
   return (
-    <article className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
+    <article className="rounded-md border border-border bg-card overflow-hidden">
       <header className="flex flex-wrap items-start justify-between gap-3 px-5 py-4 border-b border-border bg-surface">
         <div className="min-w-0">
           <div className="flex items-center gap-2 mb-1">
@@ -630,7 +630,7 @@ function FindingCard({ finding, onOpenCitation }: { finding: RuleFinding; onOpen
           </div>
           <h3 className="text-sm font-semibold text-foreground">{finding.title}</h3>
         </div>
-        <StatusBadge state={finding.state} size="md" />
+        <StatusBadge state={finding.state} size="sm" />
       </header>
 
       <div className="px-5 py-4 space-y-4">
