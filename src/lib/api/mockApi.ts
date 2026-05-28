@@ -392,6 +392,21 @@ export async function listUsers(): Promise<User[]> {
   return clone(store.users);
 }
 
+// FastAPI: PATCH /users/{id}/role
+export async function updateUserRole(userId: string, role: Role): Promise<User> {
+  await wait(250);
+  const u = store.users.find((x) => x.id === userId);
+  if (!u) throw new Error("User not found");
+  const prev = u.role;
+  u.role = role;
+  appendAudit({
+    actor: actorName(),
+    action: "user.role_changed",
+    detail: `${u.name}: ${prev} → ${role}`,
+  });
+  return clone(u);
+}
+
 // FastAPI: GET /tenants/current/settings
 export async function getSettings(): Promise<Tenant> {
   await wait(200);
