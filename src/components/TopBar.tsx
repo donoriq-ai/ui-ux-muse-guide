@@ -90,8 +90,15 @@ export function TopBar() {
               <DropdownMenuItem disabled>
                 <UserIcon className="mr-2 h-4 w-4" /> Profile
               </DropdownMenuItem>
-              <DropdownMenuItem disabled>
-                <LogOut className="mr-2 h-4 w-4" /> Sign out
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  logoutM.mutate();
+                }}
+                disabled={logoutM.isPending}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                {logoutM.isPending ? "Signing out…" : "Sign out"}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
