@@ -20,6 +20,10 @@ import { RuleChip } from "@/components/RuleChip";
 import { ConfidenceMeter } from "@/components/ConfidenceMeter";
 import { SectionCard } from "@/components/SectionCard";
 import { SourceSheet } from "@/components/SourceSheet";
+import { DocStatusBadge } from "@/components/DocStatusBadge";
+import { DocumentRail, type RailGroup } from "@/components/extraction/DocumentRail";
+import { ExtractionFieldTable } from "@/components/extraction/ExtractionFieldTable";
+import { Input } from "@/components/ui/input";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -79,7 +83,10 @@ function DonorWorkspace() {
   });
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 sm:p-8 space-y-6">
+    <div
+      className="mx-auto space-y-5"
+      style={{ padding: "clamp(16px, 3vw, 32px)", maxWidth: "1600px" }}
+    >
       <DonorHeader
         donor={donor}
         onMarkReviewed={() => markReviewed.mutate()}
@@ -87,27 +94,27 @@ function DonorWorkspace() {
       />
 
       <Tabs defaultValue="extraction" className="w-full">
-        <TabsList className="bg-surface border border-border h-10 p-1">
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="extraction">Extraction</TabsTrigger>
-          <TabsTrigger value="completeness">Completeness</TabsTrigger>
-          <TabsTrigger value="eligibility">Eligibility</TabsTrigger>
-          <TabsTrigger value="audit">Audit</TabsTrigger>
+        <TabsList className="bg-surface border border-border h-9 p-1">
+          <TabsTrigger value="documents" className="h-7 text-xs">Documents</TabsTrigger>
+          <TabsTrigger value="extraction" className="h-7 text-xs">Extraction</TabsTrigger>
+          <TabsTrigger value="completeness" className="h-7 text-xs">Completeness</TabsTrigger>
+          <TabsTrigger value="eligibility" className="h-7 text-xs">Eligibility</TabsTrigger>
+          <TabsTrigger value="audit" className="h-7 text-xs">Audit</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="documents" className="mt-5">
+        <TabsContent value="documents" className="mt-4">
           <DocumentsTab donor={donor} />
         </TabsContent>
-        <TabsContent value="extraction" className="mt-5">
+        <TabsContent value="extraction" className="mt-4">
           <ExtractionTab donor={donor} onOpenCitation={setActiveCitation} />
         </TabsContent>
-        <TabsContent value="completeness" className="mt-5">
+        <TabsContent value="completeness" className="mt-4">
           <CompletenessTab donor={donor} />
         </TabsContent>
-        <TabsContent value="eligibility" className="mt-5">
+        <TabsContent value="eligibility" className="mt-4">
           <EligibilityTab donor={donor} onOpenCitation={setActiveCitation} />
         </TabsContent>
-        <TabsContent value="audit" className="mt-5">
+        <TabsContent value="audit" className="mt-4">
           <AuditTab donorId={id} />
         </TabsContent>
       </Tabs>
