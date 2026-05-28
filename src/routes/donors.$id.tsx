@@ -148,54 +148,55 @@ function DonorHeader({
         </Button>
       </div>
 
-      <div className="rounded-lg border border-border bg-card shadow-card p-5 sm:p-6">
+      <div className="rounded-md border border-border bg-card p-4 sm:p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="min-w-0 space-y-3">
-            <div className="flex items-center gap-3 flex-wrap">
-              <h1 className="font-mono text-2xl sm:text-[28px] font-semibold tracking-tight text-foreground">
+          <div className="min-w-0 space-y-2.5">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h1 className="font-mono text-lg sm:text-xl font-medium tracking-tight text-foreground">
                 {donor.id}
               </h1>
               <TissueTypeBadge type={donor.tissueType} expanded />
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
               {donor.evaluation ? (
                 <>
-                  <StatusBadge state={donor.evaluation.completeness.state} size="lg" />
-                  <StatusBadge state={donor.evaluation.recommendation} size="lg" />
+                  <StatusBadge state={donor.evaluation.completeness.state} size="sm" />
+                  <StatusBadge state={donor.evaluation.recommendation} size="sm" />
                 </>
               ) : (
-                <span className="text-sm text-muted-foreground">Not yet evaluated. Upload documents and run extraction.</span>
+                <span className="text-xs text-muted-foreground">
+                  Not yet evaluated. Upload documents and run extraction.
+                </span>
               )}
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-muted-foreground">
-              <span>Created {new Date(donor.createdAt).toLocaleString()}</span>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+              <span suppressHydrationWarning>
+                Created {new Date(donor.createdAt).toLocaleDateString()}
+              </span>
               <span>by <span className="text-foreground/80">{donor.createdBy}</span></span>
               {donor.evaluation && (
-                <span>
+                <span suppressHydrationWarning>
                   Evaluated{" "}
-                  {new Date(donor.evaluation.evaluatedAt).toLocaleString()} ·{" "}
+                  {new Date(donor.evaluation.evaluatedAt).toLocaleDateString()} ·{" "}
                   <span className="font-mono">{donor.evaluation.rulesetVersion}</span>
                 </span>
               )}
               {donor.reviewedBy && (
-                <span className="inline-flex items-center gap-1 text-accept">
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  Reviewed by {donor.reviewedBy} at {new Date(donor.reviewedAt!).toLocaleString()}
+                <span className="inline-flex items-center gap-1 text-accept" suppressHydrationWarning>
+                  <CheckCircle2 className="h-3 w-3" />
+                  Reviewed by {donor.reviewedBy}
                 </span>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" size="sm">
               <Link to="/donors/$id/report" params={{ id: donor.id }}>
-                <Download className="h-4 w-4 mr-1.5" /> Download report
+                <Download className="h-3.5 w-3.5 mr-1.5" /> Report
               </Link>
             </Button>
-            <Button onClick={onMarkReviewed} disabled={reviewing || !donor.evaluation}>
-              <CheckCircle2 className="h-4 w-4 mr-1.5" />
+            <Button size="sm" onClick={onMarkReviewed} disabled={reviewing || !donor.evaluation}>
+              <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
               {donor.reviewedBy ? "Mark reviewed again" : "Mark reviewed"}
             </Button>
           </div>
