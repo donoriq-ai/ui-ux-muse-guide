@@ -383,6 +383,8 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
   const [selectedDoc, setSelectedDoc] = useState<string>("__all");
   const [filter, setFilter] = useState<ExtractionFilter>("all");
   const [q, setQ] = useState("");
+  const [density, setDensity] = useState<ExtractionDensity>("comfortable");
+  const { isCollapsed, toggle, setAll } = useCollapsedGroups(donor.id);
 
   const docsById = useMemo(
     () => new Map(donor.documents.map((d) => [d.id, d])),
@@ -407,7 +409,8 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
   const flaggedAll = donor.fields.filter((f) => f.flaggedLowConfidence).length;
   const reviewedAll = donor.fields.filter((f) => f.reviewed).length;
 
-  const visible = useMemo(() => {
+  // Apply global filters/search to every field before passing to per-doc panels.
+  const filtered = useMemo(() => {
     let arr = donor.fields;
     if (selectedDoc !== "__all") arr = arr.filter((f) => f.documentId === selectedDoc);
     if (filter === "flagged") arr = arr.filter((f) => f.flaggedLowConfidence);
@@ -437,6 +440,14 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
   }
 
   const selectedDocMeta = selectedDoc === "__all" ? null : docsById.get(selectedDoc) ?? null;
+  const filterActive = filter !== "all" || q.trim().length > 0;
+
+  // Docs to render: selected doc only, or all docs that still have fields after filtering.
+  const docsToRender = selectedDocMeta
+    ? [selectedDocMeta]
+    : railGroups
+        .map((g) => g.doc)
+        .filter((d) => filtered.some((f) => f.documentId === d.id));
 
   const FilterBtn = ({ value, label, count }: { value: ExtractionFilter; label: string; count?: number }) => (
     <button
@@ -455,6 +466,21 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
       )}
     </button>
   );
+
+  const DensityBtn = ({ value, label }: { value: ExtractionDensity; label: string }) => (
+    <button
+      type="button"
+      onClick={() => setDensity(value)}
+      className={cn(
+        "h-7 px-2 text-[11px] font-medium transition-colors",
+        density === value ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      {label}
+    </button>
+  );
+
+  const visibleCount = filtered.length;
 
   return (
     <div className="grid gap-4 md:grid-cols-[220px_1fr]">
@@ -479,7 +505,7 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
-            <span><span className="text-foreground font-medium tabular-nums">{visible.length}</span> shown</span>
+            <span><span className="text-foreground font-medium tabular-nums">{visibleCount}</span> shown</span>
             <span className="text-border">·</span>
             <span><span className="text-foreground font-medium tabular-nums">{reviewedAll}</span>/{totalAll} reviewed</span>
             {flaggedAll > 0 && (
@@ -506,19 +532,44 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
             <FilterBtn value="flagged" label="Flagged" count={flaggedAll} />
             <FilterBtn value="unreviewed" label="Unreviewed" count={totalAll - reviewedAll} />
           </div>
+          <div className="ml-auto inline-flex items-center rounded border border-border bg-surface overflow-hidden">
+            <DensityBtn value="comfortable" label="Comfortable" />
+            <span className="w-px h-4 bg-border" />
+            <DensityBtn value="compact" label="Compact" />
+          </div>
         </div>
 
-        <ExtractionFieldTable
-          fields={visible}
-          docsById={docsById}
-          showDocColumn={selectedDoc === "__all"}
-          onToggle={(fieldId, v) => setReviewed.mutate({ fieldId, reviewed: v })}
-          onOpenCitation={onOpenCitation}
-        />
+        {docsToRender.length === 0 ? (
+          <div className="rounded-md border border-border bg-surface py-10 text-center text-[12px] text-muted-foreground">
+            No fields match the current filters.
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {docsToRender.map((doc) => (
+              <DocumentExtractionPanel
+                key={doc.id}
+                doc={doc}
+                fields={filtered.filter((f) => f.documentId === doc.id)}
+                docsById={docsById}
+                density={density}
+                highlightQuery={q.trim() || undefined}
+                filterActive={filterActive}
+                isCollapsed={isCollapsed}
+                toggle={toggle}
+                setAll={setAll}
+                showDocHeader={!selectedDocMeta}
+                onToggleField={(fieldId, v) => setReviewed.mutate({ fieldId, reviewed: v })}
+                onOpenCitation={onOpenCitation}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+
 
 // ─────────────────────────────── Completeness tab ───────────────────────────
 
