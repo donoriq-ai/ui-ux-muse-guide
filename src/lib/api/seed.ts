@@ -10,6 +10,10 @@ import type {
 } from "./types";
 import { RULESET_VERSION } from "./types";
 
+// Deterministic anchor — seed timestamps must be identical on SSR and client
+// to avoid hydration drift. Bump this if you want to "advance the clock".
+const BASE_TIME = new Date("2026-05-15T09:00:00Z").getTime();
+
 // All synthetic. No PHI. Citations point at real seed images bundled in src/assets/docs/.
 
 export const seedTenant: Tenant = {
@@ -41,7 +45,7 @@ function doc(
     type,
     fileName,
     pageCount,
-    uploadedAt: new Date(Date.now() - hoursAgo * 3600_000).toISOString(),
+    uploadedAt: new Date(BASE_TIME - hoursAgo * 3600_000).toISOString(),
     status: "extracted",
   };
 }
@@ -148,7 +152,7 @@ function buildDonor1(): Donor {
     id,
     tenantId: seedTenant.id,
     tissueType: "BT",
-    createdAt: new Date(Date.now() - 28 * 3600_000).toISOString(),
+    createdAt: new Date(BASE_TIME - 28 * 3600_000).toISOString(),
     createdBy: "Casey Lin",
     documents: [consent, drai, birth, phys, sero, med],
     fields,
@@ -167,7 +171,7 @@ function buildDonor1(): Donor {
       recommendation: "ACCEPT",
       findings,
       rulesetVersion: RULESET_VERSION,
-      evaluatedAt: new Date(Date.now() - 22 * 3600_000).toISOString(),
+      evaluatedAt: new Date(BASE_TIME - 22 * 3600_000).toISOString(),
     },
   };
 }
@@ -234,7 +238,7 @@ function buildDonor2(): Donor {
     id,
     tenantId: seedTenant.id,
     tissueType: "MS",
-    createdAt: new Date(Date.now() - 52 * 3600_000).toISOString(),
+    createdAt: new Date(BASE_TIME - 52 * 3600_000).toISOString(),
     createdBy: "Casey Lin",
     documents: [consent, drai, med, phys, sero, death, timing],
     fields,
@@ -254,7 +258,7 @@ function buildDonor2(): Donor {
       recommendation: "REJECT",
       findings,
       rulesetVersion: RULESET_VERSION,
-      evaluatedAt: new Date(Date.now() - 46 * 3600_000).toISOString(),
+      evaluatedAt: new Date(BASE_TIME - 46 * 3600_000).toISOString(),
     },
   };
 }
@@ -304,7 +308,7 @@ function buildDonor3(): Donor {
     id,
     tenantId: seedTenant.id,
     tissueType: "BT",
-    createdAt: new Date(Date.now() - 12 * 3600_000).toISOString(),
+    createdAt: new Date(BASE_TIME - 12 * 3600_000).toISOString(),
     createdBy: "Casey Lin",
     documents: [consent, birth, phys, sero, med],
     fields,
@@ -323,7 +327,7 @@ function buildDonor3(): Donor {
       recommendation: "INDETERMINATE",
       findings,
       rulesetVersion: RULESET_VERSION,
-      evaluatedAt: new Date(Date.now() - 8 * 3600_000).toISOString(),
+      evaluatedAt: new Date(BASE_TIME - 8 * 3600_000).toISOString(),
     },
   };
 }
@@ -392,7 +396,7 @@ function buildDonor4(): Donor {
     id,
     tenantId: seedTenant.id,
     tissueType: "MS",
-    createdAt: new Date(Date.now() - 7 * 3600_000).toISOString(),
+    createdAt: new Date(BASE_TIME - 7 * 3600_000).toISOString(),
     createdBy: "Casey Lin",
     documents: [consent, drai, med, sero, death, timing, trans],
     fields,
@@ -412,7 +416,7 @@ function buildDonor4(): Donor {
       recommendation: "INDETERMINATE",
       findings,
       rulesetVersion: RULESET_VERSION,
-      evaluatedAt: new Date(Date.now() - 4 * 3600_000).toISOString(),
+      evaluatedAt: new Date(BASE_TIME - 4 * 3600_000).toISOString(),
     },
   };
 }
@@ -455,7 +459,7 @@ function buildSyntheticDonor(n: number): Donor {
       type,
       fileName: `${type}_${i + 1}.pdf`,
       pageCount: 1 + ((n + i) % 8),
-      uploadedAt: new Date(Date.now() - (hoursAgo - 1) * 3600_000).toISOString(),
+      uploadedAt: new Date(BASE_TIME - (hoursAgo - 1) * 3600_000).toISOString(),
       status: "extracted",
     };
   });
@@ -464,7 +468,7 @@ function buildSyntheticDonor(n: number): Donor {
     id,
     tenantId: seedTenant.id,
     tissueType,
-    createdAt: new Date(Date.now() - hoursAgo * 3600_000).toISOString(),
+    createdAt: new Date(BASE_TIME - hoursAgo * 3600_000).toISOString(),
     createdBy: SYNTHETIC_CREATORS[n % SYNTHETIC_CREATORS.length],
     documents,
     fields: [],
@@ -473,7 +477,7 @@ function buildSyntheticDonor(n: number): Donor {
       recommendation,
       findings: [],
       rulesetVersion: RULESET_VERSION,
-      evaluatedAt: new Date(Date.now() - Math.max(0, hoursAgo - 2) * 3600_000).toISOString(),
+      evaluatedAt: new Date(BASE_TIME - Math.max(0, hoursAgo - 2) * 3600_000).toISOString(),
     },
   };
 }
@@ -494,7 +498,7 @@ export function buildSeedAudit(donors: Donor[]): AuditEntry[] {
       actor,
       action,
       detail,
-      timestamp: new Date(Date.now() - hoursAgo * 3600_000).toISOString(),
+      timestamp: new Date(BASE_TIME - hoursAgo * 3600_000).toISOString(),
     });
 
   for (const d of donors) {

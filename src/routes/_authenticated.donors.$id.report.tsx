@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Phase2Stub } from "@/components/Phase2Stub";
 
-export const Route = createFileRoute("/donors/$id/report")({
+export const Route = createFileRoute("/_authenticated/donors/$id/report")({
   head: ({ params }) => ({ meta: [{ title: `Report — ${params.id}` }] }),
   component: ReportStub,
 });

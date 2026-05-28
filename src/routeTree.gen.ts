@@ -10,23 +10,26 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
-import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as AuditRouteImport } from './routes/audit'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DonorsIndexRouteImport } from './routes/donors.index'
-import { Route as DonorsNewRouteImport } from './routes/donors.new'
-import { Route as DonorsIdRouteImport } from './routes/donors.$id'
-import { Route as DonorsIdReportRouteImport } from './routes/donors.$id.report'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated.settings'
+import { Route as AuthenticatedAuditRouteImport } from './routes/_authenticated.audit'
+import { Route as AuthenticatedDonorsIndexRouteImport } from './routes/_authenticated.donors.index'
+import { Route as AuthenticatedDonorsNewRouteImport } from './routes/_authenticated.donors.new'
+import { Route as AuthenticatedDonorsIdRouteImport } from './routes/_authenticated.donors.$id'
+import { Route as AuthenticatedDonorsIdReportRouteImport } from './routes/_authenticated.donors.$id.report'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -34,9 +37,13 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuditRoute = AuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -44,69 +51,90 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DonorsIndexRoute = DonorsIndexRouteImport.update({
-  id: '/donors/',
-  path: '/donors/',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
-const DonorsNewRoute = DonorsNewRouteImport.update({
+const AuthenticatedAuditRoute = AuthenticatedAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDonorsIndexRoute =
+  AuthenticatedDonorsIndexRouteImport.update({
+    id: '/donors/',
+    path: '/donors/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedDonorsNewRoute = AuthenticatedDonorsNewRouteImport.update({
   id: '/donors/new',
   path: '/donors/new',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
-const DonorsIdRoute = DonorsIdRouteImport.update({
+const AuthenticatedDonorsIdRoute = AuthenticatedDonorsIdRouteImport.update({
   id: '/donors/$id',
   path: '/donors/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
-const DonorsIdReportRoute = DonorsIdReportRouteImport.update({
-  id: '/report',
-  path: '/report',
-  getParentRoute: () => DonorsIdRoute,
-} as any)
+const AuthenticatedDonorsIdReportRoute =
+  AuthenticatedDonorsIdReportRouteImport.update({
+    id: '/report',
+    path: '/report',
+    getParentRoute: () => AuthenticatedDonorsIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/audit': typeof AuditRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
-  '/settings': typeof SettingsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/donors/$id': typeof DonorsIdRouteWithChildren
-  '/donors/new': typeof DonorsNewRoute
-  '/donors/': typeof DonorsIndexRoute
-  '/donors/$id/report': typeof DonorsIdReportRoute
+  '/audit': typeof AuthenticatedAuditRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/donors/$id': typeof AuthenticatedDonorsIdRouteWithChildren
+  '/donors/new': typeof AuthenticatedDonorsNewRoute
+  '/donors/': typeof AuthenticatedDonorsIndexRoute
+  '/donors/$id/report': typeof AuthenticatedDonorsIdReportRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/audit': typeof AuditRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
-  '/settings': typeof SettingsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/donors/$id': typeof DonorsIdRouteWithChildren
-  '/donors/new': typeof DonorsNewRoute
-  '/donors': typeof DonorsIndexRoute
-  '/donors/$id/report': typeof DonorsIdReportRoute
+  '/audit': typeof AuthenticatedAuditRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/donors/$id': typeof AuthenticatedDonorsIdRouteWithChildren
+  '/donors/new': typeof AuthenticatedDonorsNewRoute
+  '/donors': typeof AuthenticatedDonorsIndexRoute
+  '/donors/$id/report': typeof AuthenticatedDonorsIdReportRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/audit': typeof AuditRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
-  '/settings': typeof SettingsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
-  '/donors/$id': typeof DonorsIdRouteWithChildren
-  '/donors/new': typeof DonorsNewRoute
-  '/donors/': typeof DonorsIndexRoute
-  '/donors/$id/report': typeof DonorsIdReportRoute
+  '/_authenticated/audit': typeof AuthenticatedAuditRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/donors/$id': typeof AuthenticatedDonorsIdRouteWithChildren
+  '/_authenticated/donors/new': typeof AuthenticatedDonorsNewRoute
+  '/_authenticated/donors/': typeof AuthenticatedDonorsIndexRoute
+  '/_authenticated/donors/$id/report': typeof AuthenticatedDonorsIdReportRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/audit'
+    | '/forgot-password'
     | '/login'
-    | '/settings'
+    | '/reset-password'
     | '/signup'
+    | '/audit'
+    | '/settings'
     | '/donors/$id'
     | '/donors/new'
     | '/donors/'
@@ -114,10 +142,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/audit'
+    | '/forgot-password'
     | '/login'
-    | '/settings'
+    | '/reset-password'
     | '/signup'
+    | '/audit'
+    | '/settings'
     | '/donors/$id'
     | '/donors/new'
     | '/donors'
@@ -125,25 +155,26 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/audit'
+    | '/_authenticated'
+    | '/forgot-password'
     | '/login'
-    | '/settings'
+    | '/reset-password'
     | '/signup'
-    | '/donors/$id'
-    | '/donors/new'
-    | '/donors/'
-    | '/donors/$id/report'
+    | '/_authenticated/audit'
+    | '/_authenticated/settings'
+    | '/_authenticated/donors/$id'
+    | '/_authenticated/donors/new'
+    | '/_authenticated/donors/'
+    | '/_authenticated/donors/$id/report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuditRoute: typeof AuditRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
-  SettingsRoute: typeof SettingsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
-  DonorsIdRoute: typeof DonorsIdRouteWithChildren
-  DonorsNewRoute: typeof DonorsNewRoute
-  DonorsIndexRoute: typeof DonorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -155,11 +186,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -169,11 +200,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/audit': {
-      id: '/audit'
-      path: '/audit'
-      fullPath: '/audit'
-      preLoaderRoute: typeof AuditRouteImport
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -183,58 +221,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/donors/': {
-      id: '/donors/'
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/audit': {
+      id: '/_authenticated/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuthenticatedAuditRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/donors/': {
+      id: '/_authenticated/donors/'
       path: '/donors'
       fullPath: '/donors/'
-      preLoaderRoute: typeof DonorsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDonorsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
-    '/donors/new': {
-      id: '/donors/new'
+    '/_authenticated/donors/new': {
+      id: '/_authenticated/donors/new'
       path: '/donors/new'
       fullPath: '/donors/new'
-      preLoaderRoute: typeof DonorsNewRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDonorsNewRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
-    '/donors/$id': {
-      id: '/donors/$id'
+    '/_authenticated/donors/$id': {
+      id: '/_authenticated/donors/$id'
       path: '/donors/$id'
       fullPath: '/donors/$id'
-      preLoaderRoute: typeof DonorsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDonorsIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
-    '/donors/$id/report': {
-      id: '/donors/$id/report'
+    '/_authenticated/donors/$id/report': {
+      id: '/_authenticated/donors/$id/report'
       path: '/report'
       fullPath: '/donors/$id/report'
-      preLoaderRoute: typeof DonorsIdReportRouteImport
-      parentRoute: typeof DonorsIdRoute
+      preLoaderRoute: typeof AuthenticatedDonorsIdReportRouteImport
+      parentRoute: typeof AuthenticatedDonorsIdRoute
     }
   }
 }
 
-interface DonorsIdRouteChildren {
-  DonorsIdReportRoute: typeof DonorsIdReportRoute
+interface AuthenticatedDonorsIdRouteChildren {
+  AuthenticatedDonorsIdReportRoute: typeof AuthenticatedDonorsIdReportRoute
 }
 
-const DonorsIdRouteChildren: DonorsIdRouteChildren = {
-  DonorsIdReportRoute: DonorsIdReportRoute,
+const AuthenticatedDonorsIdRouteChildren: AuthenticatedDonorsIdRouteChildren = {
+  AuthenticatedDonorsIdReportRoute: AuthenticatedDonorsIdReportRoute,
 }
 
-const DonorsIdRouteWithChildren = DonorsIdRoute._addFileChildren(
-  DonorsIdRouteChildren,
+const AuthenticatedDonorsIdRouteWithChildren =
+  AuthenticatedDonorsIdRoute._addFileChildren(
+    AuthenticatedDonorsIdRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedAuditRoute: typeof AuthenticatedAuditRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedDonorsIdRoute: typeof AuthenticatedDonorsIdRouteWithChildren
+  AuthenticatedDonorsNewRoute: typeof AuthenticatedDonorsNewRoute
+  AuthenticatedDonorsIndexRoute: typeof AuthenticatedDonorsIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAuditRoute: AuthenticatedAuditRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedDonorsIdRoute: AuthenticatedDonorsIdRouteWithChildren,
+  AuthenticatedDonorsNewRoute: AuthenticatedDonorsNewRoute,
+  AuthenticatedDonorsIndexRoute: AuthenticatedDonorsIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuditRoute: AuditRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
-  SettingsRoute: SettingsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
-  DonorsIdRoute: DonorsIdRouteWithChildren,
-  DonorsNewRoute: DonorsNewRoute,
-  DonorsIndexRoute: DonorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

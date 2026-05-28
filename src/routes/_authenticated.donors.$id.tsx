@@ -51,7 +51,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/donors/$id")({
+export const Route = createFileRoute("/_authenticated/donors/$id")({
   head: ({ params }) => ({ meta: [{ title: `${params.id} — TissueQA` }] }),
   loader: async ({ params, context }) => {
     try {

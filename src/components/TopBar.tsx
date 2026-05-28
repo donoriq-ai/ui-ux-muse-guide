@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { currentUserQuery, qk, tenantQuery } from "@/lib/api/queries";
 import * as api from "@/lib/api/mockApi";
 import { SyntheticDataBadge } from "./SyntheticDataBadge";
@@ -29,12 +30,21 @@ const roleLabel: Record<Role, string> = {
 
 export function TopBar() {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { data: user } = useQuery(currentUserQuery());
   const { data: tenant } = useQuery(tenantQuery());
 
   const setRoleM = useMutation({
     mutationFn: (role: Role) => api.setRole(role),
     onSuccess: () => qc.invalidateQueries({ queryKey: qk.currentUser }),
+  });
+
+  const logoutM = useMutation({
+    mutationFn: () => api.logout(),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: qk.currentUser });
+      navigate({ to: "/login" });
+    },
   });
 
   return (
@@ -80,8 +90,15 @@ export function TopBar() {
               <DropdownMenuItem disabled>
                 <UserIcon className="mr-2 h-4 w-4" /> Profile
               </DropdownMenuItem>
-              <DropdownMenuItem disabled>
-                <LogOut className="mr-2 h-4 w-4" /> Sign out
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  logoutM.mutate();
+                }}
+                disabled={logoutM.isPending}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                {logoutM.isPending ? "Signing out…" : "Sign out"}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

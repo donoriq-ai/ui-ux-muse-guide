@@ -1,76 +1,80 @@
 
-# Phase 1.6 — Donor Workspace polish
+# Phase 2A — Auth shell (UI only, mock API)
 
-Scoped UI-only pass on `/donors/$id`. No data, routing, or business-logic changes.
+Scope: build the sign-in / sign-up / reset / sign-out UI on the existing mock API, and gate the app behind a real `_authenticated` layout. No Lovable Cloud, no real backend. Same flat language as Donors/Workspace.
 
-## 1. Typography & header
+After this lands I'll propose Phase 2B (New Donor wizard) — the next highest demo-value slice per the original plan.
 
-- **Donor ID**: drop from `text-2xl sm:text-[28px] font-semibold` → `text-lg sm:text-xl font-medium`, keep mono. Reads as a label, not a billboard.
-- **Header card**: remove `shadow-card` class (it's already neutered by CSS, but the class is misleading). Tighten padding `p-5 sm:p-6` → `p-4 sm:p-5`.
-- **Status badges in header**: switch from `size="lg"` → `size="sm"`. COMPLETE / INDETERMINATE / ACCEPT etc. become the same compact pill used in the donors table — consistent across the app.
-- **Eligibility tab**: finding badges drop from `size="md"` → `size="sm"`. Completeness section badges (line 514) drop to `size="sm"` too.
-- **Tissue badge** stays `expanded` next to the ID but visually rebalanced against the smaller ID.
-- **Page container**: drop `max-w-[1400px] mx-auto`, switch to fluid padding `clamp(16px, 3vw, 32px)` to match the new Donors list.
+## 1. Mock auth state
 
-## 2. Extraction tab — reorganize for long lists
+The mock API already exposes `login`, `signup`, `setRole`, `getCurrentUser`. We add the bits an auth shell needs:
 
-Today: one `SectionCard` per document, each rendering a full table. Serology has a handful of fields; medical records can have dozens; combined view becomes a wall of scroll with no way to find anything.
+- `logout()` — clears `currentUserId`, marks an audit entry.
+- Persist the signed-in user id to `localStorage` (`tissueqa.session`) so a refresh keeps you signed in. Loaded once into `store.currentUserId` on module init; cleared on logout.
+- Add `requestPasswordReset(email)` and `resetPassword(token, newPassword)` as fake-success endpoints (no email, no token validation — just the right shape).
 
-Switch to a **two-pane layout** with the document list as the navigator:
+No schema changes.
 
-```text
-┌─────────── Extraction ─────────────────────────────────────┐
-│ Toolbar: search · filter (All / Flagged / Unreviewed) · ⌄  │
-├──────────────┬─────────────────────────────────────────────┤
-│ Documents    │  Selected document                          │
-│ ─────────    │  ─────────────────                          │
-│ • Serology 4 │  Serology Report — serology_report.pdf · 3p │
-│   IDT  ●2    │                                             │
-│ • DRAI    12 │  [virtualized field table, sticky header]   │
-│ • Med Rec 38 │   Field | Value | Conf | Source | ✓        │
-│ • Phys As  6 │   …                                         │
-│ • Birth    9 │                                             │
-│ • Transf   3 │                                             │
-└──────────────┴─────────────────────────────────────────────┘
-```
+## 2. Router context auth gate
 
-Details:
-- **Left rail** (240px, sticky): list of documents that have extracted fields. Each row shows doc label, field count, and a small red dot + count if any field is flagged low-confidence. Selected row gets a hairline left accent and warm tint. "All documents" pseudo-entry at top.
-- **Right pane**: only the selected document's fields. Reuses the existing `DataTable` primitive (tanstack/react-table + react-virtual) so any single doc with 100+ fields stays performant and gets sticky header for free. Columns: Field, Value, Confidence, Source, Reviewed (checkbox).
-- **Toolbar above the pane**:
-  - Search box (filters fields in the current pane by label/value).
-  - Filter chips: `All` · `Flagged` · `Unreviewed` — same `FilterChip` component used on the Donors list.
-  - Group toggle: `By document` (default) / `By field group` — field-group mode collapses across all docs and groups by `key` prefix (e.g. `serology.*`, `donor.*`); useful when reviewing a single criterion across sources. Stretch — implement if cheap, otherwise defer.
-- **URL state**: `?doc=<id>&q=&filter=all|flagged|unreviewed` via `validateSearch` so the selected document and filters survive refresh and are shareable.
-- **Counts strip** (existing: total / reviewed / flagged) moves into the toolbar as small inline counts, not a separate header line.
-- **Mobile (<768px)**: left rail collapses to a horizontal scrolling chip row above the pane. No drawer needed.
+- Add `_authenticated.tsx` pathless layout. `beforeLoad` reads the mock current user (via the query client cache or a direct `mockApi.getCurrentUserSync()` helper) and `throw redirect({ to: "/login", search: { redirect: location.href } })` if not signed in.
+- Move protected routes under `_authenticated/`:
+  - `donors.index.tsx` → `_authenticated/donors.index.tsx`
+  - `donors.$id.tsx` → `_authenticated/donors.$id.tsx`
+  - `donors.$id.report.tsx` stays public (printable, accessed via link with token later — keep simple for now and put it under `_authenticated/` too; report is internal).
+  - `donors.new.tsx`, `audit.tsx`, `settings.tsx` → all under `_authenticated/`.
+- Public routes: `index.tsx` (currently redirects to /donors — keep), `login`, `signup`, `forgot-password`, `reset-password`.
+- `__root.tsx`'s "bare layout" heuristic gets simpler: bare for any route under `/login`, `/signup`, `/forgot-password`, `/reset-password`, and the printable report.
 
-## 3. Consistency pass
+## 3. Screens
 
-- All inline status pills in Documents tab (line 276-283) → replace ad-hoc badge with `StatusBadge`-style primitive or extract a `DocStatusBadge` so processing/extracted/error share one look and tokens.
-- Tabs trigger height standardize to the same 36px chip the toolbar uses.
-- Section card headers: standardize padding (`px-4 py-3`) and title size (`text-[13px] font-medium`) — currently mixes `text-sm` headings with `text-xs` descriptions inconsistently between Documents and Extraction.
-- Remove remaining `shadow-card` className usages in donor workspace (header card, upload mode toggle line 303/311). The shadow is already off globally; removing the class avoids confusion.
-- Confirm hairline `border-border` everywhere; no `border-border-strong` except dropzone.
+Built with existing shadcn primitives + flat tokens. All use the same centered card on warm paper: hairline border, no shadow, ~360px wide.
 
-## 4. Files
+- **`/login`** — email + password, "Forgot password?" link, "Need an account? Sign up". Submit calls `mockApi.login`, invalidates `currentUserQuery`, navigates to `search.redirect ?? "/donors"`.
+- **`/signup`** — name, email, password. Submits to `mockApi.signup`, then redirects to `/donors`.
+- **`/forgot-password`** — email field; on submit shows "If an account exists, we sent a link" (mock; doesn't actually send anything).
+- **`/reset-password`** — new password + confirm; on submit calls mock, toasts success, redirects to `/login`.
 
-**Edited**
-- `src/routes/donors.$id.tsx` — header typography, badge sizes, fluid container, extraction tab rewrite, URL search params, consistency cleanup.
-- `src/components/SectionCard.tsx` — header padding/typography standardized.
-- `src/components/StatusBadge.tsx` — minor: ensure `sm` is the canonical size; `lg` kept but unused in workspace.
+Quality bar:
+- Real `<form>` with proper labels, inline error states, disabled-while-pending button.
+- Inline validation (email format, min 8 char password). No new libs — small custom validators.
+- Branded header strip: same logo/wordmark used in the sidebar.
+- Skip link / autofocus on first field.
+
+## 4. Sidebar / top bar wiring
+
+- `TopBar` user menu "Sign out" item is wired: calls `mockApi.logout()`, invalidates current-user query, `navigate({ to: "/login" })`.
+- "Profile" stays disabled (no profile screen yet).
+- Role switcher stays — useful for demoing role-gated UI later. Add a small "Demo" label so it doesn't read like a real account control.
+- If the current-user query returns null (post-logout, mid-load) the sidebar still mounts but the user-menu shows a "Sign in" link instead of the avatar.
+
+## 5. Seed-data SSR hydration fix (rolled into this pass)
+
+`src/lib/api/seed.ts` calls `new Date()` at module load to compute `createdAt`/`evaluatedAt`. Server and client evaluate at different moments → hydration mismatch warnings on the workspace header. Fix: derive all seed timestamps from a single deterministic anchor (e.g. `BASE_TIME = new Date('2026-05-15T09:00:00Z').getTime()`) with per-donor offsets. Same data, no drift, removes the warnings without `suppressHydrationWarning` band-aids.
+
+## 6. Files
 
 **New**
-- `src/components/extraction/DocumentRail.tsx` — left-rail navigator.
-- `src/components/extraction/ExtractionPane.tsx` — virtualized field table for the selected document (wraps `DataTable`).
-- `src/components/extraction/columns.fields.tsx` — column defs for the field table.
-- `src/components/DocStatusBadge.tsx` — shared doc processing/extracted/error pill.
+- `src/routes/_authenticated.tsx` — layout + redirect gate.
+- `src/routes/forgot-password.tsx`
+- `src/routes/reset-password.tsx`
+- `src/components/auth/AuthCard.tsx` — shared centered card shell with logo + title + slot.
+- `src/components/auth/FormField.tsx` — label + input + inline error.
 
-**Out of scope**
-- Login, signup, new donor, report, audit, settings.
-- Field-group toggle behavior beyond skeleton if time-constrained.
-- Any data/API shape changes.
+**Edited**
+- `src/routes/login.tsx`, `src/routes/signup.tsx` — replace `Phase2Stub` with real forms.
+- `src/routes/__root.tsx` — extend `bare` matcher, register `_authenticated` route.
+- Move `donors.index.tsx`, `donors.$id.tsx`, `donors.$id.report.tsx`, `donors.new.tsx`, `audit.tsx`, `settings.tsx` into the `_authenticated/` segment. (TanStack flat naming: `_authenticated.donors.index.tsx`, etc.)
+- `src/components/TopBar.tsx` — wire Sign out, conditional menu when signed out.
+- `src/lib/api/mockApi.ts` — add `logout`, `requestPasswordReset`, `resetPassword`, `getCurrentUserSync`; localStorage persistence.
+- `src/lib/api/seed.ts` — deterministic timestamps.
 
-## 5. Review point
+**Out of scope (deferred)**
+- Real Lovable Cloud / Supabase wiring.
+- Email delivery, real reset tokens.
+- Profiles table, RBAC enforcement beyond the existing role switcher.
+- Social login.
 
-After this lands, you'll review the workspace at /donors/D-2026-0004. If the rail + pane reads well for both small (Serology 4 fields) and large (Medical Records 38) docs, we move into Phase 2.
+## 7. Review point
+
+After this: try sign-out → bounce to /login → sign back in → redirected back to the page you were on. Donor workspace hydration warnings gone. Then we tackle Phase 2B (New Donor wizard).
