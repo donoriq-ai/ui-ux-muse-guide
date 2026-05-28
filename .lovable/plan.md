@@ -1,60 +1,59 @@
-# Polish donor report for grouped extraction
+# Backend Handoff Plan
 
-The report page already uses `groupFieldsForDoc` in `FieldsAppendix`, but the visual rhythm hasn't been retuned for the grouped layout: group headers are weak, tables run edge-to-edge per group with no breathing room, "Other" gets an awkward label when it's the only bucket, and page-break hints don't follow group boundaries. Tighten the appendix and a few adjacent details so the printed report reads as a single, calm document.
+Scope is locked to the pending items identified from `donoriq-prompt.md`. Nothing outside that list will be added.
 
-## Scope
+## Highest priority — do first
 
-Frontend / presentation only. No API, mock data, or business-logic changes.
+**1. Generate `docs/api-contract.md`** (single source of truth for the Cursor/FastAPI team)
 
-## Changes
+Source: the 23 `// FastAPI:` comments in `src/lib/api/mockApi.ts` + types in `src/lib/api/types.ts`.
 
-### 1. `FieldsAppendix.tsx` — grouped layout polish
+Sections:
+- Overview + base URL convention (`VITE_API_BASE_URL`)
+- Auth: expected JWT header shape, role claims
+- Endpoint reference — one entry per mock function, grouped by resource (Auth, Donors, Documents, Extraction, Eligibility, Audit, Settings). Each entry:
+  - Method + path (from the `// FastAPI:` comment)
+  - Request shape (path/query/body) referencing types
+  - Response shape referencing types
+  - Notes (pagination, async job pattern, side effects)
+- Upload contract: multipart fields, max size, MIME allowlist, async classify+extract job pattern
+- Ruleset versioning: server returns `rulesetVersion` on evaluation responses
+- Errors: standard error envelope + status codes
+- ID & timestamp generation: server-owned
 
-- **Group header**: render each group with a small left-aligned heading row above the table — `text-[10.5px] uppercase tracking-wider text-muted-foreground` + the field count (`· 4 fields`), separated by a hairline. Always show it (even when there's only one group) so the doc looks consistent. Hide only when the single group's key is `"fields"` (the small-doc fallback) or `"other"` (don't print "Other" as a label when it's the sole bucket — fall back to no header).
-- **Group spacing**: bump inter-group gap from `space-y-1` to `space-y-3`; bump inter-doc gap from `space-y-4` to `space-y-6`.
-- **Table polish**:
-  - Add `thead` with `Field / Value / Source` column headers (`bg-surface-muted/40`, same `[11px]` muted styling as `CompletenessSection`) so the appendix matches the rest of the report.
-  - Use `tabular-nums` on the value cell; right-align the source ref column header to match cells.
-  - Fixed widths: `40% / auto / 22%` (slightly tighter source column).
-  - Add `align-top` to rows so multi-line values don't shift the source ref.
-- **Print breaks**:
-  - Keep `report-break-before` on the appendix section itself (forces page break before the appendix).
-  - Add `report-avoid-break` to each *group* block (not just each doc), so a group + its table stays together. Remove `report-avoid-break` from the wrapping doc block (a long doc with many groups should be allowed to split between groups).
-  - Wrap the doc header in a `report-avoid-break` of its own so the doc title doesn't orphan at the bottom of a page.
-- **Empty value**: replace the italic em-dash with `text-muted-foreground` "—" (no italic — italic in mono looks noisy when many fields are missing).
+Deliverable: one markdown file. No code changes.
 
-### 2. `FindingsSection.tsx` — minor alignment with appendix
+## Follow-ups (planned, not executed yet)
 
-- Add `thead` column widths matching the appendix (`40% / auto / 22%`) and `align-top` on rows for consistency.
-- Change `report-break-before` to a plain section: only the appendix needs a forced page break. Findings should flow naturally after the summary; keep `report-avoid-break` per finding card.
+**2. Env & config handoff**
+- Add `.env.example` with `VITE_API_BASE_URL`, `VITE_USE_MOCK_API`
+- Add `README.md` section: "Backend handoff" — how to flip mock → real API, run locally
 
-### 3. `ReportShell.tsx` + `styles.css` — print rhythm
+**3. Network layer seam**
+- Create `src/lib/api/client.ts` exporting a single `api` object
+- Behind `VITE_USE_MOCK_API`, re-export either `mockApi` or a new `httpApi` (stub for now)
+- Refactor component imports from `mockApi` → `client`
+- No behavior change with flag on
 
-- In `@media print`, add:
-  - `.report-root h2 { break-after: avoid; }` so section titles don't get separated from their content.
-  - `.report-root table { break-inside: auto; }` and `tr { break-inside: avoid; }` so long appendix tables can split across pages cleanly without splitting a single row.
-- Tighten the shell padding under `@media print` (`p-8` → `p-0`, and let the `@page` margin handle whitespace) so printed PDFs don't waste a 32 px inner pad on top of the page margin.
+**4. Auth handoff markers**
+- Annotate `login` and `setRole` in `mockApi.ts` as prototype-only
+- Document expected JWT shape + RBAC claims in `api-contract.md`
 
-### 4. `EligibilitySummary.tsx` — small consistency tweak
+**5. Server-owned generators**
+- Remove client-side `nextDonorId()`; mark as server responsibility in contract
+- Same for timestamps on create/update
 
-- Ensure the `Stat` numeric value uses `tabular-nums` (already mono; add `tabular-nums` so the `/ total` aligns when present).
+**6. Ruleset version surface**
+- Replace hardcoded `"BT-MS-v0.1"` seed with value returned from eligibility endpoint
+- Document in contract
 
-## Files touched
+**7. Synthetic-data flag**
+- Gate "Synthetic data — prototype only" banner on `VITE_USE_MOCK_API`
 
-- `src/components/report/FieldsAppendix.tsx` (main rework)
-- `src/components/report/FindingsSection.tsx` (minor)
-- `src/components/report/ReportShell.tsx` (print padding)
-- `src/components/report/EligibilitySummary.tsx` (tabular-nums)
-- `src/styles.css` (print rules for h2/table/tr)
+**8. Known out-of-scope (document only, no code)**
+- Real PDF preview in Source sheet stays placeholder
+- Audit `actor` will be derived from session server-side
 
-## Out of scope
+## Execution order on approval
 
-- Workspace Extraction tab (its "Needs attention" + grouped duplication is a separate issue).
-- Any change to `groupFieldsForDoc` definitions or mock data.
-- New report sections, signatures workflow, or PDF export pipeline.
-
-## Verification
-
-1. Load `/donors/D-2026-0004/report` — appendix shows clear group headers (HIV markers, HBV markers, …), consistent column headers across Findings/Completeness/Appendix, and tight but readable spacing between groups.
-2. Trigger Print preview — appendix starts on a new page; no group is split across pages; long appendix tables (if any) split between rows, not mid-row; section titles never orphan.
-3. Load a donor with a single small document (no group defs) — appendix renders one flat table with no redundant "Fields" or "Other" label.
+Step 1 only this round. Steps 2–7 wait for explicit go-ahead so the contract can be reviewed first.
