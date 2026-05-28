@@ -281,17 +281,10 @@ function DocumentsTab({ donor }: { donor: Donor }) {
                   </td>
                   <td className="px-4 py-2.5 text-right font-mono text-xs tabular-nums">{d.pageCount}</td>
                   <td className="px-4 py-2.5">
-                    <span className={cn(
-                      "inline-flex items-center gap-1 rounded-md border px-1.5 h-5 text-[10px] uppercase tracking-wider font-medium",
-                      d.status === "extracted" && "border-accept/30 bg-accept-soft text-accept",
-                      d.status === "processing" && "border-indeterminate/40 bg-indeterminate-soft text-indeterminate-foreground",
-                      d.status === "error" && "border-reject/30 bg-reject-soft text-reject",
-                    )}>
-                      {d.status}
-                    </span>
+                    <DocStatusBadge status={d.status} />
                   </td>
-                  <td className="px-4 py-2.5 text-xs text-muted-foreground">
-                    {new Date(d.uploadedAt).toLocaleString()}
+                  <td className="px-4 py-2.5 text-xs text-muted-foreground" suppressHydrationWarning>
+                    {new Date(d.uploadedAt).toLocaleDateString()}
                   </td>
                 </tr>
               ))}
@@ -308,7 +301,7 @@ function DocumentsTab({ donor }: { donor: Donor }) {
               onClick={() => setMode("combined")}
               className={cn(
                 "h-8 text-xs font-medium rounded transition-colors",
-                mode === "combined" ? "bg-surface shadow-card text-foreground" : "text-muted-foreground hover:text-foreground",
+                mode === "combined" ? "bg-surface border border-border text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >Combined PDF</button>
             <button
@@ -316,7 +309,7 @@ function DocumentsTab({ donor }: { donor: Donor }) {
               onClick={() => setMode("per_doc")}
               className={cn(
                 "h-8 text-xs font-medium rounded transition-colors",
-                mode === "per_doc" ? "bg-surface shadow-card text-foreground" : "text-muted-foreground hover:text-foreground",
+                mode === "per_doc" ? "bg-surface border border-border text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >Per document</button>
           </div>
