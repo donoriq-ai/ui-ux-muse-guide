@@ -1,104 +1,78 @@
+# Phase 2D — Report Polish
 
-# Phase 2C — Extraction organization rework
-
-The Extraction tab already has a document rail + filters + table. The pain you flagged is real but local: inside a doc with many fields (Serology, medical records "grays") the table becomes a long flat scroll, and within a doc all markers look equally weighted. Fix the **inside-a-document** layout — keep the rail and global filters intact.
+Replace the `Phase2Stub` at `/_authenticated/donors/$id/report` with a real, print-friendly A4 report assembled from existing `mockApi` data. UI-only; no schema or rules changes.
 
 ## Goals
+- One screen that doubles as the canonical printable record for a donor.
+- Reads exclusively from `getDonor(id)` + tenant settings — no new API.
+- Looks clean on screen (matches flat design language) AND prints cleanly to A4.
 
-- Group fields inside each document by clinical category so Serology reads as "HIV / HBV / HCV / Syphilis / Other", not 12 stacked rows.
-- Surface what needs attention first: flagged + unreviewed pinned at the top of each document; clean groups collapsed by default.
-- Make long lists navigable: collapse / expand / "Expand all" / "Collapse all", with sticky group headers while scrolling.
-- Add a compact density toggle so reviewers can fit more on screen when they want to.
-- All changes stay in the Extraction tab — completeness/eligibility/audit untouched.
-
-## Grouping model (UI-only, no schema change)
-
-A small pure helper `src/lib/extraction/grouping.ts` maps each `ExtractedField` to a group based on `field.key` + parent document type. Deterministic, no AI.
+## Layout (top → bottom)
 
 ```text
-Serology (idt_report):
-  HIV markers          anti_hiv_*, hiv_*_nat
-  HBV markers          hbsag, hbv_*, anti_hbc
-  HCV markers          anti_hcv, hcv_*
-  Syphilis             syphilis*
-  Other markers        anything else in idt_report
-
-Medical records:       Demographics, Conditions, Medications, Other
-DRAI:                  Interview, Dates, Other
-Birth & delivery:      Pregnancy, Delivery, Newborn, Other
-Physical assessment:   Findings, Examiner, Other
-Transfusion / timing:  Events, Volumes, Other
-default:               single "Fields" group (small docs stay flat)
+┌─────────────────────────────────────────────────┐
+│ ReportHeader                                    │
+│  Tenant name · Ruleset vX.Y · Generated at      │
+│  Donor ID · Tissue type · Created/reviewed by   │
+│  Recommendation badge (ACCEPT/REJECT/INDET.)    │
+├─────────────────────────────────────────────────┤
+│ Eligibility Summary                             │
+│  Recommendation reasoning (1–2 lines)           │
+│  Completeness: COMPLETE/INCOMPLETE + counts     │
+├─────────────────────────────────────────────────┤
+│ Findings (grouped by severity: HARD→GATE→COND)  │
+│  Per finding: title, state pill, reasoning,     │
+│  inputs table (label · value · citation ref),   │
+│  rule citations (AATB / CFR chips)              │
+├─────────────────────────────────────────────────┤
+│ Completeness Checklist                          │
+│  Required docs · status pill (present/missing/  │
+│  low_confidence)                                │
+├─────────────────────────────────────────────────┤
+│ Extracted Fields Appendix                       │
+│  Reuse grouping.ts; compact, non-interactive    │
+│  table per document. Citations as "[Doc p.N]".  │
+├─────────────────────────────────────────────────┤
+│ Signature Block                                 │
+│  Prepared by · Reviewed by · Date · Signature   │
+│  lines (two: coordinator + medical director)    │
+├─────────────────────────────────────────────────┤
+│ Footer (print only)                             │
+│  Page N · Donor ID · Ruleset version            │
+└─────────────────────────────────────────────────┘
 ```
 
-Group order is fixed; "Other" always last. Empty groups don't render.
-
-## Layout
-
-Per-document panel (when a doc is selected OR per-doc section in "All documents" view):
-
-```
-┌ Serology — Serology_panel.pdf · 3p ─────────────── [Collapse all] [Expand all] ┐
-│ ▼ Needs attention · 2 flagged · 3 unreviewed                                   │
-│    HBsAg · 0.55 · low confidence              [chip] [✓]                       │
-│    anti-HBc total · unreviewed                [chip] [✓]                       │
-│                                                                                │
-│ ▼ HIV markers · 3 fields · all reviewed                                        │
-│    anti-HIV-1, anti-HIV-2, HIV-1 NAT                                           │
-│                                                                                │
-│ ▶ HBV markers · 3 fields · 1 flagged                                           │
-│ ▶ HCV markers · 2 fields                                                       │
-│ ▶ Syphilis · 1 field                                                           │
-└────────────────────────────────────────────────────────────────────────────────┘
-```
-
-- "Needs attention" is a virtual pinned group: union of flagged + unreviewed for that doc. Always at top. Auto-expanded when non-empty. Hidden when empty.
-- A category group is auto-expanded if it contains a flagged or unreviewed field, otherwise collapsed. User overrides persist per donor in `localStorage` (`tissueqa.extraction.collapsed.<donorId>`).
-- Group header is sticky (`position: sticky; top: 0`) inside the scrollable doc panel so the title stays visible while scanning rows.
-- Row height shrinks under a **Compact** density toggle (28px vs current 40px), tightening padding and confidence meter width.
-
-### "All documents" view
-
-Today this dumps every field into one table. Rework to render a stacked list of per-document panels (one per doc with fields), each using the same grouping layout, separated by a thin header strip with the document name + counts. Search/filter still applies and hides empty panels.
-
-## Filter / search behavior
-
-- Existing global chips (All / Flagged / Unreviewed) and search box stay.
-- When a filter is active, all matching groups force-expand and non-matching ones hide (so "Flagged" never shows you a closed group hiding the thing you wanted).
-- Search highlights matching text in field label/value.
-
-## Field table tweaks
-
-- Add `density: "comfortable" | "compact"` prop to `ExtractionFieldTable`. Compact ≈ `py-1`, smaller font for `Field` and `Source` columns, narrower Confidence column (icon + value, no bar).
-- Remove the "Document" column when rendering inside a per-doc panel (it's redundant — the panel header already states the document). Keep it in fallback paths.
+On-screen toolbar (hidden in print): Back · Print · density toggle is N/A here.
 
 ## Files
 
-**New**
-- `src/lib/extraction/grouping.ts` — `groupFields(fields, doc)` returns ordered `{ groupKey, label, fields[] }[]`.
-- `src/components/extraction/ExtractionGroup.tsx` — collapsible group with sticky header, counts, pinned indicators.
-- `src/components/extraction/DocumentExtractionPanel.tsx` — per-document panel: title strip + "Needs attention" pin + groups.
-- `src/hooks/useCollapsedGroups.ts` — persisted collapsed-state map per donor.
+New:
+- `src/components/report/ReportShell.tsx` — page frame, toolbar, print styles wrapper.
+- `src/components/report/ReportHeader.tsx`
+- `src/components/report/EligibilitySummary.tsx`
+- `src/components/report/FindingsSection.tsx` (groups by severity, renders inputs + rule citations).
+- `src/components/report/CompletenessSection.tsx`
+- `src/components/report/FieldsAppendix.tsx` (reuses `groupFieldsForDoc`, read-only compact rows).
+- `src/components/report/SignatureBlock.tsx`
+- `src/lib/report/citationRefs.ts` — builds a `[Doc p.N]` short ref map so the report uses compact citation tokens instead of full bbox info.
 
-**Edited**
-- `src/routes/_authenticated.donors.$id.tsx` — `ExtractionTab` swaps the flat `ExtractionFieldTable` render for `DocumentExtractionPanel`(s). Adds density toggle next to the filter chips.
-- `src/components/extraction/ExtractionFieldTable.tsx` — accept `density` prop, drop forced "Document" column when caller hides it, add subtle highlight for matched search terms.
+Edited:
+- `src/routes/_authenticated.donors.$id.report.tsx` — drop stub; load donor via existing `useQuery(['donor', id])` pattern; render `ReportShell` with sections; set `head()` title `Donor Report — {id}`.
 
-**Untouched**
-- `DocumentRail`, global filter chips, search input, citation sheet, audit / completeness / eligibility tabs.
-- Mock API and types: zero changes.
+Untouched: mockApi, types, rules engine, donor workspace, audit, extraction grouping logic.
 
-## Consistency pass (rolled in)
+## Print styles (in `src/styles.css`)
+- `@page { size: A4; margin: 18mm 16mm; }`
+- `@media print` block: hide app chrome (sidebar, topbar, toolbar), force white bg, black text, remove shadows, `break-inside: avoid` on every section card, `break-before: page` between Findings and Appendix when long.
+- A `.report-root` class scopes screen styling to ~A4 width (`max-w-[210mm]`, centered, subtle border on screen only).
 
-- Group header type sized to match the new tab/section weight (text-[12px] uppercase tracking-wider, font-medium) — same scale as "Eligibility" / "Extractions" headers.
-- Density toggle uses the same chip pattern as the filter chips so it doesn't introduce a new control idiom.
+## Empty / edge states
+- `evaluation === null` → show "Evaluation pending" card; hide Findings + Eligibility blocks but still render header, completeness checklist (derived from documents), and signature block.
+- Findings with no inputs → render reasoning only.
+- No reviewer yet → signature line empty with placeholder underscore.
+
+## Verification
+After build: navigate to `/donors/D-2026-0001/report` and `/donors/D-2026-0004/report`, confirm sections render with real data, then trigger browser print preview to check A4 pagination, hidden chrome, and that citation refs match across sections.
 
 ## Out of scope
-
-- Editing extracted values inline (separate phase).
-- Cross-document field deduping (e.g. HIV repeated across docs).
-- Bulk "mark group reviewed" — easy to add later, deferred to keep the diff focused.
-
-## Review point
-
-When this lands, open `D-2026-0001` → Serology in the rail. You should see the 9 serology fields collapsed into 5 groups with a "Needs attention" pin if anything's flagged, sticky group headers while scrolling, and a compact density that fits all of Serology in one screen. Then we pick Phase 2D from: Report polish · Audit & Settings build-out · Inline value editing.
+- Editing values, exporting PDF server-side, e-signatures, multi-language, theming. Pure presentational polish on existing data.
