@@ -20,6 +20,10 @@ import { RuleChip } from "@/components/RuleChip";
 import { ConfidenceMeter } from "@/components/ConfidenceMeter";
 import { SectionCard } from "@/components/SectionCard";
 import { SourceSheet } from "@/components/SourceSheet";
+import { DocStatusBadge } from "@/components/DocStatusBadge";
+import { DocumentRail, type RailGroup } from "@/components/extraction/DocumentRail";
+import { ExtractionFieldTable } from "@/components/extraction/ExtractionFieldTable";
+import { Input } from "@/components/ui/input";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -79,7 +83,10 @@ function DonorWorkspace() {
   });
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 sm:p-8 space-y-6">
+    <div
+      className="mx-auto space-y-5"
+      style={{ padding: "clamp(16px, 3vw, 32px)", maxWidth: "1600px" }}
+    >
       <DonorHeader
         donor={donor}
         onMarkReviewed={() => markReviewed.mutate()}
@@ -87,27 +94,27 @@ function DonorWorkspace() {
       />
 
       <Tabs defaultValue="extraction" className="w-full">
-        <TabsList className="bg-surface border border-border h-10 p-1">
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="extraction">Extraction</TabsTrigger>
-          <TabsTrigger value="completeness">Completeness</TabsTrigger>
-          <TabsTrigger value="eligibility">Eligibility</TabsTrigger>
-          <TabsTrigger value="audit">Audit</TabsTrigger>
+        <TabsList className="bg-surface border border-border h-9 p-1">
+          <TabsTrigger value="documents" className="h-7 text-xs">Documents</TabsTrigger>
+          <TabsTrigger value="extraction" className="h-7 text-xs">Extraction</TabsTrigger>
+          <TabsTrigger value="completeness" className="h-7 text-xs">Completeness</TabsTrigger>
+          <TabsTrigger value="eligibility" className="h-7 text-xs">Eligibility</TabsTrigger>
+          <TabsTrigger value="audit" className="h-7 text-xs">Audit</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="documents" className="mt-5">
+        <TabsContent value="documents" className="mt-4">
           <DocumentsTab donor={donor} />
         </TabsContent>
-        <TabsContent value="extraction" className="mt-5">
+        <TabsContent value="extraction" className="mt-4">
           <ExtractionTab donor={donor} onOpenCitation={setActiveCitation} />
         </TabsContent>
-        <TabsContent value="completeness" className="mt-5">
+        <TabsContent value="completeness" className="mt-4">
           <CompletenessTab donor={donor} />
         </TabsContent>
-        <TabsContent value="eligibility" className="mt-5">
+        <TabsContent value="eligibility" className="mt-4">
           <EligibilityTab donor={donor} onOpenCitation={setActiveCitation} />
         </TabsContent>
-        <TabsContent value="audit" className="mt-5">
+        <TabsContent value="audit" className="mt-4">
           <AuditTab donorId={id} />
         </TabsContent>
       </Tabs>
@@ -141,54 +148,55 @@ function DonorHeader({
         </Button>
       </div>
 
-      <div className="rounded-lg border border-border bg-card shadow-card p-5 sm:p-6">
+      <div className="rounded-md border border-border bg-card p-4 sm:p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="min-w-0 space-y-3">
-            <div className="flex items-center gap-3 flex-wrap">
-              <h1 className="font-mono text-2xl sm:text-[28px] font-semibold tracking-tight text-foreground">
+          <div className="min-w-0 space-y-2.5">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h1 className="font-mono text-lg sm:text-xl font-medium tracking-tight text-foreground">
                 {donor.id}
               </h1>
               <TissueTypeBadge type={donor.tissueType} expanded />
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
               {donor.evaluation ? (
                 <>
-                  <StatusBadge state={donor.evaluation.completeness.state} size="lg" />
-                  <StatusBadge state={donor.evaluation.recommendation} size="lg" />
+                  <StatusBadge state={donor.evaluation.completeness.state} size="sm" />
+                  <StatusBadge state={donor.evaluation.recommendation} size="sm" />
                 </>
               ) : (
-                <span className="text-sm text-muted-foreground">Not yet evaluated. Upload documents and run extraction.</span>
+                <span className="text-xs text-muted-foreground">
+                  Not yet evaluated. Upload documents and run extraction.
+                </span>
               )}
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-muted-foreground">
-              <span>Created {new Date(donor.createdAt).toLocaleString()}</span>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+              <span suppressHydrationWarning>
+                Created {new Date(donor.createdAt).toLocaleDateString()}
+              </span>
               <span>by <span className="text-foreground/80">{donor.createdBy}</span></span>
               {donor.evaluation && (
-                <span>
+                <span suppressHydrationWarning>
                   Evaluated{" "}
-                  {new Date(donor.evaluation.evaluatedAt).toLocaleString()} ·{" "}
+                  {new Date(donor.evaluation.evaluatedAt).toLocaleDateString()} ·{" "}
                   <span className="font-mono">{donor.evaluation.rulesetVersion}</span>
                 </span>
               )}
               {donor.reviewedBy && (
-                <span className="inline-flex items-center gap-1 text-accept">
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  Reviewed by {donor.reviewedBy} at {new Date(donor.reviewedAt!).toLocaleString()}
+                <span className="inline-flex items-center gap-1 text-accept" suppressHydrationWarning>
+                  <CheckCircle2 className="h-3 w-3" />
+                  Reviewed by {donor.reviewedBy}
                 </span>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" size="sm">
               <Link to="/donors/$id/report" params={{ id: donor.id }}>
-                <Download className="h-4 w-4 mr-1.5" /> Download report
+                <Download className="h-3.5 w-3.5 mr-1.5" /> Report
               </Link>
             </Button>
-            <Button onClick={onMarkReviewed} disabled={reviewing || !donor.evaluation}>
-              <CheckCircle2 className="h-4 w-4 mr-1.5" />
+            <Button size="sm" onClick={onMarkReviewed} disabled={reviewing || !donor.evaluation}>
+              <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
               {donor.reviewedBy ? "Mark reviewed again" : "Mark reviewed"}
             </Button>
           </div>
@@ -273,17 +281,10 @@ function DocumentsTab({ donor }: { donor: Donor }) {
                   </td>
                   <td className="px-4 py-2.5 text-right font-mono text-xs tabular-nums">{d.pageCount}</td>
                   <td className="px-4 py-2.5">
-                    <span className={cn(
-                      "inline-flex items-center gap-1 rounded-md border px-1.5 h-5 text-[10px] uppercase tracking-wider font-medium",
-                      d.status === "extracted" && "border-accept/30 bg-accept-soft text-accept",
-                      d.status === "processing" && "border-indeterminate/40 bg-indeterminate-soft text-indeterminate-foreground",
-                      d.status === "error" && "border-reject/30 bg-reject-soft text-reject",
-                    )}>
-                      {d.status}
-                    </span>
+                    <DocStatusBadge status={d.status} />
                   </td>
-                  <td className="px-4 py-2.5 text-xs text-muted-foreground">
-                    {new Date(d.uploadedAt).toLocaleString()}
+                  <td className="px-4 py-2.5 text-xs text-muted-foreground" suppressHydrationWarning>
+                    {new Date(d.uploadedAt).toLocaleDateString()}
                   </td>
                 </tr>
               ))}
@@ -300,7 +301,7 @@ function DocumentsTab({ donor }: { donor: Donor }) {
               onClick={() => setMode("combined")}
               className={cn(
                 "h-8 text-xs font-medium rounded transition-colors",
-                mode === "combined" ? "bg-surface shadow-card text-foreground" : "text-muted-foreground hover:text-foreground",
+                mode === "combined" ? "bg-surface border border-border text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >Combined PDF</button>
             <button
@@ -308,7 +309,7 @@ function DocumentsTab({ donor }: { donor: Donor }) {
               onClick={() => setMode("per_doc")}
               className={cn(
                 "h-8 text-xs font-medium rounded transition-colors",
-                mode === "per_doc" ? "bg-surface shadow-card text-foreground" : "text-muted-foreground hover:text-foreground",
+                mode === "per_doc" ? "bg-surface border border-border text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >Per document</button>
           </div>
@@ -363,6 +364,8 @@ function Dropzone({ onDrop, label, sublabel }: { onDrop: () => void; label: stri
 
 // ─────────────────────────────── Extraction tab ─────────────────────────────
 
+type ExtractionFilter = "all" | "flagged" | "unreviewed";
+
 function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation: (c: Citation) => void }) {
   const qc = useQueryClient();
 
@@ -375,121 +378,142 @@ function ExtractionTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitation
     },
   });
 
-  const grouped = useMemo(() => {
-    const byDoc = new Map<string, ExtractedField[]>();
-    for (const f of donor.fields) {
-      const arr = byDoc.get(f.documentId) ?? [];
-      arr.push(f);
-      byDoc.set(f.documentId, arr);
-    }
+  const [selectedDoc, setSelectedDoc] = useState<string>("__all");
+  const [filter, setFilter] = useState<ExtractionFilter>("all");
+  const [q, setQ] = useState("");
+
+  const docsById = useMemo(
+    () => new Map(donor.documents.map((d) => [d.id, d])),
+    [donor.documents],
+  );
+
+  const railGroups: RailGroup[] = useMemo(() => {
     return donor.documents
-      .map((d) => ({ doc: d, fields: byDoc.get(d.id) ?? [] }))
-      .filter((g) => g.fields.length > 0);
+      .map((doc) => {
+        const fs = donor.fields.filter((f) => f.documentId === doc.id);
+        return {
+          doc,
+          total: fs.length,
+          flagged: fs.filter((f) => f.flaggedLowConfidence).length,
+          unreviewed: fs.filter((f) => !f.reviewed).length,
+        };
+      })
+      .filter((g) => g.total > 0);
   }, [donor.documents, donor.fields]);
 
-  const flaggedCount = donor.fields.filter((f) => f.flaggedLowConfidence).length;
-  const reviewedCount = donor.fields.filter((f) => f.reviewed).length;
+  const totalAll = donor.fields.length;
+  const flaggedAll = donor.fields.filter((f) => f.flaggedLowConfidence).length;
+  const reviewedAll = donor.fields.filter((f) => f.reviewed).length;
 
-  return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-        <span><span className="text-foreground font-medium">{donor.fields.length}</span> extracted fields</span>
-        <span><span className="text-foreground font-medium">{reviewedCount}</span> reviewed</span>
-        <span className="text-indeterminate-foreground">
-          <AlertCircle className="inline h-3.5 w-3.5 mr-1" />
-          {flaggedCount} below confidence threshold
-        </span>
+  const visible = useMemo(() => {
+    let arr = donor.fields;
+    if (selectedDoc !== "__all") arr = arr.filter((f) => f.documentId === selectedDoc);
+    if (filter === "flagged") arr = arr.filter((f) => f.flaggedLowConfidence);
+    if (filter === "unreviewed") arr = arr.filter((f) => !f.reviewed);
+    if (q.trim()) {
+      const needle = q.toLowerCase();
+      arr = arr.filter(
+        (f) =>
+          f.label.toLowerCase().includes(needle) ||
+          f.key.toLowerCase().includes(needle) ||
+          (f.value ?? "").toLowerCase().includes(needle),
+      );
+    }
+    return arr;
+  }, [donor.fields, selectedDoc, filter, q]);
+
+  if (totalAll === 0) {
+    return (
+      <div className="rounded-md border border-dashed border-border bg-surface-muted/40 py-16 text-center">
+        <Sparkles className="h-5 w-5 mx-auto text-muted-foreground" />
+        <h3 className="mt-3 text-sm font-medium">No extracted fields yet</h3>
+        <p className="text-xs text-muted-foreground mt-1">
+          Upload documents and run extraction from the Documents tab.
+        </p>
       </div>
+    );
+  }
 
-      {grouped.length === 0 ? (
-        <EmptyExtraction />
-      ) : (
-        grouped.map(({ doc, fields }) => (
-          <SectionCard
-            key={doc.id}
-            title={DOCUMENT_TYPE_LABELS[doc.type]}
-            description={<span className="font-mono">{doc.fileName} · {doc.pageCount}p</span>}
-          >
-            <table className="w-full text-sm">
-              <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-surface-muted/40">
-                <tr className="text-left">
-                  <th className="px-4 py-2.5 font-medium w-[28%]">Field</th>
-                  <th className="px-4 py-2.5 font-medium w-[26%]">Value</th>
-                  <th className="px-4 py-2.5 font-medium w-[16%]">Confidence</th>
-                  <th className="px-4 py-2.5 font-medium">Source</th>
-                  <th className="px-4 py-2.5 font-medium text-right w-[100px]">Reviewed</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {fields.map((f) => (
-                  <FieldRow
-                    key={f.id}
-                    field={f}
-                    onToggle={(v) => setReviewed.mutate({ fieldId: f.id, reviewed: v })}
-                    onOpenCitation={onOpenCitation}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </SectionCard>
-        ))
+  const selectedDocMeta = selectedDoc === "__all" ? null : docsById.get(selectedDoc) ?? null;
+
+  const FilterBtn = ({ value, label, count }: { value: ExtractionFilter; label: string; count?: number }) => (
+    <button
+      type="button"
+      onClick={() => setFilter(value)}
+      className={cn(
+        "h-7 px-2.5 rounded border text-xs font-medium inline-flex items-center gap-1.5 transition-colors",
+        filter === value
+          ? "border-foreground/30 bg-surface-muted text-foreground"
+          : "border-border bg-surface text-muted-foreground hover:text-foreground",
       )}
-    </div>
+    >
+      {label}
+      {typeof count === "number" && (
+        <span className="font-mono text-[10px] tabular-nums text-muted-foreground">{count}</span>
+      )}
+    </button>
   );
-}
 
-function FieldRow({
-  field,
-  onToggle,
-  onOpenCitation,
-}: {
-  field: ExtractedField;
-  onToggle: (v: boolean) => void;
-  onOpenCitation: (c: Citation) => void;
-}) {
-  const flagged = field.flaggedLowConfidence;
   return (
-    <tr className={cn("group", flagged && "bg-indeterminate-soft/30")}>
-      <td className="px-4 py-2.5">
-        <div className="text-sm font-medium text-foreground inline-flex items-center gap-2">
-          {flagged && <AlertCircle className="h-3.5 w-3.5 text-indeterminate-foreground" />}
-          {field.label}
+    <div className="grid gap-4 md:grid-cols-[220px_1fr]">
+      <DocumentRail
+        groups={railGroups}
+        totalAll={totalAll}
+        flaggedAll={flaggedAll}
+        selected={selectedDoc}
+        onSelect={setSelectedDoc}
+      />
+
+      <div className="min-w-0 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="text-[13px] font-medium text-foreground">
+              {selectedDocMeta ? DOCUMENT_TYPE_LABELS[selectedDocMeta.type] : "All documents"}
+            </h2>
+            <p className="text-[11px] text-muted-foreground font-mono mt-0.5 truncate">
+              {selectedDocMeta
+                ? `${selectedDocMeta.fileName} · ${selectedDocMeta.pageCount}p`
+                : `${railGroups.length} documents`}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+            <span><span className="text-foreground font-medium tabular-nums">{visible.length}</span> shown</span>
+            <span className="text-border">·</span>
+            <span><span className="text-foreground font-medium tabular-nums">{reviewedAll}</span>/{totalAll} reviewed</span>
+            {flaggedAll > 0 && (
+              <>
+                <span className="text-border">·</span>
+                <span className="text-indeterminate-foreground inline-flex items-center gap-1">
+                  <AlertCircle className="h-3 w-3" />
+                  {flaggedAll} flagged
+                </span>
+              </>
+            )}
+          </div>
         </div>
-        <div className="font-mono text-[10px] text-muted-foreground mt-0.5">{field.key}</div>
-      </td>
-      <td className="px-4 py-2.5">
-        {field.value ? (
-          <span className="font-mono text-[13px]">{field.value}</span>
-        ) : (
-          <span className="text-xs text-muted-foreground italic">— not extracted —</span>
-        )}
-      </td>
-      <td className="px-4 py-2.5"><ConfidenceMeter value={field.confidence} /></td>
-      <td className="px-4 py-2.5"><CitationChip citation={field.citation} onClick={onOpenCitation} /></td>
-      <td className="px-4 py-2.5 text-right">
-        <label className="inline-flex items-center gap-2 cursor-pointer">
-          <Checkbox
-            checked={field.reviewed}
-            onCheckedChange={(v) => onToggle(!!v)}
-            aria-label={`Mark ${field.label} reviewed`}
-          />
-          {flagged && !field.reviewed && (
-            <span className="text-[10px] uppercase tracking-wider text-indeterminate-foreground font-semibold">Verify</span>
-          )}
-        </label>
-      </td>
-    </tr>
-  );
-}
 
-function EmptyExtraction() {
-  return (
-    <div className="rounded-lg border border-dashed border-border-strong bg-surface-muted/40 py-16 text-center">
-      <Sparkles className="h-6 w-6 mx-auto text-muted-foreground" />
-      <h3 className="mt-3 text-sm font-medium">No extracted fields yet</h3>
-      <p className="text-xs text-muted-foreground mt-1">
-        Upload documents and run extraction from the Documents tab.
-      </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <Input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search fields…"
+            className="h-8 text-xs w-full sm:w-64"
+          />
+          <div className="flex items-center gap-1.5">
+            <FilterBtn value="all" label="All" count={totalAll} />
+            <FilterBtn value="flagged" label="Flagged" count={flaggedAll} />
+            <FilterBtn value="unreviewed" label="Unreviewed" count={totalAll - reviewedAll} />
+          </div>
+        </div>
+
+        <ExtractionFieldTable
+          fields={visible}
+          docsById={docsById}
+          showDocColumn={selectedDoc === "__all"}
+          onToggle={(fieldId, v) => setReviewed.mutate({ fieldId, reviewed: v })}
+          onOpenCitation={onOpenCitation}
+        />
+      </div>
     </div>
   );
 }
@@ -511,7 +535,7 @@ function CompletenessTab({ donor }: { donor: Donor }) {
     <SectionCard
       title="Required documents & fields"
       description="Driven by the donor's tissue type."
-      action={<StatusBadge state={state} size="md" />}
+      action={<StatusBadge state={state} size="sm" />}
     >
       <div className="px-5 py-4 border-b border-border bg-surface">
         <p className="text-sm">
@@ -566,7 +590,7 @@ function EligibilityTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitatio
           <banner.Icon className={cn("h-6 w-6 shrink-0 mt-0.5", banner.text)} />
           <div className="min-w-0">
             <div className={cn("text-xs uppercase tracking-widest font-semibold", banner.text)}>Recommendation</div>
-            <div className={cn("text-2xl sm:text-3xl font-semibold tracking-tight mt-0.5", banner.text)}>{banner.label}</div>
+            <div className={cn("text-lg sm:text-xl font-medium tracking-tight mt-0.5", banner.text)}>{banner.label}</div>
             <p className="text-xs text-muted-foreground mt-2 max-w-2xl">
               Computed by ruleset <span className="font-mono">{rulesetVersion}</span> against extracted fields and required documents.
             </p>
@@ -593,7 +617,7 @@ function EligibilityTab({ donor, onOpenCitation }: { donor: Donor; onOpenCitatio
 
 function FindingCard({ finding, onOpenCitation }: { finding: RuleFinding; onOpenCitation: (c: Citation) => void }) {
   return (
-    <article className="rounded-lg border border-border bg-card shadow-card overflow-hidden">
+    <article className="rounded-md border border-border bg-card overflow-hidden">
       <header className="flex flex-wrap items-start justify-between gap-3 px-5 py-4 border-b border-border bg-surface">
         <div className="min-w-0">
           <div className="flex items-center gap-2 mb-1">
@@ -606,7 +630,7 @@ function FindingCard({ finding, onOpenCitation }: { finding: RuleFinding; onOpen
           </div>
           <h3 className="text-sm font-semibold text-foreground">{finding.title}</h3>
         </div>
-        <StatusBadge state={finding.state} size="md" />
+        <StatusBadge state={finding.state} size="sm" />
       </header>
 
       <div className="px-5 py-4 space-y-4">
@@ -657,7 +681,7 @@ function AuditTab({ donorId }: { donorId: string }) {
         <ol className="divide-y divide-border">
           {data.map((entry) => (
             <li key={entry.id} className="px-5 py-3 flex items-start gap-4 text-sm">
-              <span className="font-mono text-[11px] text-muted-foreground w-44 shrink-0 mt-0.5">
+              <span className="font-mono text-[11px] text-muted-foreground w-44 shrink-0 mt-0.5" suppressHydrationWarning>
                 {new Date(entry.timestamp).toLocaleString()}
               </span>
               <span className="font-mono text-[11px] text-primary bg-primary-soft px-1.5 py-0.5 rounded shrink-0 mt-0.5">

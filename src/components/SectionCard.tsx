@@ -21,10 +21,10 @@ export function SectionCard({
       )}
     >
       {(title || description || action) && (
-        <header className="flex items-start justify-between gap-4 px-5 py-3.5 border-b border-border bg-surface">
-          <div>
-            {title && <h3 className="text-sm font-medium text-foreground">{title}</h3>}
-            {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
+        <header className="flex items-start justify-between gap-4 px-4 py-3 border-b border-border bg-surface">
+          <div className="min-w-0">
+            {title && <h3 className="text-[13px] font-medium text-foreground">{title}</h3>}
+            {description && <p className="text-[11px] text-muted-foreground mt-0.5">{description}</p>}
           </div>
           {action && <div className="shrink-0">{action}</div>}
         </header>
