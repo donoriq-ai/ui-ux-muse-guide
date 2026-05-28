@@ -16,14 +16,14 @@ export function SectionCard({
   return (
     <section
       className={cn(
-        "rounded-lg border border-border bg-card shadow-card overflow-hidden",
+        "rounded-md border border-border bg-card overflow-hidden",
         className,
       )}
     >
       {(title || description || action) && (
-        <header className="flex items-start justify-between gap-4 px-5 py-4 border-b border-border bg-surface">
+        <header className="flex items-start justify-between gap-4 px-5 py-3.5 border-b border-border bg-surface">
           <div>
-            {title && <h3 className="text-sm font-semibold text-foreground">{title}</h3>}
+            {title && <h3 className="text-sm font-medium text-foreground">{title}</h3>}
             {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
           </div>
           {action && <div className="shrink-0">{action}</div>}

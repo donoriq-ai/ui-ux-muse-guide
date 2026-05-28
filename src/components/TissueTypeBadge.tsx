@@ -20,7 +20,7 @@ export function TissueTypeBadge({
     <span
       title={c.long}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-md border border-border-strong bg-surface px-2 h-6 text-[11px] font-semibold uppercase tracking-wider text-foreground",
+        "inline-flex items-center gap-1.5 rounded border border-border bg-surface px-1.5 h-5 text-[10.5px] font-medium uppercase tracking-wider text-foreground/80",
         className,
       )}
     >

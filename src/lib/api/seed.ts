@@ -417,8 +417,71 @@ function buildDonor4(): Donor {
   };
 }
 
+// Deterministic synthetic donors so virtualization/pagination is visibly real.
+// No PHI, no real medical content — just enough shape for list-screen affordances.
+const SYNTHETIC_DOC_TYPES = [
+  "authorization_consent",
+  "medical_records",
+  "drai",
+  "physical_assessment",
+  "idt_report",
+  "birth_delivery_summary",
+  "death_certificate",
+  "recovery_timing_record",
+  "transfusion_record",
+] as const;
+
+const SYNTHETIC_CREATORS = ["Casey Lin", "Morgan Reyes", "Dr. Anita Patel", "Jordan Park", "Sam Diaz"];
+
+function buildSyntheticDonor(n: number): Donor {
+  const id = `D-2026-${String(5 + n).padStart(4, "0")}`;
+  const tissueType: Donor["tissueType"] = n % 3 === 0 ? "MS" : "BT";
+  const roll = (n * 31 + 7) % 100;
+  const recommendation =
+    roll < 55 ? "ACCEPT" : roll < 80 ? "INDETERMINATE" : "REJECT";
+  const completeness =
+    recommendation === "ACCEPT"
+      ? "COMPLETE"
+      : roll % 2 === 0
+        ? "COMPLETE"
+        : "INCOMPLETE";
+  const hoursAgo = (n * 11) % 1400 + 4;
+  const docCount = 3 + (n % 5);
+  const documents = Array.from({ length: docCount }, (_, i): DonorDocument => {
+    const type = SYNTHETIC_DOC_TYPES[(n + i) % SYNTHETIC_DOC_TYPES.length];
+    return {
+      id: `doc-syn-${n}-${i}`,
+      donorId: id,
+      type,
+      fileName: `${type}_${i + 1}.pdf`,
+      pageCount: 1 + ((n + i) % 8),
+      uploadedAt: new Date(Date.now() - (hoursAgo - 1) * 3600_000).toISOString(),
+      status: "extracted",
+    };
+  });
+
+  return {
+    id,
+    tenantId: seedTenant.id,
+    tissueType,
+    createdAt: new Date(Date.now() - hoursAgo * 3600_000).toISOString(),
+    createdBy: SYNTHETIC_CREATORS[n % SYNTHETIC_CREATORS.length],
+    documents,
+    fields: [],
+    evaluation: {
+      completeness: { state: completeness, items: [] },
+      recommendation,
+      findings: [],
+      rulesetVersion: RULESET_VERSION,
+      evaluatedAt: new Date(Date.now() - Math.max(0, hoursAgo - 2) * 3600_000).toISOString(),
+    },
+  };
+}
+
 export function buildSeedDonors(): Donor[] {
-  return [buildDonor1(), buildDonor2(), buildDonor3(), buildDonor4()];
+  const headline = [buildDonor1(), buildDonor2(), buildDonor3(), buildDonor4()];
+  const synthetic = Array.from({ length: 246 }, (_, i) => buildSyntheticDonor(i + 1));
+  return [...headline, ...synthetic];
 }
 
 export function buildSeedAudit(donors: Donor[]): AuditEntry[] {

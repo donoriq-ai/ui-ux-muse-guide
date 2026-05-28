@@ -1,79 +1,64 @@
-## TissueQA — Phased build plan
 
-A multi-tenant donor-eligibility decision-support prototype. Client-only, synthetic data, mock API behind a typed boundary so a FastAPI backend can be swapped in later.
+# Phase 1.5 — Minimal flat restyle + scalable Donors table
 
-### Approach
+Reskin the existing shadcn primitives to a minimal flat look and rebuild the Donors list as a real data grid that scales to thousands of rows. No business logic changes. Sidebar shell stays.
 
-Phase 1 establishes the visual + interaction language and the highest-stakes screen (Donor Workspace). You sign off, then Phase 2 builds the rest fast and consistent. No design rework loops.
+## Design direction (locked)
 
----
+- **Background**: warm paper — `#FAFAF7` app bg, `#FFFFFF` surfaces, `#1A1A1A` text.
+- **Borders**: 1px hairline, light warm gray (`#E8E6DF` strong / `#EFEDE6` subtle). Used everywhere instead of shadows.
+- **Shadows**: removed globally. `--shadow-card` and `--shadow-elevated` → `none`. Sheets/dialogs use a single hairline border + scrim only.
+- **Radii**: tighten — `--radius: 6px`. Chips/badges `4px`. No pill shapes except status badges.
+- **Typography**: Inter, slightly tighter. Headings drop to `font-medium` (was `font-semibold`). Mono for IDs/citations/values unchanged.
+- **Primary**: keep deep teal but desaturate one notch so it reads as an accent on warm paper, not as brand chrome.
+- **Density**: comfortable default (40px rows), compact toggle (32px).
+- **Fluid layout**: drop the `max-w-[1400px]` cap on data pages. Page padding becomes fluid (`clamp(16px, 3vw, 32px)`). Sidebar stays fixed width and remains collapsible.
 
-### Phase 1 — Foundations + reference screen (this build)
+## Donors table — rebuild
 
-**1. Design system (the "playbook")**
-- Tokens in `src/styles.css`: deep teal primary, neutral surfaces, semantic state colors (`--accept` green, `--reject` red, `--indeterminate` amber, `--low-confidence` amber-soft), elevated card shadow, tight radius (clinical, not playful).
-- Typography: Inter for UI, JetBrains Mono for citations / rule references / criterion IDs / bbox coords.
-- Component primitives (wrapping shadcn):
-  - `StatusBadge` (ACCEPT / REJECT / INDETERMINATE / COMPLETE / INCOMPLETE)
-  - `CitationChip` (mono, document label · page, click → opens Source sheet)
-  - `RuleChip` (mono, `§H12.600`, `21 CFR 1271.85`)
-  - `ConfidenceMeter` (0–100 bar, amber under threshold)
-  - `TissueTypeBadge` (BT / MS)
-  - `SyntheticDataBadge` (top bar pill)
-  - `SectionCard`, `EmptyState`, `LoadingSkeleton`
-- One-page design playbook at `docs/design-system.md` documenting tokens, when to use which component, accessibility rules, and copy tone ("Insight (not a determination)" etc.).
+Stack: **@tanstack/react-table** for headless table state + **@tanstack/react-virtual** for row virtualization. Both are tiny, headless, and compose with the new flat styling.
 
-**2. App shell**
-- Left sidebar: Donors, Audit, Settings (role-gated).
-- Top bar: tenant name, role switcher, current user menu, Synthetic-data badge, persistent disclaimer affordance.
-- TanStack Router file-based routes for all pages (stubs for Phase 2 screens so navigation works end-to-end).
+Behavior:
+- Server-paginated (mocked) at 200 rows/page, virtualized within the page.
+- Sticky header, sticky first column (Donor ID), horizontal scroll for overflow.
+- Sortable columns: Donor ID, Tissue, Completeness, Recommendation, Created, Documents.
+- Filter chips row above the table (Tissue, Recommendation, Completeness, search) — synced to URL via `validateSearch` so filter state is shareable and survives refresh.
+- Column visibility menu + density toggle in the table toolbar.
+- Row hover = subtle warm tint, no shadow. Click row = open workspace.
+- Empty state and loading skeleton both use hairline borders, no shimmer.
 
-**3. Mock API layer (full, not stubbed — Phase 2 needs it)**
-- `src/lib/api/types.ts` — exact types from the prompt.
-- `src/lib/api/mockApi.ts` — every function with `// FastAPI: METHOD /path` comments, ~400ms simulated latency, in-memory store seeded with all 4 donors covering ACCEPT / REJECT / INDETERMINATE-missing-doc / INDETERMINATE-COND states + realistic synthetic serology values.
-- `import.meta.env.VITE_API_BASE_URL` read but unused (handoff-ready).
-- Synthetic PDF-like page images generated per document type so citation bboxes can be overlaid on something credible.
+URL contract (new search params on `/donors`):
+- `q` (string), `tissue`, `rec`, `comp`, `page`, `sort`, `dir`, `density`, `cols`.
 
-**4. Reference screen: Donor Workspace (`/donors/:id`)** — fully built
-- Header: Donor ID, Tissue Type, Completeness + Recommendation badges, Mark Reviewed, Download Report.
-- Tabs: Documents · Extraction · Completeness · Eligibility · Audit — all functional.
-- Source sheet: right-side `Sheet` showing the synthetic page image with an overlaid highlighted rectangle at the bbox, document label, page, confidence.
-- Persistent "Recommendation only. The Medical Director makes the eligibility determination." disclaimer on Eligibility tab.
-- All interactions write audit entries via mockApi.
+Seed data: expand mock seed from 4 → ~250 synthetic donors so virtualization and pagination are visibly real. Same shape, same tissue mix, same evaluation distribution. No PHI.
 
-**5. Lightweight `/donors` list** so you can click into the workspace during review.
+## Files
 
-**→ Review gate.** You look at the shell, tokens, and Donor Workspace. We adjust tokens / component styles centrally if needed — no per-screen rework.
+**New**
+- `src/components/data-table/DataTable.tsx` — generic virtualized table built on tanstack/react-table + tanstack/react-virtual.
+- `src/components/data-table/DataTableToolbar.tsx` — search + filter chips + density + column visibility.
+- `src/components/data-table/columns.donors.tsx` — column defs for the donors grid.
+- `src/components/FilterChip.tsx` — dismissible filter chip primitive.
 
----
+**Edited**
+- `src/styles.css` — new token values (warm paper, hairline borders, no shadows, tighter radius, desaturated primary). Print/dark adjusted in lockstep.
+- `src/routes/donors.index.tsx` — replaced inline table with `<DataTable>`, search-param state via `validateSearch`.
+- `src/routes/__root.tsx` / `src/components/AppSidebar.tsx` / `src/components/TopBar.tsx` — drop shadows, switch to hairline borders, fluid padding.
+- `src/components/SectionCard.tsx`, `StatusBadge.tsx`, `TissueTypeBadge.tsx`, `CitationChip.tsx`, `RuleChip.tsx`, `ConfidenceMeter.tsx`, `SyntheticDataBadge.tsx` — restyled to flat tokens (border-only, no shadow, tighter radius).
+- `src/components/SourceSheet.tsx` — flat sheet, hairline left border, no elevation.
+- `src/lib/api/seed.ts` — generate ~250 synthetic donors deterministically.
+- `docs/design-system.md` — updated to reflect flat tokens, table primitive, density rule.
 
-### Phase 2 — remaining screens (next build, after your sign-off)
+**Dependencies (single install)**
+- `@tanstack/react-table`
+- `@tanstack/react-virtual`
 
-- `/login`, `/signup` (UI only, mock sign-in routes to `/donors`)
-- `/donors/new` (Donor ID + Auto-generate, Tissue Type select)
-- `/donors` filters + search (full version)
-- `/donors/:id/report` printable A4 view + `window.print()`
-- `/audit` tenant-wide audit table with filters
-- `/settings` (admin) — tenant name, users table, confidence threshold slider, BT gestational-age policy
+## Out of scope (deferred to Phase 2)
 
-All Phase 2 screens consume the Phase 1 component library and mockApi — no new tokens, no new primitives unless we discover a gap.
+- Donor workspace internal restyle beyond token inheritance (it picks up new tokens automatically; deeper layout work happens with the rest of Phase 2 screens).
+- Login / signup / new donor / report / audit / settings screens.
+- Real backend / Cloud — still mock API.
 
----
+## Review point
 
-### Technical details
-
-- **Stack:** TanStack Start (React 19 + Vite 7 + TS + Tailwind v4 + shadcn). File-based routes under `src/routes/`. No backend, no Lovable Cloud (explicit "client-only, do not implement real auth/db" from the prompt).
-- **State:** TanStack Query for all mockApi reads/mutations; mock store is the source of truth. Role + current user kept in a React context backed by mockApi `getCurrentUser` / `setRole`.
-- **Routing:** `/donors`, `/donors/new`, `/donors/$id`, `/donors/$id/report`, `/audit`, `/settings`, `/login`, `/signup`. Role gating via a layout route that reads current user.
-- **Citations:** `CitationChip` opens a controlled `Sheet`; bbox rendered as an absolute-positioned div over the synthetic page image (coords normalized 0–1).
-- **Synthetic page images:** generated once into `src/assets/docs/` (e.g. `serology-report.jpg`, `drai.jpg`, `birth-summary.jpg`, etc.) styled to look like medical forms. Reused across donors.
-- **Print:** report route uses a print stylesheet (`@media print`) to hide nav/sidebar and fit A4.
-- **Accessibility:** keyboard nav across tabs, focus rings on chips, ARIA labels on state badges, color is never the only signal (badges always include text).
-- **No PHI:** seeded donor names/IDs are synthetic (D-2026-0001…); analyte values realistic but fictional.
-- **No AATB text reproduction:** only standard numbers shown in chips.
-
----
-
-### What I need from you
-
-Nothing right now — answers from the previous questions are enough. After Phase 1 lands, you'll review and either approve or send token/component tweaks, then I run Phase 2.
+After this ships I'll stop and you review the Donors list + sidebar shell at the new viewport, confirm the flat language, then I go into Phase 2.

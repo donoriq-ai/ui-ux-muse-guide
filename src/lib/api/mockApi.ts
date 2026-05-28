@@ -105,6 +105,79 @@ export async function listDonors(): Promise<Donor[]> {
   return clone(store.donors);
 }
 
+export interface DonorListQuery {
+  q?: string;
+  tissue?: "BT" | "MS";
+  rec?: "ACCEPT" | "REJECT" | "INDETERMINATE" | "none";
+  comp?: "COMPLETE" | "INCOMPLETE";
+  sort?: "id" | "tissue" | "completeness" | "recommendation" | "createdAt" | "createdBy" | "documents";
+  dir?: "asc" | "desc";
+  page?: number;
+  pageSize?: number;
+}
+
+export interface DonorListResult {
+  rows: Donor[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalUnfiltered: number;
+}
+
+// FastAPI: GET /donors?q=&tissue=&rec=&comp=&sort=&dir=&page=&pageSize=
+export async function listDonorsPage(query: DonorListQuery = {}): Promise<DonorListResult> {
+  await wait(250);
+  const { q, tissue, rec, comp, sort = "createdAt", dir = "desc", page = 1, pageSize = 200 } = query;
+
+  let rows = store.donors.slice();
+  const totalUnfiltered = rows.length;
+
+  if (q) {
+    const needle = q.toLowerCase();
+    rows = rows.filter(
+      (d) => d.id.toLowerCase().includes(needle) || d.createdBy.toLowerCase().includes(needle),
+    );
+  }
+  if (tissue) rows = rows.filter((d) => d.tissueType === tissue);
+  if (rec) {
+    if (rec === "none") rows = rows.filter((d) => d.evaluation === null);
+    else rows = rows.filter((d) => d.evaluation?.recommendation === rec);
+  }
+  if (comp) rows = rows.filter((d) => d.evaluation?.completeness.state === comp);
+
+  const sortGet = (d: Donor): string | number => {
+    switch (sort) {
+      case "id":
+        return d.id;
+      case "tissue":
+        return d.tissueType;
+      case "completeness":
+        return d.evaluation?.completeness.state ?? "";
+      case "recommendation":
+        return d.evaluation?.recommendation ?? "";
+      case "createdBy":
+        return d.createdBy;
+      case "documents":
+        return d.documents.length;
+      case "createdAt":
+      default:
+        return d.createdAt;
+    }
+  };
+  rows.sort((a, b) => {
+    const av = sortGet(a);
+    const bv = sortGet(b);
+    const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+    return dir === "asc" ? cmp : -cmp;
+  });
+
+  const total = rows.length;
+  const start = (page - 1) * pageSize;
+  const paged = rows.slice(start, start + pageSize);
+
+  return { rows: clone(paged), total, page, pageSize, totalUnfiltered };
+}
+
 // FastAPI: GET /donors/{id}
 export async function getDonor(id: string): Promise<Donor> {
   await wait();
