@@ -79,7 +79,7 @@ function Stat({
       </div>
       <div
         className={
-          "mt-0.5 text-[15px] font-mono tabular-nums " +
+          "mt-0.5 text-[15px] font-mono tabular-nums tracking-tight " +
           (tone === "warn" ? "text-indeterminate-foreground" : "text-foreground")
         }
       >

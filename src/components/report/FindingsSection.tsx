@@ -21,7 +21,7 @@ export function FindingsSection({ donor }: { donor: Donor }) {
   if (groups.length === 0) return null;
 
   return (
-    <section className="space-y-4 report-break-before">
+    <section className="space-y-4">
       <h2 className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">
         Findings
       </h2>
@@ -62,21 +62,21 @@ function FindingCard({
         <p className="text-[12px] text-foreground/85 leading-relaxed">{finding.reasoning}</p>
 
         {finding.inputs.length > 0 && (
-          <table className="w-full text-[11.5px] border border-border">
-            <thead className="bg-surface-muted/40 text-muted-foreground">
+          <table className="w-full text-[11.5px] border border-border table-fixed">
+            <thead className="bg-surface-muted/40 text-muted-foreground text-[10.5px]">
               <tr>
                 <th className="text-left px-2 py-1 font-medium w-[40%]">Input</th>
                 <th className="text-left px-2 py-1 font-medium">Value</th>
-                <th className="text-right px-2 py-1 font-medium w-[28%]">Source</th>
+                <th className="text-right px-2 py-1 font-medium w-[22%]">Source</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {finding.inputs.map((inp, i) => {
                 const ref = citationRef(inp.sourceCitation, docsById);
                 return (
-                  <tr key={i}>
+                  <tr key={i} className="align-top">
                     <td className="px-2 py-1 text-foreground/80">{inp.label}</td>
-                    <td className="px-2 py-1 font-mono">{inp.value ?? <span className="text-muted-foreground italic">missing</span>}</td>
+                    <td className="px-2 py-1 font-mono tabular-nums break-words">{inp.value ?? <span className="text-muted-foreground">missing</span>}</td>
                     <td className="px-2 py-1 text-right font-mono text-[10.5px] text-muted-foreground">
                       {ref ?? "—"}
                     </td>

@@ -24,7 +24,7 @@ export function ReportShell({
       </div>
 
       <article className="report-root bg-card border border-border rounded-md">
-        <div className="p-8 sm:p-10 space-y-8">{children}</div>
+        <div className="p-8 sm:p-10 space-y-8 report-print-flush">{children}</div>
       </article>
     </div>
   );
