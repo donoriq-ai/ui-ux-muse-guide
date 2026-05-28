@@ -58,7 +58,7 @@ function buildQuery(s: SearchValues) {
   };
 }
 
-export const Route = createFileRoute("/donors/")({
+export const Route = createFileRoute("/_authenticated/donors/")({
   head: () => ({ meta: [{ title: "Donors — TissueQA" }] }),
   validateSearch: zodValidator(searchSchema),
   loaderDeps: ({ search }) => ({
