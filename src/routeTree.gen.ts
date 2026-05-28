@@ -9,10 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuditRouteImport } from './routes/audit'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DonorsIndexRouteImport } from './routes/donors.index'
+import { Route as DonorsNewRouteImport } from './routes/donors.new'
 import { Route as DonorsIdRouteImport } from './routes/donors.$id'
+import { Route as DonorsIdReportRouteImport } from './routes/donors.$id.report'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditRoute = AuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -23,44 +49,133 @@ const DonorsIndexRoute = DonorsIndexRouteImport.update({
   path: '/donors/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DonorsNewRoute = DonorsNewRouteImport.update({
+  id: '/donors/new',
+  path: '/donors/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DonorsIdRoute = DonorsIdRouteImport.update({
   id: '/donors/$id',
   path: '/donors/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DonorsIdReportRoute = DonorsIdReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => DonorsIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/donors/$id': typeof DonorsIdRoute
+  '/audit': typeof AuditRoute
+  '/login': typeof LoginRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/donors/$id': typeof DonorsIdRouteWithChildren
+  '/donors/new': typeof DonorsNewRoute
   '/donors/': typeof DonorsIndexRoute
+  '/donors/$id/report': typeof DonorsIdReportRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/donors/$id': typeof DonorsIdRoute
+  '/audit': typeof AuditRoute
+  '/login': typeof LoginRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/donors/$id': typeof DonorsIdRouteWithChildren
+  '/donors/new': typeof DonorsNewRoute
   '/donors': typeof DonorsIndexRoute
+  '/donors/$id/report': typeof DonorsIdReportRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/donors/$id': typeof DonorsIdRoute
+  '/audit': typeof AuditRoute
+  '/login': typeof LoginRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/donors/$id': typeof DonorsIdRouteWithChildren
+  '/donors/new': typeof DonorsNewRoute
   '/donors/': typeof DonorsIndexRoute
+  '/donors/$id/report': typeof DonorsIdReportRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/donors/$id' | '/donors/'
+  fullPaths:
+    | '/'
+    | '/audit'
+    | '/login'
+    | '/settings'
+    | '/signup'
+    | '/donors/$id'
+    | '/donors/new'
+    | '/donors/'
+    | '/donors/$id/report'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/donors/$id' | '/donors'
-  id: '__root__' | '/' | '/donors/$id' | '/donors/'
+  to:
+    | '/'
+    | '/audit'
+    | '/login'
+    | '/settings'
+    | '/signup'
+    | '/donors/$id'
+    | '/donors/new'
+    | '/donors'
+    | '/donors/$id/report'
+  id:
+    | '__root__'
+    | '/'
+    | '/audit'
+    | '/login'
+    | '/settings'
+    | '/signup'
+    | '/donors/$id'
+    | '/donors/new'
+    | '/donors/'
+    | '/donors/$id/report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DonorsIdRoute: typeof DonorsIdRoute
+  AuditRoute: typeof AuditRoute
+  LoginRoute: typeof LoginRoute
+  SettingsRoute: typeof SettingsRoute
+  SignupRoute: typeof SignupRoute
+  DonorsIdRoute: typeof DonorsIdRouteWithChildren
+  DonorsNewRoute: typeof DonorsNewRoute
   DonorsIndexRoute: typeof DonorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit': {
+      id: '/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -75,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DonorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/donors/new': {
+      id: '/donors/new'
+      path: '/donors/new'
+      fullPath: '/donors/new'
+      preLoaderRoute: typeof DonorsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/donors/$id': {
       id: '/donors/$id'
       path: '/donors/$id'
@@ -82,12 +204,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DonorsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/donors/$id/report': {
+      id: '/donors/$id/report'
+      path: '/report'
+      fullPath: '/donors/$id/report'
+      preLoaderRoute: typeof DonorsIdReportRouteImport
+      parentRoute: typeof DonorsIdRoute
+    }
   }
 }
 
+interface DonorsIdRouteChildren {
+  DonorsIdReportRoute: typeof DonorsIdReportRoute
+}
+
+const DonorsIdRouteChildren: DonorsIdRouteChildren = {
+  DonorsIdReportRoute: DonorsIdReportRoute,
+}
+
+const DonorsIdRouteWithChildren = DonorsIdRoute._addFileChildren(
+  DonorsIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DonorsIdRoute: DonorsIdRoute,
+  AuditRoute: AuditRoute,
+  LoginRoute: LoginRoute,
+  SettingsRoute: SettingsRoute,
+  SignupRoute: SignupRoute,
+  DonorsIdRoute: DonorsIdRouteWithChildren,
+  DonorsNewRoute: DonorsNewRoute,
   DonorsIndexRoute: DonorsIndexRoute,
 }
 export const routeTree = rootRouteImport
