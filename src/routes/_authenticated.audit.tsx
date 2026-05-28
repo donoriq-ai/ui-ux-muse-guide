@@ -121,7 +121,10 @@ function Pagination({ page, pageCount }: { page: number; pageCount: number }) {
   const navigate = Route.useNavigate();
   const go = (p: number) =>
     navigate({
-      search: (prev) => ({ ...prev, page: Math.max(1, Math.min(pageCount, p)) }),
+      search: (prev: z.infer<typeof searchSchema>) => ({
+        ...prev,
+        page: Math.max(1, Math.min(pageCount, p)),
+      }),
     });
   return (
     <div className="flex items-center justify-between text-xs">
