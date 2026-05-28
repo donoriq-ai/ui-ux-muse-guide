@@ -36,11 +36,16 @@ export function AuditFilters({
   totalShown: number;
   totalAll: number;
 }) {
-  const navigate = useNavigate({ from: "/audit" });
+  const navigate = useNavigate();
 
   const update = (partial: Partial<AuditFiltersState>) =>
     navigate({
-      search: (prev) => ({ ...prev, ...partial, page: 1 }),
+      to: "/audit",
+      search: (prev: AuditFiltersState & { page: number }) => ({
+        ...prev,
+        ...partial,
+        page: 1,
+      }),
     });
 
   const hasFilters =
