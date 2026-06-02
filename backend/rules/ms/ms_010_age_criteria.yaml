@@ -1,0 +1,30 @@
+id: MS-010
+version: "BT-MS-v0.2"
+title: Donor Age Criteria — Musculoskeletal
+applies: [MS]
+severity: GATE
+document_type: medical_records
+inputs:
+  - key: donor_age_years
+    label: "Donor Age at Time of Death (Years)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §H9.600 delegates the determination of donor age criteria to the Medical Director
+  and/or Medical Advisory Committee. The AATB Standards do not specify a numeric minimum
+  or maximum age for musculoskeletal donors. This is an SME-REQUIRED threshold.
+  If donor_age_years is present: evaluate against the bank's SOPM age limits if provided
+  in this rule (currently none — SME-REQUIRED). Without facility-defined limits,
+  output INDETERMINATE with a note that MD/MAC age criteria review is required.
+  If donor_age_years is missing → INDETERMINATE.
+  NOTE: Do not fabricate an age limit. This rule produces INDETERMINATE until the
+  facility provides age criteria for encoding.
+citations:
+  aatb:
+    - "AATB §H9.600"
+  cfr:
+    - "21 CFR §1271.50(a)"
+reasoning_template: >
+  Donor age criteria evaluated. State: {state}.
+  AATB §H9.600 delegates age limits to Medical Director/MAC. No universal numeric limit
+  exists in the Standards. INDETERMINATE until facility SOPM age criteria are encoded.

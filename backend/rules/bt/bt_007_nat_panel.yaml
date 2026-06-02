@@ -1,0 +1,43 @@
+id: BT-007
+version: "BT-MS-v0.2"
+title: NAT Panel — HIV-1, HCV, HBV, WNV (Birth Tissue)
+applies: [BT]
+severity: HARD
+document_type: idt_report
+inputs:
+  - key: hiv1_nat
+    label: "HIV-1 NAT Result"
+    reject_if: ["Reactive", "Positive", "Repeatedly Reactive"]
+  - key: hcv_nat
+    label: "HCV NAT Result"
+    reject_if: ["Reactive", "Positive", "Repeatedly Reactive"]
+  - key: hbv_nat
+    label: "HBV NAT Result"
+    reject_if: ["Reactive", "Positive", "Repeatedly Reactive"]
+  - key: wnv_nat
+    label: "WNV NAT Result (seasonal — Jun 1 to Oct 31)"
+    reject_if: ["Reactive", "Positive", "Repeatedly Reactive"]
+  - key: collection_month
+    label: "Collection Month (1–12)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  HIV-1 NAT, HCV NAT, and HBV NAT are universally required for all allogeneic
+  transplant tissue donors (AATB §H12.600 items 2–4). Any reactive or positive
+  result → REJECT.
+  WNV NAT is required for living donors when collection occurs between June 1 and
+  October 31 (AATB §H12.610). Birth mother is a living donor. If collection_month
+  is in [6,7,8,9,10] and wnv_nat is missing → INDETERMINATE.
+  If any of HIV-1, HCV, HBV NAT is missing → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H12.600"
+    - "AATB §H12.610"
+    - "AATB §H19.700"
+  cfr:
+    - "21 CFR §1271.80(a)"
+    - "21 CFR §1271.85(a)"
+reasoning_template: >
+  NAT panel for birth tissue evaluated. State: {state}.
+  HIV-1, HCV, and HBV NAT are required. WNV NAT required Jun–Oct.
+  Any reactive result → REJECT. Missing required NAT → INDETERMINATE.

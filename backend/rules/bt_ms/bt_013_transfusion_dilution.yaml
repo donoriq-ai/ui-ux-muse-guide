@@ -1,0 +1,50 @@
+id: BT-013
+version: "BT-MS-v0.2"
+title: Blood Transfusion / Plasma Dilution Algorithm
+applies: [BT, MS]
+severity: HARD
+document_type: transfusion_record
+inputs:
+  - key: transfusion_occurred_48h
+    label: "Transfusion/Infusion Occurred in Prior 48 Hours (Yes/No)"
+    reject_if: []
+  - key: blood_colloid_volume_ml
+    label: "Total Blood/Colloid Volume Transfused (mL) in 48h Before Asystole/Collection"
+    reject_if: []
+  - key: crystalloid_volume_ml
+    label: "Total Crystalloid Volume Infused (mL) in 1h Before Asystole/Collection"
+    reject_if: []
+  - key: donor_age_over_12
+    label: "Donor Age Over 12 Years (Yes/No)"
+    reject_if: []
+  - key: pre_transfusion_specimen_available
+    label: "Pre-Transfusion Specimen Available (Yes/No)"
+    reject_if: []
+  - key: plasma_dilution_algorithm_performed
+    label: "Validated Plasma Dilution Algorithm Performed (Yes/No)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §H12.100, §H12.110, §H12.120, §H12.130 define plasma dilution rules:
+  Donor >12 years: if >2,000 mL of blood/colloids within 48 hours before asystole
+  or specimen collection (whichever is earlier), AND no pre-transfusion specimen available,
+  AND no validated plasma-dilution algorithm was performed → REJECT.
+  Donor ≤12 years: if any transfusion/infusion occurred AND no pre-transfusion specimen
+  AND no algorithm → REJECT.
+  If transfusion_occurred_48h = "No" → ACCEPT on this rule.
+  If pre_transfusion_specimen_available = "Yes" OR plasma_dilution_algorithm_performed =
+  "Yes" → acceptable per AATB §H12.120.
+  Missing required volume data when transfusion occurred → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H12.100"
+    - "AATB §H12.110"
+    - "AATB §H12.120"
+    - "AATB §H12.130"
+    - "AATB §H19.100"
+  cfr:
+    - "21 CFR §1271.80(b)"
+reasoning_template: >
+  Transfusion/plasma dilution evaluated. State: {state}.
+  Thresholds: >2,000 mL blood/colloids in 48h (donors >12 yrs) or any infusion
+  (≤12 yrs) triggers REJECT unless pre-transfusion specimen or validated algorithm exists.

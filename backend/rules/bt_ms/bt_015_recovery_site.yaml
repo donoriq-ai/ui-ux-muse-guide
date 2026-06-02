@@ -1,0 +1,46 @@
+id: BT-015
+version: "BT-MS-v0.2"
+title: Recovery Site Suitability
+applies: [BT, MS]
+severity: GATE
+document_type: recovery_timing_record
+inputs:
+  - key: recovery_site_documented
+    label: "Recovery Site Documented (Yes/No)"
+    reject_if: ["No"]
+  - key: recovery_site_type
+    label: "Recovery Site Type (OR/Delivery Room/Other)"
+    reject_if: []
+  - key: site_qualification_documented
+    label: "Site Qualification Documented (Yes/No/Exempt)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §D3.000–§D3.120 require that recovery and processing sites be evaluated for
+  contamination control per Appendix IV criteria (space, lighting, ventilation, pest
+  control, traffic control, decontamination, etc.). The evaluation must be documented.
+  Exception (§D3.120): recovery performed in a hospital operating room or delivery room
+  does not require a separate site evaluation.
+  AATB §H15.300 and §H15.310 require one donor per recovery room and prohibition of
+  concurrent embalming, autopsy, or other recoveries.
+  If recovery_site_documented = "No" → INDETERMINATE (cannot confirm site suitability).
+  If recovery_site_type = "OR" or "Delivery Room" → site qualification is exempt per
+  §D3.120 → ACCEPT on this rule (assuming recovery_site_documented = "Yes").
+  If recovery_site_type = "Other" and site_qualification_documented = "No" →
+  INDETERMINATE (non-exempt site requires documented qualification).
+  Missing required field → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §D3.000"
+    - "AATB §D3.100"
+    - "AATB §D3.110"
+    - "AATB §D3.120"
+    - "AATB §H15.300"
+    - "AATB §H15.310"
+    - "AATB §Appendix IV"
+  cfr:
+    - "21 CFR §1271.265(b)"
+reasoning_template: >
+  Recovery site suitability evaluated. State: {state}.
+  Hospital OR and delivery rooms are exempt from separate site evaluation (§D3.120).
+  Non-exempt sites require documented qualification. Undocumented site → INDETERMINATE.

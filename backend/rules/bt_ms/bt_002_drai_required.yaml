@@ -1,0 +1,34 @@
+id: BT-002
+version: "BT-MS-v0.1"
+title: Donor Risk Assessment Interview (DRAI) Required
+applies: [BT, MS]
+severity: HARD
+document_type: drai
+inputs:
+  - key: hiv_iv_drug_use
+    label: "High-Risk Behavior - IV Drug Use"
+    reject_if: ["Yes", "yes", "YES", "y"]
+  - key: hiv_msm
+    label: "High-Risk Behavior - MSM"
+    reject_if: ["Yes", "yes", "YES", "y"]
+  - key: high_risk_sexual
+    label: "High-Risk Sexual Behavior"
+    reject_if: ["Yes", "yes", "YES", "y"]
+  - key: recent_incarceration
+    label: "Recent Incarceration (12 months)"
+    reject_if: ["Yes", "yes", "YES", "y"]
+  - key: drai_date
+    label: "DRAI Completion Date"
+    reject_if: []
+on_missing: INDETERMINATE
+citations:
+  aatb:
+    - "AATB §D1.200"
+    - "AATB §D2.000"
+  cfr:
+    - "21 CFR §1271.75"
+    - "21 CFR §1271.85(a)"
+reasoning_template: >
+  DRAI behavioral risk assessment evaluated. State: {state}.
+  Affirmative responses to high-risk behavioral questions result in REJECT for HARD severity.
+  Absent DRAI or missing critical fields result in INDETERMINATE.

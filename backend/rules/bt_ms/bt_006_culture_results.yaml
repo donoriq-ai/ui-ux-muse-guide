@@ -1,0 +1,24 @@
+id: BT-006
+version: "BT-MS-v0.1"
+title: Culture Results Required
+applies: [BT, MS]
+severity: COND
+document_type: culture_results
+inputs:
+  - key: aerobic_culture
+    label: "Aerobic Culture Result"
+    reject_if: []
+  - key: anaerobic_culture
+    label: "Anaerobic Culture Result"
+    reject_if: []
+on_missing: INDETERMINATE
+citations:
+  aatb:
+    - "AATB §G3.000"
+  cfr:
+    - "21 CFR §1271.230"
+reasoning_template: >
+  Culture results evaluated. State: {state}.
+  Aerobic and anaerobic culture results must be documented.
+  Positive cultures require Medical Director review before acceptance.
+  Missing culture results result in INDETERMINATE.

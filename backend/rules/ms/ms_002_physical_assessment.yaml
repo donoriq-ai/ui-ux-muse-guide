@@ -1,0 +1,42 @@
+id: MS-002
+version: "BT-MS-v0.2"
+title: Postmortem Physical Assessment — Musculoskeletal
+applies: [MS]
+severity: GATE
+document_type: physical_assessment
+inputs:
+  - key: assessment_performed
+    label: "Physical Assessment Performed Before Recovery (Yes/No)"
+    reject_if: ["No"]
+  - key: appendix_iii_form_completed
+    label: "AATB Appendix III Form Completed (Yes/No)"
+    reject_if: ["No"]
+  - key: rejection_findings_present
+    label: "Rejection Findings Present (Yes/No)"
+    reject_if: ["Yes"]
+  - key: assessment_findings_summary
+    label: "Assessment Findings Summary"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §H11.000 and §H11.100 require a postmortem physical assessment of deceased donors
+  before recovery, performed by a responsible person. §H11.200 states that the assessment
+  must be documented on the AATB Appendix III form. §H11.100 lists rejection findings
+  including: STD lesions, needle tracks, lymphadenopathy, jaundice, signs of sepsis,
+  unexplained bruising, or signs inconsistent with stated cause of death.
+  If assessment_performed = "No" → INDETERMINATE (assessment required before recovery).
+  If appendix_iii_form_completed = "No" → INDETERMINATE (documentation standard violated).
+  If rejection_findings_present = "Yes" → REJECT (per §H11.100 findings list).
+  Missing required field → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H11.000"
+    - "AATB §H11.100"
+    - "AATB §H11.200"
+    - "AATB §Appendix III"
+  cfr:
+    - "21 CFR §1271.75(a)"
+reasoning_template: >
+  Postmortem physical assessment evaluated. State: {state}.
+  Assessment required before recovery; Appendix III form must be completed.
+  Rejection findings (STD lesions, needle tracks, etc.) → REJECT.

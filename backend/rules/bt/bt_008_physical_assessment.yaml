@@ -1,0 +1,44 @@
+id: BT-008
+version: "BT-MS-v0.2"
+title: Physical Examination — Birth Mother
+applies: [BT]
+severity: GATE
+document_type: physical_assessment
+inputs:
+  - key: exam_performed
+    label: "Physical Exam Performed (Yes/No)"
+    reject_if: ["No"]
+  - key: exam_date
+    label: "Examination Date"
+    reject_if: []
+  - key: delivery_date
+    label: "Delivery Date"
+    reject_if: []
+  - key: findings_abnormal
+    label: "Abnormal Findings Present (Yes/No)"
+    reject_if: ["Yes"]
+  - key: rejection_signs_present
+    label: "Signs of High-Risk Infection or IV Drug Use (Yes/No)"
+    reject_if: ["Yes"]
+on_missing: INDETERMINATE
+logic: >
+  AATB §H11.300 requires a physical examination of living donors including birth mothers.
+  AATB §H11.310 (BT) states the exam must be performed during the admission for delivery
+  or within 14 days prior to delivery. Exam must be documented.
+  If exam_performed = "No" → INDETERMINATE (not performed, cannot evaluate).
+  If findings_abnormal = "Yes" or rejection_signs_present = "Yes" (STI lesions, needle
+  tracks, jaundice, signs of sepsis) → REJECT.
+  If exam_date is more than 14 days before delivery_date and no delivery-admission exam
+  documented → INDETERMINATE.
+  Any required field missing → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H11.300"
+    - "AATB §H11.310"
+    - "AATB §Appendix III"
+  cfr:
+    - "21 CFR §1271.75(a)"
+reasoning_template: >
+  Birth mother physical examination evaluated. State: {state}.
+  Exam must occur at delivery admission or within 14 days prior.
+  Rejection signs (STI lesions, needle tracks) → REJECT. Missing exam → INDETERMINATE.

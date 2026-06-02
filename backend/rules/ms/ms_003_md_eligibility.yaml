@@ -1,0 +1,37 @@
+id: MS-003
+version: "BT-MS-v0.2"
+title: Medical Director Eligibility Determination — Musculoskeletal
+applies: [MS]
+severity: GATE
+document_type: medical_records
+inputs:
+  - key: md_eligibility_statement_present
+    label: "Signed MD Eligibility Statement Present (Yes/No)"
+    reject_if: ["No"]
+  - key: md_signature_date
+    label: "MD Signature Date"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  Identical requirement to BT-010. AATB §H19.000 and §H19.100 require the Medical
+  Director to review the full relevant donor record and produce a signed, dated
+  eligibility statement before any tissue is released for transplant.
+  AATB §H10.400 states that no tissue may be released without this determination.
+  If md_eligibility_statement_present = "No" → INDETERMINATE (release blocked).
+  This system provides decision support only; the Medical Director makes the final
+  determination off-system.
+  Missing field → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H6.100"
+    - "AATB §H10.400"
+    - "AATB §H19.000"
+    - "AATB §H19.100"
+    - "AATB §H19.200"
+    - "AATB §B6.600"
+  cfr:
+    - "21 CFR §1271.45(b)"
+    - "21 CFR §1271.50(a)"
+reasoning_template: >
+  Medical Director eligibility determination evaluated. State: {state}.
+  Signed, dated MD eligibility statement required before release. Absent → INDETERMINATE.

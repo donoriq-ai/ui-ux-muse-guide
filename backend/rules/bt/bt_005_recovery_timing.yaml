@@ -1,0 +1,31 @@
+id: BT-005
+version: "BT-MS-v0.2"
+title: Recovery Timing Documentation — Birth Tissue
+applies: [BT]
+severity: GATE
+document_type: recovery_timing_record
+inputs:
+  - key: acquisition_datetime
+    label: "Tissue Acquisition Date/Time"
+    reject_if: []
+  - key: processing_start_datetime
+    label: "Processing Start Date/Time"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  Both acquisition_datetime and processing_start_datetime must be documented.
+  Birth tissue has no asystole or time-of-death — this rule does NOT check time_of_death.
+  The interval between acquisition and processing must be documented; a maximum interval
+  is set by facility SOPM (SME-REQUIRED — not specified in AATB Standards).
+  If either field is null → INDETERMINATE (cannot confirm timely processing).
+citations:
+  aatb:
+    - "AATB §H15.410"
+    - "AATB §H15.580"
+  cfr:
+    - "21 CFR §1271.265(b)"
+reasoning_template: >
+  Birth tissue recovery timing evaluated. State: {state}.
+  Acquisition date/time and processing start date/time must both be documented.
+  Time-of-death is not applicable to birth tissue donors (live birth).
+  Missing timing documentation results in INDETERMINATE pending review.

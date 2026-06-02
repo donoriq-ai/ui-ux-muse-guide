@@ -1,0 +1,27 @@
+id: BT-003
+version: "BT-MS-v0.1"
+title: Authorization and Consent Documentation Required
+applies: [BT, MS]
+severity: GATE
+document_type: authorization_consent
+inputs:
+  - key: donor_name
+    label: "Donor Name"
+    reject_if: []
+  - key: consent_date
+    label: "Consent Date"
+    reject_if: []
+  - key: next_of_kin_name
+    label: "Next of Kin Name"
+    reject_if: []
+on_missing: INDETERMINATE
+citations:
+  aatb:
+    - "AATB §B1.000"
+    - "AATB §C1.100"
+  cfr:
+    - "21 CFR §1271.60"
+reasoning_template: >
+  Authorization and consent documentation evaluated. State: {state}.
+  Consent must be documented with donor or next-of-kin identification and date.
+  Missing documentation gates further processing.

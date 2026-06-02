@@ -1,0 +1,40 @@
+id: MS-005-RT
+version: "BT-MS-v0.2"
+title: Recovery Timing — Musculoskeletal (Asystole to Skin Prep)
+applies: [MS]
+severity: GATE
+document_type: recovery_timing_record
+inputs:
+  - key: time_of_death
+    label: "Time of Death / Asystole"
+    reject_if: []
+  - key: skin_prep_start_datetime
+    label: "Skin Prep Start Date/Time"
+    reject_if: []
+  - key: body_cooled_within_12h
+    label: "Body Cooled Within 12 Hours of Asystole (Yes/No)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §H15.450 establishes skin-prep initiation limits relative to asystole:
+  - If body was cooled/refrigerated within 12 hours of asystole: skin prep must begin
+    within 24 hours of asystole.
+  - If body was NOT cooled within 12 hours: skin prep must begin within 15 hours of asystole.
+  - Uncooled cumulative periods cannot exceed 15 hours if alternating cooled/uncooled.
+  Calculate the interval from time_of_death to skin_prep_start_datetime.
+  If body_cooled_within_12h = "Yes" and interval > 24h → REJECT.
+  If body_cooled_within_12h = "No" and interval > 15h → REJECT.
+  If any required field is missing → INDETERMINATE.
+  Note: full recovery completion window beyond skin prep initiation is
+  bank-validated per SOPM (SME-REQUIRED).
+citations:
+  aatb:
+    - "AATB §H15.310"
+    - "AATB §H15.450"
+    - "AATB §definitions:ASYSTOLE"
+  cfr:
+    - "21 CFR §1271.265(b)"
+reasoning_template: >
+  MS recovery timing evaluated against AATB §H15.450 limits.
+  State: {state}. Skin prep must begin ≤24h from asystole if body was cooled within
+  12h of death, or ≤15h if not cooled. Missing timing documentation → INDETERMINATE.

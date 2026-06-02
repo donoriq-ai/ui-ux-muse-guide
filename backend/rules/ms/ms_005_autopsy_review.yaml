@@ -1,0 +1,42 @@
+id: MS-005
+version: "BT-MS-v0.2"
+title: Autopsy Report Review — Musculoskeletal
+applies: [MS]
+severity: GATE
+document_type: autopsy_report
+inputs:
+  - key: autopsy_performed
+    label: "Autopsy Performed (Yes/No/Unknown)"
+    reject_if: []
+  - key: autopsy_reviewed_by_md
+    label: "Autopsy Report Reviewed by Medical Director (Yes/No)"
+    reject_if: []
+  - key: autopsy_infectious_findings
+    label: "Infectious or Concerning Autopsy Findings (Yes/No)"
+    reject_if: ["Yes"]
+on_missing: INDETERMINATE
+logic: >
+  AATB §H19.400 states that if an autopsy was performed the Medical Director must
+  review the autopsy report or summary before the tissue is released to inventory.
+  If autopsy_performed = "Yes" and autopsy_reviewed_by_md = "No" → INDETERMINATE
+  (release blocked until MD reviews report).
+  If autopsy_performed = "Yes" and autopsy_reviewed_by_md = "Yes" and
+  autopsy_infectious_findings = "Yes" → INDETERMINATE (MD must assess whether the
+  findings affect donor eligibility; this system cannot make that determination).
+  If autopsy_performed = "No" or "Unknown" → ACCEPT on this rule (no review required
+  for absent autopsy, but COD documentation remains required under MS-004).
+  Provisional release without autopsy is allowed per AATB §B5.210 when report is
+  not yet available; document end-user acknowledgment in that case.
+  Missing field → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H19.400"
+    - "AATB §H19.410"
+    - "AATB §H19.420"
+    - "AATB §B5.210"
+  cfr:
+    - "21 CFR §1271.75(a)"
+reasoning_template: >
+  Autopsy report review evaluated. State: {state}.
+  If autopsy was performed, MD must review before inventory release.
+  Concerning infectious findings require MD eligibility assessment.

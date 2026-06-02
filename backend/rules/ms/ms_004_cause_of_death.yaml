@@ -1,0 +1,39 @@
+id: MS-004
+version: "BT-MS-v0.2"
+title: Cause of Death Documentation — Musculoskeletal
+applies: [MS]
+severity: GATE
+document_type: death_certificate
+inputs:
+  - key: cause_of_death_documented
+    label: "Cause of Death Documented (Yes/No)"
+    reject_if: ["No"]
+  - key: cause_of_death
+    label: "Cause of Death"
+    reject_if: []
+  - key: death_certificate_present
+    label: "Death Certificate Present (Yes/No)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §B6.600 states that the donor record must indicate a cause of death.
+  AATB §H19.300 requires that if no third-party records establish the likely cause of
+  death and no autopsy was performed, a certified death certificate (or verified copy)
+  must be in the donor record. AATB Appendix II item 26 excludes donors where COD
+  cannot be determined and other exclusionary criteria are likely.
+  If cause_of_death_documented = "No" → INDETERMINATE (record incomplete; cannot
+  confirm donor eligibility without COD documentation).
+  COD review is part of MD eligibility determination (BT-010 / H19.100).
+  Missing required field → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H19.300"
+    - "AATB §B6.600"
+    - "AATB §Appendix II item 26"
+    - "AATB §H19.100"
+  cfr:
+    - "21 CFR §1271.75(a)"
+reasoning_template: >
+  Cause of death documentation evaluated. State: {state}.
+  COD must be documented; death certificate required when third-party records and
+  autopsy are absent. Undocumented COD → INDETERMINATE.

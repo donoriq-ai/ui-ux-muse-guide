@@ -1,0 +1,35 @@
+id: BT-001
+version: "BT-MS-v0.1"
+title: Infectious Disease Testing Required
+applies: [BT, MS]
+severity: HARD
+document_type: idt_report
+inputs:
+  - key: hiv_result
+    label: "HIV-1/2 Result"
+    reject_if: ["Reactive", "reactive", "REACTIVE", "Positive", "positive"]
+  - key: hbsag_result
+    label: "Hepatitis B Surface Antigen"
+    reject_if: ["Reactive", "reactive", "REACTIVE", "Positive", "positive"]
+  - key: hcv_result
+    label: "Hepatitis C Antibody"
+    reject_if: ["Reactive", "reactive", "REACTIVE", "Positive", "positive"]
+  - key: htlv_result
+    label: "HTLV-I/II Result"
+    reject_if: ["Reactive", "reactive", "REACTIVE", "Positive", "positive"]
+  - key: syphilis_result
+    label: "Syphilis RPR"
+    reject_if: ["Reactive", "reactive", "REACTIVE", "Positive", "positive"]
+on_missing: INDETERMINATE
+citations:
+  aatb:
+    - "AATB §D1.100"
+    - "AATB §D3.000"
+  cfr:
+    - "21 CFR §1271.85"
+    - "21 CFR §1271.90"
+reasoning_template: >
+  Required infectious disease markers evaluated. State: {state}.
+  Each required serological test result was checked against acceptance criteria.
+  Reactive results on HARD markers result in REJECT.
+  Missing results result in INDETERMINATE per on_missing policy.

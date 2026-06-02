@@ -1,3 +1,22 @@
+# Environment — never commit secrets
+.env
+.env.local
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.venv/
+venv/
+
+# Uploaded donor PDFs — PHI, dev-only local storage. Never commit.
+backend/storage/
+storage/
+
 # Logs
 logs
 *.log

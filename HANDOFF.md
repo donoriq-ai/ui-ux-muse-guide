@@ -1,53 +1,64 @@
-# TissueQA — Handoff to Cursor (FastAPI backend)
+# TissueQA — Frontend → Backend Handoff Notes
 
 ## What this is
 
-TissueQA is a tissue-donor eligibility review prototype. Coordinators upload donor documents (consent, DRAI, IDT, medical records, etc.), the system extracts fields, evaluates them against a versioned ruleset (BT/MS), and produces an `ACCEPT | REJECT | INDETERMINATE` recommendation with citations. Medical Directors review and sign off.
+TissueQA is a tissue-donor eligibility review prototype. Coordinators upload donor
+documents (consent, DRAI, IDT, medical records, etc.), the system extracts fields,
+evaluates them against a versioned ruleset (BT/MS), and produces an
+`ACCEPT | REJECT | INDETERMINATE` recommendation with citations.
+Medical Directors review and sign off.
 
-Built in Lovable. Frontend is **feature-complete** against the original spec (`donoriq-prompt.md`). The backend is the next job — that's what you're picking up.
+The frontend is **feature-complete**. The backend is scaffolded and running locally.
 
-## Stack
+## Repo structure
 
-- **Frontend**: React 19 + TanStack Start (Vite 7), Tailwind v4, shadcn/ui
-- **Routing**: file-based under `src/routes/` (auto-generated `routeTree.gen.ts` — do not edit)
-- **Data layer**: every component calls `src/lib/api/mockApi.ts`. In-memory store, ~400 ms simulated latency, seeded from `src/lib/api/seed.ts`.
-- **Types**: `src/lib/api/types.ts` — these are the canonical schemas. Match them on the server.
-
-## Your job
-
-Replace `mockApi.ts` with a real HTTP client pointing at a FastAPI backend that implements **`docs/api-contract.md`**. That document is the single source of truth — endpoints, request/response shapes, JWT claims, error envelope, upload contract, audit vocabulary, ruleset versioning. Every function in `mockApi.ts` has a `// FastAPI: METHOD /path` comment matching the contract.
+```
+/
+├── frontend/          # React 19 + TanStack Start (Vite 7)
+│   ├── src/
+│   │   ├── routes/    # file-based routing (routeTree.gen.ts is auto-generated)
+│   │   └── lib/api/   # mockApi.ts, httpApi.ts, client.ts, types.ts
+│   ├── vite.config.ts
+│   └── package.json
+├── backend/           # Python 3.12 + FastAPI
+│   ├── app/
+│   ├── rules/
+│   └── pyproject.toml
+├── docs/              # api-contract.md, specs
+└── docker-compose.yml # Postgres 16 on :5433
+```
 
 ## Key files
 
-| File                          | Why it matters                                            |
-|-------------------------------|------------------------------------------------------------|
-| `docs/api-contract.md`        | **Read this first.** Full API spec.                        |
-| `src/lib/api/types.ts`        | Canonical TS types — mirror on the server.                 |
-| `src/lib/api/mockApi.ts`      | The seam to replace. 23 functions, 1:1 with endpoints.     |
-| `src/lib/api/seed.ts`         | Sample data shapes — useful for backend fixtures.          |
-| `.lovable/plan.md`            | Build history / phase notes.                               |
-| `docs/design-system.md`       | Design tokens (not relevant to backend work).              |
+| File | Why it matters |
+|------|----------------|
+| `docs/api-contract.md` | **Read this first.** Full API spec. |
+| `frontend/src/lib/api/types.ts` | Canonical TS types — mirrored by backend Pydantic schemas. |
+| `frontend/src/lib/api/mockApi.ts` | The in-memory mock (23 functions, 1:1 with endpoints). |
+| `frontend/src/lib/api/httpApi.ts` | Real HTTP client for FastAPI — mirrors mockApi interface. |
+| `frontend/src/lib/api/client.ts` | Selector: routes to mockApi or httpApi via `VITE_USE_MOCK_API`. |
 
-## Prototype-only — do NOT port
+## Prototype-only — do NOT port to production
 
-- `POST /auth/role` (`setRole`) — UI role switcher
-- `nextDonorId()` — client-side ID generation; move to server sequence
+- `POST /auth/role` (`setRole`) — UI role switcher; not a real auth endpoint
+- `nextDonorId()` — client-side ID generation; server uses DB sequences
 - Hardcoded `RULESET_VERSION = "BT-MS-v0.1"` — server returns it on each evaluation
-- "Synthetic data — prototype only" banner — gate on `VITE_USE_MOCK_API`
-- `login` accepts any password — wire to real auth
+- `login` accepts any password — must be wired to real auth
 
 ## Running locally
 
+See `RUNBOOK.md` for full setup. Quick start:
+
 ```bash
-bun install
-bun dev
-```
+# Database
+docker compose up -d
 
-No `.env` required in mock mode. When the real backend is up, set:
+# Backend (cwd: backend/)
+uv sync && uv run alembic upgrade head
+uv run uvicorn app.main:app --reload
 
-```
-VITE_API_BASE_URL=http://localhost:8000
-VITE_USE_MOCK_API=false
+# Frontend (cwd: frontend/)
+bun install && bun dev
 ```
 
 ## Out of scope for v0.1

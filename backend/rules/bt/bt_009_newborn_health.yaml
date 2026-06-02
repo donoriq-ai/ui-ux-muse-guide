@@ -1,0 +1,40 @@
+id: BT-009
+version: "BT-MS-v0.2"
+title: Health of the Newborn Assessment
+applies: [BT]
+severity: GATE
+document_type: birth_delivery_summary
+inputs:
+  - key: newborn_health_assessment_present
+    label: "Newborn Health Assessment Documented (Yes/No)"
+    reject_if: ["No"]
+  - key: active_neonatal_infection
+    label: "Active Neonatal Infection at Delivery (Yes/No)"
+    reject_if: ["Yes"]
+  - key: birth_complications_noted
+    label: "Significant Birth Complications Noted (Yes/No)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §H9.200 requires assessment of newborn health for information that could affect
+  tissue quality or safety. This assessment must be performed and documented.
+  If newborn_health_assessment_present = "No" → INDETERMINATE (assessment absent, cannot
+  evaluate — Medical Director review required).
+  If active_neonatal_infection = "Yes" at time of delivery → INDETERMINATE (Medical
+  Director eligibility review required per H19.000).
+  NOTE: AATB §H9.200 does not specify a numeric APGAR cutoff. Any APGAR-based threshold
+  must come from facility SOPM (SME-REQUIRED). Do not fabricate an APGAR limit.
+  Appendix II item 6: infants ≤18 months born to infected/at-risk mothers → exclusion
+  evaluation via maternal screening, not a newborn health rule per se.
+  Missing required field → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H9.200"
+    - "AATB §H19.120"
+    - "AATB §Appendix II item 6"
+  cfr:
+    - "21 CFR §1271.75(a)"
+reasoning_template: >
+  Newborn health assessment evaluated. State: {state}.
+  Assessment documentation required; active neonatal infection at delivery requires MD
+  review. No numeric APGAR threshold is specified in AATB Standards.

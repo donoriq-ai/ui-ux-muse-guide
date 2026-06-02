@@ -1,0 +1,41 @@
+id: MS-008
+version: "BT-MS-v0.2"
+title: Culture — Clostridium and Group A Streptococcus (Musculoskeletal)
+applies: [MS]
+severity: HARD
+document_type: culture_results
+inputs:
+  - key: clostridium_result
+    label: "Clostridium Culture Result"
+    reject_if: ["Positive", "Detected", "Growth"]
+  - key: group_a_strep_result
+    label: "Group A Streptococcus (S. pyogenes) Culture Result"
+    reject_if: ["Positive", "Detected", "Growth"]
+  - key: validated_sterilization_performed
+    label: "Validated Sterilization/Disinfection Performed Post-Positive (Yes/No)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §H24.100 and §H25.210 identify Clostridium and Streptococcus pyogenes (Group A
+  Strep) as pathogens that require discard of MS tissue unless validated sterilization
+  or disinfection has been performed. Cross-contaminated tissues from the same donor
+  are also subject to the same rule (§H25.210).
+  If clostridium_result indicates growth/positive AND validated_sterilization_performed
+  is "No" or missing → REJECT.
+  If group_a_strep_result indicates growth/positive AND validated_sterilization_performed
+  is "No" or missing → REJECT.
+  If either pathogen positive AND validated_sterilization_performed = "Yes" →
+  INDETERMINATE (Medical Director must confirm sterilization adequacy).
+  Missing culture results → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H24.100"
+    - "AATB §H25.210"
+    - "AATB §H25.400"
+    - "AATB §Appendix IV"
+  cfr:
+    - "21 CFR §1271.230(a)"
+reasoning_template: >
+  Clostridium and Group A Strep culture results evaluated. State: {state}.
+  Positive result without validated sterilization → REJECT. Post-sterilization positive
+  requires MD confirmation → INDETERMINATE.

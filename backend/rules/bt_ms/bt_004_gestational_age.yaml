@@ -1,0 +1,24 @@
+id: BT-004
+version: "BT-MS-v0.1"
+title: Gestational Age at Delivery (Birth Tissue Only)
+applies: [BT]
+severity: HARD
+document_type: birth_delivery_summary
+inputs:
+  - key: gestational_age_weeks
+    label: "Gestational Age at Delivery (weeks)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  gestational_age_weeks must be a number.
+  A value below the tenant gestationalAgePolicyWeeks threshold results in REJECT.
+  Evaluator applies the threshold from tenant settings (default: 20 weeks).
+citations:
+  aatb:
+    - "AATB §E2.100"
+  cfr:
+    - "21 CFR §1271.85(b)"
+reasoning_template: >
+  Gestational age eligibility evaluated. State: {state}.
+  The gestational age at delivery was checked against the facility policy threshold.
+  Insufficient gestational age is a HARD disqualifier for birth tissue.

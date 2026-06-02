@@ -158,17 +158,21 @@ Standard codes:
   - `file`: PDF (required)
   - Max size: **50 MB** (suggested). Returns **413** above.
   - Allowed MIME: `application/pdf` only. Otherwise **415**.
-- **200**:
+- **200** (accepted — split runs in the background):
   ```json
-  {
-    "classifications": [
-      { "type": "authorization_consent", "pageRange": [1,2], "confidence": 0.95 },
-      { "type": "drai",                  "pageRange": [3,6], "confidence": 0.92 }
-    ]
-  }
+  { "classifications": [] }
   ```
-- **Audit**: `document.combined_uploaded`.
-- **Async job pattern**: classification runs inline (fast). Per-document extraction then runs asynchronously — clients poll `GET /donors/{id}` and read `documents[].status` (`processing → extracted | error`). Webhook delivery is out of scope for v0.1.
+  The packet is split asynchronously (deep split can take minutes). `classifications`
+  is returned empty; the detected sections appear as `documents[]` once the background
+  job completes. Clients **must poll** `GET /donors/{id}` and `GET /audit?donorId=...`.
+- **Audit lifecycle**:
+  - `document.upload_started` — written immediately when the packet is received (splitting).
+  - `document.combined_uploaded` — written when the split completes (`"<file> (N sections detected)"`).
+  - `document.upload_failed` — written if the split fails (clients should surface an error and allow re-upload).
+- **Async job pattern**: split + per-document extraction both run asynchronously. Clients
+  derive progress purely from backend state: an `document.upload_started` with no
+  `documents[]` yet means "splitting"; then `documents[].status` (`processing → extracted | error`)
+  drives per-section progress. Webhook delivery is out of scope for v0.1.
 
 #### `POST /donors/{id}/documents`
 - **Request**: `multipart/form-data`
@@ -176,6 +180,16 @@ Standard codes:
   - `type`: `DocumentType` (required)
 - **200**: `DonorDocument` (initial `status: "processing"`; flips to `"extracted"` once the async job completes).
 - **Audit**: `document.uploaded`.
+
+#### `GET /donors/{donorId}/documents/{documentId}/pages/{page}`
+- Renders the cited page of the stored source PDF as an image, so citation viewers
+  show the real uploaded document (not a synthetic preview).
+- **Path params**: `page` is 1-indexed and absolute within the stored PDF (matches `Citation.page`).
+- **200**: `image/png` (page rendered at 150 DPI). Requires `Authorization: Bearer <jwt>`.
+- **Errors**: **404** `NOT_FOUND` when the document or its stored PDF does not exist
+  (e.g. donors created before PDF storage existed — clients fall back to a synthetic preview);
+  **500** `RENDER_FAILED` if rendering fails.
+- **Audit**: none (read-only).
 
 #### `POST /donors/{id}/evaluate`
 - **Body**: none.
@@ -200,7 +214,8 @@ Standard codes:
 Action vocabulary (extend as needed, but keep stable for filtering):
 `auth.login`, `auth.signup`, `auth.logout`, `auth.password_reset_requested`, `auth.password_reset`,
 `donor.created`, `donor.reviewed`,
-`document.uploaded`, `document.combined_uploaded`,
+`document.uploaded`, `document.upload_started`, `document.combined_uploaded`, `document.upload_failed`,
+`evaluation.started`, `evaluation.completed`, `evaluation.failed`,
 `evaluation.completed`,
 `field.reviewed`, `field.unreviewed`,
 `user.role_changed`, `settings.updated`.

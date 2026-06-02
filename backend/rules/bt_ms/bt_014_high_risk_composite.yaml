@@ -1,0 +1,39 @@
+id: BT-014
+version: "BT-MS-v0.2"
+title: Comprehensive High-Risk Behavior Review (Composite)
+applies: [BT, MS]
+severity: HARD
+document_type: drai
+inputs:
+  - key: high_risk_behavior_composite
+    label: "Composite High-Risk Flag from DRAI + Physical + Records (Yes/No/Inconsistent)"
+    reject_if: ["Yes"]
+  - key: source_inconsistency
+    label: "Inconsistency Between DRAI, Physical, and Medical Records (Yes/No)"
+    reject_if: []
+on_missing: INDETERMINATE
+logic: >
+  AATB §H19.500 states that no tissue may be distributed if the donor or birth mother
+  engaged in behaviors listed in Appendix II, and that determination must draw on three
+  source types: the DRAI, physical assessment/examination, and relevant medical records.
+  AATB §H19.600 prohibits finding eligibility when active infection and/or Appendix II
+  risk factors are identified.
+  If high_risk_behavior_composite = "Yes" (any source confirms Appendix II behavior) →
+  REJECT.
+  If source_inconsistency = "Yes" (different sources give conflicting information about
+  high-risk behavior) → INDETERMINATE (Medical Director cross-review required).
+  This rule is a cross-document synthesis check that supplements BT-002 (DRAI fields).
+  Missing composite field → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H19.500"
+    - "AATB §H19.600"
+    - "AATB §H10.100"
+    - "AATB §H10.500"
+    - "AATB §Appendix II"
+  cfr:
+    - "21 CFR §1271.75(a)(b)"
+reasoning_template: >
+  High-risk behavior composite review evaluated. State: {state}.
+  Any Appendix II risk confirmed across DRAI + physical + medical records → REJECT.
+  Cross-source inconsistency → INDETERMINATE for Medical Director review.

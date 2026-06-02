@@ -1,0 +1,36 @@
+id: MS-001
+version: "BT-MS-v0.2"
+title: NAT Panel — HIV-1, HCV, HBV (Musculoskeletal)
+applies: [MS]
+severity: HARD
+document_type: idt_report
+inputs:
+  - key: hiv1_nat
+    label: "HIV-1 NAT Result"
+    reject_if: ["Reactive", "Positive", "Repeatedly Reactive"]
+  - key: hcv_nat
+    label: "HCV NAT Result"
+    reject_if: ["Reactive", "Positive", "Repeatedly Reactive"]
+  - key: hbv_nat
+    label: "HBV NAT Result"
+    reject_if: ["Reactive", "Positive", "Repeatedly Reactive"]
+on_missing: INDETERMINATE
+logic: >
+  HIV-1 NAT, HCV NAT, and HBV NAT are universally required for all allogeneic
+  transplant tissue donors including musculoskeletal donors (AATB §H12.600 items 2–4).
+  Any reactive or positive result → REJECT.
+  WNV NAT applies to living donors (AATB §H12.610) and is NOT universally required for
+  deceased MS donors. WNV behavioral screening applies via BT-002 / Appendix II item 19.
+  Any of the three required NATs missing → INDETERMINATE.
+citations:
+  aatb:
+    - "AATB §H12.600"
+    - "AATB §H12.610"
+    - "AATB §H19.700"
+  cfr:
+    - "21 CFR §1271.80(a)"
+    - "21 CFR §1271.85(b)"
+reasoning_template: >
+  MS NAT panel evaluated. State: {state}.
+  HIV-1, HCV, and HBV NAT required for all MS tissue donors. Any reactive → REJECT.
+  WNV NAT is not universally required for deceased donors (living-donor rule per §H12.610).
