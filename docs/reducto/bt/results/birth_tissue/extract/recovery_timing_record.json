@@ -1,0 +1,223 @@
+{
+  "result": {
+    "acquisition_datetime": {
+      "value": "2025-05-12T14:30:00",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.3341543513957307,
+            "top": 0.3224592220828105,
+            "width": 0.0960591133004926,
+            "height": 0.02446675031367629,
+            "page": 5,
+            "original_page": 5
+          },
+          "content": "Date Tissue Picked Up: 5/12/25 and Time: 14:30 in the Acquisition section",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11682939451120561,
+              "top": 0.1892459922034289,
+              "width": 0.7412036338267459,
+              "height": 0.20775009787067714,
+              "page": 5,
+              "original_page": 5
+            },
+            "content": "Donation:\nDonor ID: 02364\nDelivery or Circ Date/Time: 5/12/25 1149\nSource Hospital #: 001\nBirth Tissue Type:\n[x] Whole Placenta\n[ ] Foreskin\n[ ] Cord Blood\n[ ] Maternal Blood Only\nHospital Storage Location #: TRF09\nTemp:\n[x] Refrig\n[ ] Frozen\n[ ] Ambient\nAcquisition:\nDate Tissue Picked Up: 5/12/25\nTime: 14:30\nStaff Initial: KM\nTransported to Lab #: 02\nCheck in Date: 5/12/25\nTime: 14:45\nCardinal Storage Location #: RF06\nTemp:\n[x] Refrig\n[ ] Frozen\n[ ] Ambient",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "processing_start_datetime": {
+      "value": "2025-05-13T09:30:00",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.2651888341543514,
+            "top": 0.5489335006273526,
+            "width": 0.09523809523809523,
+            "height": 0.014429109159347586,
+            "page": 5,
+            "original_page": 5
+          },
+          "content": "Start Date: 5-13-25 and Start Time: 0930 in the Whole Placenta processing section",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.12034231101350831,
+              "top": 0.5008985263341045,
+              "width": 0.7747043803799133,
+              "height": 0.1354147266115119,
+              "page": 5,
+              "original_page": 5
+            },
+            "content": "Processing: BSC #: 04\nif storing tissue frozen for future sale still assign a Lot #\n[x] Whole Placenta\n[ ] With Cord\n[x] Without Cord\n[x] Without Amnion/Chorion\nStart Date: 5-13-25\nWash Solution Type: N/A\nStart Time: 0930\nFinish Time: 0950\nStaff Initial: MK\n[x] Discarded - Reason: unusable\nStorage Location #: FF07\nAssigned Lot #: n/a\nStaff Initial: LK",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "recovery_site_documented": {
+      "value": "Yes",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.6810079990009973,
+            "top": 0.6343870413199147,
+            "width": 0.03220965813116161,
+            "height": 0.008916880358051271,
+            "page": 18,
+            "original_page": 18
+          },
+          "content": "Tissue procured from an established hospital: [x] Qualified Delivery Suite",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11727795510854194,
+              "top": 0.5424778198844926,
+              "width": 0.7055905801952801,
+              "height": 0.18144373587152715,
+              "page": 18,
+              "original_page": 18
+            },
+            "content": "Tissue procured from an established hospital:\n[x] Qualified Delivery Suite\n[ ] Qualified OR\nDelivery to End Acquisition Time: 22h 1m\n\nWas there an Infusion/Transfusion in 48 hours prior to serology blood draws:\n[ ] YES\n[x] NO\nIf yes, what was the volume of colloid + crystalloid +blood received? N/A mL\nHemodilution Factor: N/A (If other than N/A, please see attached for calculations)\nAdditional Testing #s: (place stickers below where applicable)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "recovery_site_type": {
+      "value": "Delivery Room",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.1977481569678742,
+            "top": 0.5632108892028861,
+            "width": 0.18321271945586684,
+            "height": 0.013025588165601065,
+            "page": 18,
+            "original_page": 18
+          },
+          "content": "[x] Qualified Delivery Suite checkbox selected under Tissue procured from an established hospital",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11727795510854194,
+              "top": 0.5424778198844926,
+              "width": 0.7055905801952801,
+              "height": 0.18144373587152715,
+              "page": 18,
+              "original_page": 18
+            },
+            "content": "Tissue procured from an established hospital:\n[x] Qualified Delivery Suite\n[ ] Qualified OR\nDelivery to End Acquisition Time: 22h 1m\n\nWas there an Infusion/Transfusion in 48 hours prior to serology blood draws:\n[ ] YES\n[x] NO\nIf yes, what was the volume of colloid + crystalloid +blood received? N/A mL\nHemodilution Factor: N/A (If other than N/A, please see attached for calculations)\nAdditional Testing #s: (place stickers below where applicable)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "site_qualification_documented": {
+      "value": "Exempt",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.1977481569678742,
+            "top": 0.5632108892028861,
+            "width": 0.18321271945586684,
+            "height": 0.013025588165601065,
+            "page": 18,
+            "original_page": 18
+          },
+          "content": "[x] Qualified Delivery Suite indicating delivery room type, which is exempt from separate site qualification",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11727795510854194,
+              "top": 0.5424778198844926,
+              "width": 0.7055905801952801,
+              "height": 0.18144373587152715,
+              "page": 18,
+              "original_page": 18
+            },
+            "content": "Tissue procured from an established hospital:\n[x] Qualified Delivery Suite\n[ ] Qualified OR\nDelivery to End Acquisition Time: 22h 1m\n\nWas there an Infusion/Transfusion in 48 hours prior to serology blood draws:\n[ ] YES\n[x] NO\nIf yes, what was the volume of colloid + crystalloid +blood received? N/A mL\nHemodilution Factor: N/A (If other than N/A, please see attached for calculations)\nAdditional Testing #s: (place stickers below where applicable)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    }
+  },
+  "usage": {
+    "num_fields": 5,
+    "num_pages": 3,
+    "credits": 30.5,
+    "extract_mode": "super_agent"
+  },
+  "job_id": "99075d4d-aa1c-4b95-9eef-7cb6df09fb40",
+  "studio_link": "https://studio.reducto.ai/job/99075d4d-aa1c-4b95-9eef-7cb6df09fb40",
+  "response_type": "v3_extract"
+}

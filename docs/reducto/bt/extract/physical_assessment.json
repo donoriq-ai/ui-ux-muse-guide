@@ -1,0 +1,58 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "exam_performed": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether a physical examination of the birth mother was performed"
+        },
+        "exam_date": {
+          "type": "string",
+          "description": "Date of the birth mother physical examination (ISO 8601)"
+        },
+        "delivery_date": {
+          "type": "string",
+          "description": "Date of delivery (ISO 8601), used to check the 14-day pre-delivery exam window"
+        },
+        "exam_during_delivery_admission": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether the physical examination was performed during admission for delivery"
+        },
+        "visible_lesions": {
+          "type": "string",
+          "description": "Visible lesion observations"
+        },
+        "findings_abnormal": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether abnormal findings were documented on the birth mother exam"
+        },
+        "rejection_signs_present": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether rejection signs are present (STI/genital lesions, needle track marks, jaundice, lymphadenopathy, signs of sepsis, unexplained bruising)"
+        }
+      },
+      "required": [
+        "exam_performed",
+        "exam_date",
+        "delivery_date",
+        "exam_during_delivery_admission",
+        "visible_lesions",
+        "findings_abnormal",
+        "rejection_signs_present"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Physical Assessment (Birth Tissue — Birth Mother)\nExtraction instructions: This is the physical examination of the birth mother for a birth tissue donor. exam_performed must be 'Yes' or 'No'. exam_during_delivery_admission: 'Yes' if the exam was performed during admission for delivery, 'No' otherwise. Capture exam_date and delivery_date so the 14-day pre-delivery window can be checked. rejection_signs_present: 'Yes' if any of the following are documented — STI/genital lesions, needle track marks, jaundice, lymphadenopathy, signs of sepsis, unexplained bruising; 'No' if explicitly clear. findings_abnormal: 'Yes' if any abnormality is noted; 'No' if explicitly normal. All Yes/No fields must use exactly 'Yes' or 'No'. Return null if not explicitly documented."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "aerobic_culture": {
+          "type": "string",
+          "description": "Aerobic culture result (e.g. No Growth, Negative, or organism name)"
+        },
+        "anaerobic_culture": {
+          "type": "string",
+          "description": "Anaerobic culture result"
+        },
+        "clostridium_result": {
+          "type": "string",
+          "enum": ["Positive", "Negative", "No Growth", "Not Performed", "Detected", "Not Detected", "Growth"],
+          "description": "Clostridium culture result (MS-specific mandatory pathogen per AATB §H24.100)"
+        },
+        "group_a_strep_result": {
+          "type": "string",
+          "enum": ["Positive", "Negative", "No Growth", "Not Performed", "Detected", "Not Detected", "Growth"],
+          "description": "Group A Streptococcus (S. pyogenes) culture result (MS-specific mandatory pathogen per AATB §H24.100, §H25.210)"
+        },
+        "validated_sterilization_performed": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether validated sterilization or disinfection was performed after a positive Clostridium or GAS culture result"
+        },
+        "culture_date": {
+          "type": "string",
+          "description": "Date cultures were taken (ISO 8601)"
+        },
+        "culture_release_approved": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether Medical Director approved culture results for release"
+        }
+      },
+      "required": [
+        "aerobic_culture",
+        "anaerobic_culture",
+        "clostridium_result",
+        "group_a_strep_result",
+        "validated_sterilization_performed",
+        "culture_date",
+        "culture_release_approved"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Culture Results\nExtraction instructions: Extract aerobic, anaerobic, Clostridium, and Group A Strep results using exact enum values: Positive, Negative, No Growth, Not Performed, Detected, Not Detected, Growth. Do not paraphrase — match enum values exactly or return null. culture_release_approved: 'Yes' if Medical Director approval is documented, 'No' if refused, null if not mentioned. validated_sterilization_performed: 'Yes' if documented, 'No' if not."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

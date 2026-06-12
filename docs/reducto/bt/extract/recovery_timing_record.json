@@ -1,0 +1,47 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "acquisition_datetime": {
+          "type": "string",
+          "description": "Date and time birth tissue was acquired/collected (ISO 8601) — birth tissue is from a living donor; there is no time of death or asystole"
+        },
+        "processing_start_datetime": {
+          "type": "string",
+          "description": "Date and time processing began (ISO 8601)"
+        },
+        "recovery_site_documented": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether the recovery site is documented in the record"
+        },
+        "recovery_site_type": {
+          "type": "string",
+          "enum": ["OR", "Delivery Room", "Other"],
+          "description": "Type of recovery site (OR and Delivery Room are exempt from separate site evaluation)"
+        },
+        "site_qualification_documented": {
+          "type": "string",
+          "enum": ["Yes", "No", "Exempt"],
+          "description": "Whether site qualification is documented or exempt (OR/Delivery Room)"
+        }
+      },
+      "required": [
+        "acquisition_datetime",
+        "processing_start_datetime",
+        "recovery_site_documented",
+        "recovery_site_type",
+        "site_qualification_documented"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Recovery Timing Record (Birth Tissue)\nExtraction instructions: Birth tissue is recovered from a living donor — do NOT look for or extract a time of death or asystole. Extract acquisition_datetime and processing_start_datetime as ISO 8601 strings. recovery_site_type must be exactly 'OR', 'Delivery Room', or 'Other'. recovery_site_documented must be 'Yes' or 'No'. site_qualification_documented must be 'Yes', 'No', or 'Exempt' (OR and Delivery Room are exempt from separate site evaluation). Return null for any field not explicitly present."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

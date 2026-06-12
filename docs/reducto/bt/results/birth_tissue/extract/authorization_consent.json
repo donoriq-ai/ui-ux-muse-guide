@@ -1,0 +1,223 @@
+{
+  "result": {
+    "birth_mother_name": {
+      "value": "",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.2289537095709307,
+            "top": 0.22922282682046186,
+            "width": 0.01906138614631736,
+            "height": 0.010792694845638884,
+            "page": 7,
+            "original_page": 7
+          },
+          "content": "Birth Mother Name: field showing a handwritten signature (not OCR-readable as text)",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.07767650416907933,
+              "top": 0.20714668801876418,
+              "width": 0.8397083116959744,
+              "height": 0.13485413780612515,
+              "page": 7,
+              "original_page": 7
+            },
+            "content": "Birth Mother Name: <signature>\nDate/Time Interviewed: 5/12/25\nAddress: <empty>\n<empty>\nPhone: <empty>\nEmail: <empty>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "consent_date": {
+      "value": "2025-05-15",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.614646111670311,
+            "top": 0.8859280286311227,
+            "width": 0.1001176060693082,
+            "height": 0.03635440735625839,
+            "page": 7,
+            "original_page": 7
+          },
+          "content": "Date: 5/15/25 appearing after 'Donor Signature: (Or Donor Rep.) <signature>'",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.07237076973724918,
+              "top": 0.5634796982978965,
+              "width": 0.8479374323745649,
+              "height": 0.36949756567705916,
+              "page": 7,
+              "original_page": 7
+            },
+            "content": "My or my donor representative's signature below represents I understand what I have read/had explained and give Cardinal Biologicals, Inc.\ninformed consent to donate my birth tissues, (for the above-mentioned uses), obtain blood and information from my physician and hospital\nin the birth donation process to determine the medical eligibility and acceptability of my donated birth tissue including:\n1. Any medical information (pertaining to this donation), including hospital records, prenatal screening records, laboratory testing,\ndelivery records and any other information covered in the Health Insurance Portability and Accountability Act (HIPAA).\n2. A completed Medical Social History interview/(Donor Risk Assessment Interview \"DRAI\") as well as provide blood samples for eligibility\nscreening. Confirmed positive test results will be reported to my physician and to appropriate\nhealth officials as required by law.\n3. Neither coercion nor inaccurate information has been used in any manner to obtain my informed consent. I am not currently under the\ninfluence of any drugs or anesthesia; I understand what I have read or had explained to me and\nI have been given the opportunity to ask questions as it relates to the donation of my birth tissue.\n4. My or my donor representative's contact information will be used by Cardinal Biologicals, Inc. to reach me in the\nevent eligibility information is missing or needed further clarification. (Donor representatives fill out the following if necessary):\nDonor Rep. Name: N/A\nAddress: N/A\nPhone: N/A\nRelationship: N/A\n5. Cardinal Biologicals, Inc. may be present in the hospital, to recover/acquire/receive the birth tissue.\nI am consenting to the collection of: CHECK ALL THAT APPLY\n[ ] All\n[x] Whole Placenta\n[ ] Umbilical Cord Blood\n[ ] Amniotic Fluid\n[x] Foreskin\nDonor Signature: (Or Donor Rep.) <signature>\nDate: 5/15/25\nWitness Name: Katherine Matthews\nWitness Signature: <signature>\nDate: 5/12/25",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "authorizing_person_name": {
+      "value": "",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.07551445817363006,
+            "top": 0.7419526414571552,
+            "width": 0.2270182977657484,
+            "height": 0.022253188479050112,
+            "page": 7,
+            "original_page": 7
+          },
+          "content": "Donor Rep. Name: N/A indicating no donor representative",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.07237076973724918,
+              "top": 0.5634796982978965,
+              "width": 0.8479374323745649,
+              "height": 0.36949756567705916,
+              "page": 7,
+              "original_page": 7
+            },
+            "content": "My or my donor representative's signature below represents I understand what I have read/had explained and give Cardinal Biologicals, Inc.\ninformed consent to donate my birth tissues, (for the above-mentioned uses), obtain blood and information from my physician and hospital\nin the birth donation process to determine the medical eligibility and acceptability of my donated birth tissue including:\n1. Any medical information (pertaining to this donation), including hospital records, prenatal screening records, laboratory testing,\ndelivery records and any other information covered in the Health Insurance Portability and Accountability Act (HIPAA).\n2. A completed Medical Social History interview/(Donor Risk Assessment Interview \"DRAI\") as well as provide blood samples for eligibility\nscreening. Confirmed positive test results will be reported to my physician and to appropriate\nhealth officials as required by law.\n3. Neither coercion nor inaccurate information has been used in any manner to obtain my informed consent. I am not currently under the\ninfluence of any drugs or anesthesia; I understand what I have read or had explained to me and\nI have been given the opportunity to ask questions as it relates to the donation of my birth tissue.\n4. My or my donor representative's contact information will be used by Cardinal Biologicals, Inc. to reach me in the\nevent eligibility information is missing or needed further clarification. (Donor representatives fill out the following if necessary):\nDonor Rep. Name: N/A\nAddress: N/A\nPhone: N/A\nRelationship: N/A\n5. Cardinal Biologicals, Inc. may be present in the hospital, to recover/acquire/receive the birth tissue.\nI am consenting to the collection of: CHECK ALL THAT APPLY\n[ ] All\n[x] Whole Placenta\n[ ] Umbilical Cord Blood\n[ ] Amniotic Fluid\n[x] Foreskin\nDonor Signature: (Or Donor Rep.) <signature>\nDate: 5/15/25\nWitness Name: Katherine Matthews\nWitness Signature: <signature>\nDate: 5/12/25",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "authorizing_person_relationship": {
+      "value": "",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.295813741781898,
+            "top": 0.7702223838552986,
+            "width": 0.17515309896540243,
+            "height": 0.015081533292941166,
+            "page": 7,
+            "original_page": 7
+          },
+          "content": "Relationship: N/A indicating no donor representative relationship",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.07237076973724918,
+              "top": 0.5634796982978965,
+              "width": 0.8479374323745649,
+              "height": 0.36949756567705916,
+              "page": 7,
+              "original_page": 7
+            },
+            "content": "My or my donor representative's signature below represents I understand what I have read/had explained and give Cardinal Biologicals, Inc.\ninformed consent to donate my birth tissues, (for the above-mentioned uses), obtain blood and information from my physician and hospital\nin the birth donation process to determine the medical eligibility and acceptability of my donated birth tissue including:\n1. Any medical information (pertaining to this donation), including hospital records, prenatal screening records, laboratory testing,\ndelivery records and any other information covered in the Health Insurance Portability and Accountability Act (HIPAA).\n2. A completed Medical Social History interview/(Donor Risk Assessment Interview \"DRAI\") as well as provide blood samples for eligibility\nscreening. Confirmed positive test results will be reported to my physician and to appropriate\nhealth officials as required by law.\n3. Neither coercion nor inaccurate information has been used in any manner to obtain my informed consent. I am not currently under the\ninfluence of any drugs or anesthesia; I understand what I have read or had explained to me and\nI have been given the opportunity to ask questions as it relates to the donation of my birth tissue.\n4. My or my donor representative's contact information will be used by Cardinal Biologicals, Inc. to reach me in the\nevent eligibility information is missing or needed further clarification. (Donor representatives fill out the following if necessary):\nDonor Rep. Name: N/A\nAddress: N/A\nPhone: N/A\nRelationship: N/A\n5. Cardinal Biologicals, Inc. may be present in the hospital, to recover/acquire/receive the birth tissue.\nI am consenting to the collection of: CHECK ALL THAT APPLY\n[ ] All\n[x] Whole Placenta\n[ ] Umbilical Cord Blood\n[ ] Amniotic Fluid\n[x] Foreskin\nDonor Signature: (Or Donor Rep.) <signature>\nDate: 5/15/25\nWitness Name: Katherine Matthews\nWitness Signature: <signature>\nDate: 5/12/25",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "consent_signature_present": {
+      "value": "Yes",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.21151108199948473,
+            "top": 0.8525424197459359,
+            "width": 0.03846820397838276,
+            "height": 0.016966724954558837,
+            "page": 7,
+            "original_page": 7
+          },
+          "content": "Donor Signature: (Or Donor Rep.) <signature> showing a signature is present on the consent document",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.07237076973724918,
+              "top": 0.5634796982978965,
+              "width": 0.8479374323745649,
+              "height": 0.36949756567705916,
+              "page": 7,
+              "original_page": 7
+            },
+            "content": "My or my donor representative's signature below represents I understand what I have read/had explained and give Cardinal Biologicals, Inc.\ninformed consent to donate my birth tissues, (for the above-mentioned uses), obtain blood and information from my physician and hospital\nin the birth donation process to determine the medical eligibility and acceptability of my donated birth tissue including:\n1. Any medical information (pertaining to this donation), including hospital records, prenatal screening records, laboratory testing,\ndelivery records and any other information covered in the Health Insurance Portability and Accountability Act (HIPAA).\n2. A completed Medical Social History interview/(Donor Risk Assessment Interview \"DRAI\") as well as provide blood samples for eligibility\nscreening. Confirmed positive test results will be reported to my physician and to appropriate\nhealth officials as required by law.\n3. Neither coercion nor inaccurate information has been used in any manner to obtain my informed consent. I am not currently under the\ninfluence of any drugs or anesthesia; I understand what I have read or had explained to me and\nI have been given the opportunity to ask questions as it relates to the donation of my birth tissue.\n4. My or my donor representative's contact information will be used by Cardinal Biologicals, Inc. to reach me in the\nevent eligibility information is missing or needed further clarification. (Donor representatives fill out the following if necessary):\nDonor Rep. Name: N/A\nAddress: N/A\nPhone: N/A\nRelationship: N/A\n5. Cardinal Biologicals, Inc. may be present in the hospital, to recover/acquire/receive the birth tissue.\nI am consenting to the collection of: CHECK ALL THAT APPLY\n[ ] All\n[x] Whole Placenta\n[ ] Umbilical Cord Blood\n[ ] Amniotic Fluid\n[x] Foreskin\nDonor Signature: (Or Donor Rep.) <signature>\nDate: 5/15/25\nWitness Name: Katherine Matthews\nWitness Signature: <signature>\nDate: 5/12/25",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    }
+  },
+  "usage": {
+    "num_fields": 5,
+    "num_pages": 2,
+    "credits": 30.5,
+    "extract_mode": "super_agent"
+  },
+  "job_id": "6b51b0d6-69c5-4e26-b1db-ed3d61e8e094",
+  "studio_link": "https://studio.reducto.ai/job/6b51b0d6-69c5-4e26-b1db-ed3d61e8e094",
+  "response_type": "v3_extract"
+}

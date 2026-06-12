@@ -1,0 +1,422 @@
+{
+  "result": {
+    "hiv_iv_drug_use": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.8597359735973598,
+            "top": 0.5112640801001251,
+            "width": 0.022277227722772297,
+            "height": 0.01126408010012514,
+            "page": 11,
+            "original_page": 11
+          },
+          "content": "Row for question 2 in the table: 'In the past 5 years have you ever used needles to take drugs, steroids, or anything not prescribed by your doctor?' — the No column shows a checkbox mark (ㅁ은 No) indicating No is selected",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.12046204620462046,
+              "top": 0.45807259073842305,
+              "width": 0.7772277227722773,
+              "height": 0.4787234042553192,
+              "page": 11,
+              "original_page": 11
+            },
+            "content": "<table><tr><th>1.</th><th>Do you currently take any prescribed medications and/or dietary supplements?\nPlease list all:\nHonase i Prenatal</th><th>Yes</th><th>No\n\n☐</th></tr><tr><td>2.</td><td>In the past 5 years have you ever used needles to take drugs, steroids, or anything not\nprescribed by your doctor?\nIf YES when/what drug(s):\nLast time used:</td><td>Yes</td><td>ㅁ은 No\n白皮 것</td></tr><tr><td>3.</td><td>Have you ever been exposed to toxic substances, pesticides, chemicals, or heavy\nmetals?\nIf YES when/what type:</td><td>Yes\n\nㅁ</td><td>2 No\n\nA</td></tr><tr><td>4.</td><td>Do you currently have any active major or blood stream bacterial, fungal, or viral\ninfection?\nIf YES, explain.</td><td>Yes\n\n☐</td><td>2 No</td></tr><tr><td>5.</td><td>Have you ever had minor infections? i.e. thrush, fungus-type infections?\nIf YES when:\nDescribe symptoms and reasons:</td><td>Yes\n\n☐</td><td>2 No</td></tr><tr><td>6.</td><td>In the last 120 days, have you been diagnosed with an active brain infection\n(encephalitis) or meningitis (viral or unknown cause)?\nIf YES when:\nDescribe symptoms and reasons:</td><td>Yes\n\n[ ]</td><td>2\n☑ 1</td></tr><tr><td>7.</td><td>In the past 5 years, have you been bitten by an animal suspected of having rabies?\nIf YES when/what animal:</td><td>Yes\n\n☐</td><td>2 No\n\n1</td></tr><tr><td>8.</td><td>Been diagnosed during this pregnancy with, or had close contact with someone with\nSARS, HIV, or Hepatitis?\nIf YES when:\nWhat kind of contact:</td><td>Yes</td><td>2 No\n☐☑ 1</td></tr><tr><td>9.</td><td>Have you ever had hepatitis (Hep A, B, C, D, or unspecified Hepatitis)?\nIf YES when:\nWhat type:</td><td>Yes\n\nㅁ</td><td>2 No\n☑☑</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "hiv_msm": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.8610217425929263,
+            "top": 0.5916542551625315,
+            "width": 0.024769011596478596,
+            "height": 0.012633932295756156,
+            "page": 15,
+            "original_page": 15
+          },
+          "content": "Row for question 53: 'In the past 5 years, have you had sexual contact with a male who has ever had sexual contact with another male?' — Yes column shows empty checkbox (☐), No column shows '2 No A' indicating No is selected",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.12040284316193485,
+              "top": 0.11558291666477279,
+              "width": 0.7821146211493111,
+              "height": 0.7940362745212267,
+              "page": 15,
+              "original_page": 15
+            },
+            "content": "<table><tr><th>45.</th><th>Have you ever been diagnosed with a genetic disorder?\nIf YES when/which one:</th><th>Yes\n༔བ༔བ༔</th><th>No z</th></tr><tr><td>46.</td><td>Do you have liver disease?\nIf YES what type:</td><td></td><td>No z\n☑ zo</td></tr><tr><td>47.</td><td>Have you ever had any surgeries in your life? If transplants, see # 59-61.\nIf YES when:\nWhat surgeries?</td><td></td><td>No\nZQ</td></tr><tr><td>48.</td><td>During this pregnancy, have you had a smallpox vaccine or any other vaccine?\nPlease list all and when:</td><td>༔བ༔བ Yes</td><td>No</td></tr><tr><td>49.</td><td>During this pregnancy, have you had contact with someone who has received the\nsmallpox vaccine?\nIf YES when:\nWhat kind of contact:</td><td>Yes\n\nབ</td><td>02 No</td></tr><tr><td>50.</td><td>In the past 5 years, have you received any vaccinations (such as COVID)?\nIf YES when: Covid\nWhich ones: 2021</td><td>Yes</td><td>270 No</td></tr><tr><td>51.</td><td>In the past 5 years, have you had sexual contact with anyone who was suspected of\nhaving HIV/AIDS, Hep B/C, or has had a positive test for HIV/AIDS, Hep B/C?\nIf YES which one and when:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr><tr><td>52.</td><td>In the past 5 years, have you had sex with anyone who injected drugs, steroids, or\nanything not prescribed by a doctor?\nIf YES when and what drug(s):</td><td>Yes\nབ༔\n☐</td><td>2 No\n☑</td></tr><tr><td>53.</td><td>In the past 5 years, have you had sexual contact with a male who has ever had sexual\ncontact with another male?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n\nA</td></tr><tr><td>54.</td><td>In the past 5 years, have you had sexual contact with anyone who has ever had sex in\nexchange for money or drugs?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n☑</td></tr><tr><td>55.</td><td>In the past 5 years, have you had sexual contact with or lived with a person who has had\nhepatitis?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n\n14</td></tr><tr><td>56.</td><td>In the past 5 years, have you been in juvenile detention, lockup, jail, or prison for 72 or\nmore consecutive hours?\n\nIf YES when:</td><td>Yes\n\nㅁ</td><td>No\n✗</td></tr><tr><td>57.</td><td>In the past 5 years, have you had sex with anyone who had been in juvenile detention,\nlockup, jail, or prison for 72 or more consecutive hours?\nIf YES when were they in prison:\nPartners gender:</td><td>Yes\nབ༔\n☐</td><td>No\n\n×</td></tr><tr><td>58.</td><td>In the past 5 years, have you ever received money, drugs, or other payment for sex?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n×</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "high_risk_sexual": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.83336438721031,
+            "top": 0.6209055268271484,
+            "width": 0.022565575880366586,
+            "height": 0.010002832245543264,
+            "page": 12,
+            "original_page": 12
+          },
+          "content": "Row for question 18 'Have you ever been raped? If YES when:' — No column shows '2 No' indicating No is selected",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.09872952799393206,
+              "top": 0.1413947560564192,
+              "width": 0.7722441523503222,
+              "height": 0.5251486928910202,
+              "page": 12,
+              "original_page": 12
+            },
+            "content": "<table><tr><th>10.</th><th>Have you ever had a prior positive or reactive screening test for Hepatitis B or Hepatitis\nC virus, not relating to your pregnancy?\nIf YES when:\nDescribe symptoms and reasons:</th><th>Yes\n\n[ ]</th><th>No</th></tr><tr><td>11.</td><td>Have you ever had a positive test for HIV/AIDS virus?\nIf YES when:\nWhat type:</td><td>Yes\n\n☐</td><td>No\n☑ 22</td></tr><tr><td>12.</td><td>In the past 5 years, have you been exposed to known or suspected HIV or hepatitis-\ninfected blood either by an accidental needle stick, or through direct contact with an\nopen wound, non-intact skin, or mucus membrane?\nIf YES when/what happened:\nSuspected or known infection (circle one)</td><td>Yes\n☐</td><td>No\n☑</td></tr><tr><td>13.</td><td>Have you lived with, cared for, or had close contact with a person who has had a\nconfirmed or suspected case of COVID-19 infection in the past 14 days?\nIf YES, list date and type of contact:</td><td>Yes\n\n☐</td><td>No\n\nD\n220</td></tr><tr><td>14.</td><td>In the past 14 days, have you tested positive for COVID-19 using a diagnostic test, but\nnever developed symptoms?\nIf YES, please list date:</td><td>Yes\n\n☐</td><td>No</td></tr><tr><td>15.</td><td>Have you ever been diagnosed, or suspected of having COVID-19 in the past 14 days?\nIf YES, list date:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr><tr><td>16.</td><td>In the past 5 years, have you had a tattoo or body piercing?\nIf YES when:\nWas it professionally performed?</td><td>Yes\n\nㅁ</td><td>2 No\n[x]</td></tr><tr><td>17.</td><td>In the past 5 years, have you had a tattoo, ear or body piercing, or acupuncture\nperformed using non-sterile, or contaminated ink or instruments?\nIf YES when/which one:</td><td>Yes\n\n[ ]</td><td>2</td></tr><tr><td>18.</td><td>Have you ever been raped?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.8617403888231054,
+            "top": 0.46351474014358907,
+            "width": 0.025599874028264025,
+            "height": 0.015146495109826463,
+            "page": 15,
+            "original_page": 15
+          },
+          "content": "Rows for questions 51, 52, 54, and 58 — all showing No checked in No column: Q51 (sexual contact with HIV/AIDS/Hep B/C person), Q52 (sex with drug injectors), Q54 (sex with anyone who had sex for money/drugs), Q58 (received money/drugs for sex)",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.12040284316193485,
+              "top": 0.11558291666477279,
+              "width": 0.7821146211493111,
+              "height": 0.7940362745212267,
+              "page": 15,
+              "original_page": 15
+            },
+            "content": "<table><tr><th>45.</th><th>Have you ever been diagnosed with a genetic disorder?\nIf YES when/which one:</th><th>Yes\n༔བ༔བ༔</th><th>No z</th></tr><tr><td>46.</td><td>Do you have liver disease?\nIf YES what type:</td><td></td><td>No z\n☑ zo</td></tr><tr><td>47.</td><td>Have you ever had any surgeries in your life? If transplants, see # 59-61.\nIf YES when:\nWhat surgeries?</td><td></td><td>No\nZQ</td></tr><tr><td>48.</td><td>During this pregnancy, have you had a smallpox vaccine or any other vaccine?\nPlease list all and when:</td><td>༔བ༔བ Yes</td><td>No</td></tr><tr><td>49.</td><td>During this pregnancy, have you had contact with someone who has received the\nsmallpox vaccine?\nIf YES when:\nWhat kind of contact:</td><td>Yes\n\nབ</td><td>02 No</td></tr><tr><td>50.</td><td>In the past 5 years, have you received any vaccinations (such as COVID)?\nIf YES when: Covid\nWhich ones: 2021</td><td>Yes</td><td>270 No</td></tr><tr><td>51.</td><td>In the past 5 years, have you had sexual contact with anyone who was suspected of\nhaving HIV/AIDS, Hep B/C, or has had a positive test for HIV/AIDS, Hep B/C?\nIf YES which one and when:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr><tr><td>52.</td><td>In the past 5 years, have you had sex with anyone who injected drugs, steroids, or\nanything not prescribed by a doctor?\nIf YES when and what drug(s):</td><td>Yes\nབ༔\n☐</td><td>2 No\n☑</td></tr><tr><td>53.</td><td>In the past 5 years, have you had sexual contact with a male who has ever had sexual\ncontact with another male?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n\nA</td></tr><tr><td>54.</td><td>In the past 5 years, have you had sexual contact with anyone who has ever had sex in\nexchange for money or drugs?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n☑</td></tr><tr><td>55.</td><td>In the past 5 years, have you had sexual contact with or lived with a person who has had\nhepatitis?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n\n14</td></tr><tr><td>56.</td><td>In the past 5 years, have you been in juvenile detention, lockup, jail, or prison for 72 or\nmore consecutive hours?\n\nIf YES when:</td><td>Yes\n\nㅁ</td><td>No\n✗</td></tr><tr><td>57.</td><td>In the past 5 years, have you had sex with anyone who had been in juvenile detention,\nlockup, jail, or prison for 72 or more consecutive hours?\nIf YES when were they in prison:\nPartners gender:</td><td>Yes\nབ༔\n☐</td><td>No\n\n×</td></tr><tr><td>58.</td><td>In the past 5 years, have you ever received money, drugs, or other payment for sex?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n×</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "recent_incarceration": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.8578176482701813,
+            "top": 0.7204136680718043,
+            "width": 0.02066115453176487,
+            "height": 0.012002992869621587,
+            "page": 15,
+            "original_page": 15
+          },
+          "content": "Row for question 56: 'In the past 5 years, have you been in juvenile detention, lockup, jail, or prison for 72 or more consecutive hours?' — No column shows '✗' (cross mark) indicating No is selected",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.12040284316193485,
+              "top": 0.11558291666477279,
+              "width": 0.7821146211493111,
+              "height": 0.7940362745212267,
+              "page": 15,
+              "original_page": 15
+            },
+            "content": "<table><tr><th>45.</th><th>Have you ever been diagnosed with a genetic disorder?\nIf YES when/which one:</th><th>Yes\n༔བ༔བ༔</th><th>No z</th></tr><tr><td>46.</td><td>Do you have liver disease?\nIf YES what type:</td><td></td><td>No z\n☑ zo</td></tr><tr><td>47.</td><td>Have you ever had any surgeries in your life? If transplants, see # 59-61.\nIf YES when:\nWhat surgeries?</td><td></td><td>No\nZQ</td></tr><tr><td>48.</td><td>During this pregnancy, have you had a smallpox vaccine or any other vaccine?\nPlease list all and when:</td><td>༔བ༔བ Yes</td><td>No</td></tr><tr><td>49.</td><td>During this pregnancy, have you had contact with someone who has received the\nsmallpox vaccine?\nIf YES when:\nWhat kind of contact:</td><td>Yes\n\nབ</td><td>02 No</td></tr><tr><td>50.</td><td>In the past 5 years, have you received any vaccinations (such as COVID)?\nIf YES when: Covid\nWhich ones: 2021</td><td>Yes</td><td>270 No</td></tr><tr><td>51.</td><td>In the past 5 years, have you had sexual contact with anyone who was suspected of\nhaving HIV/AIDS, Hep B/C, or has had a positive test for HIV/AIDS, Hep B/C?\nIf YES which one and when:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr><tr><td>52.</td><td>In the past 5 years, have you had sex with anyone who injected drugs, steroids, or\nanything not prescribed by a doctor?\nIf YES when and what drug(s):</td><td>Yes\nབ༔\n☐</td><td>2 No\n☑</td></tr><tr><td>53.</td><td>In the past 5 years, have you had sexual contact with a male who has ever had sexual\ncontact with another male?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n\nA</td></tr><tr><td>54.</td><td>In the past 5 years, have you had sexual contact with anyone who has ever had sex in\nexchange for money or drugs?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n☑</td></tr><tr><td>55.</td><td>In the past 5 years, have you had sexual contact with or lived with a person who has had\nhepatitis?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n\n14</td></tr><tr><td>56.</td><td>In the past 5 years, have you been in juvenile detention, lockup, jail, or prison for 72 or\nmore consecutive hours?\n\nIf YES when:</td><td>Yes\n\nㅁ</td><td>No\n✗</td></tr><tr><td>57.</td><td>In the past 5 years, have you had sex with anyone who had been in juvenile detention,\nlockup, jail, or prison for 72 or more consecutive hours?\nIf YES when were they in prison:\nPartners gender:</td><td>Yes\nབ༔\n☐</td><td>No\n\n×</td></tr><tr><td>58.</td><td>In the past 5 years, have you ever received money, drugs, or other payment for sex?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n×</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "drai_date": {
+      "value": "2025-05-12",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.6114754098360655,
+            "top": 0.31304893350062735,
+            "width": 0.13442622950819672,
+            "height": 0.02948557089084064,
+            "page": 17,
+            "original_page": 17
+          },
+          "content": "DATE/TIME field showing '5/12/25' — the date the donor signed the DRAI form",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.5591203032946978,
+              "top": 0.15474910568562775,
+              "width": 0.41918500056032276,
+              "height": 0.2095039970752137,
+              "page": 17,
+              "original_page": 17
+            },
+            "content": "DONOR SIGNATURE: <signature>\nDATE/TIME: 5/12/25",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "delivery_date": {
+      "value": "",
+      "citations": []
+    },
+    "high_risk_behavior_composite": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.8597359735973598,
+            "top": 0.5112640801001251,
+            "width": 0.022277227722772297,
+            "height": 0.01126408010012514,
+            "page": 11,
+            "original_page": 11
+          },
+          "content": "Row for question 2 showing No answer for IV drug use (needle drugs) question",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.12046204620462046,
+              "top": 0.45807259073842305,
+              "width": 0.7772277227722773,
+              "height": 0.4787234042553192,
+              "page": 11,
+              "original_page": 11
+            },
+            "content": "<table><tr><th>1.</th><th>Do you currently take any prescribed medications and/or dietary supplements?\nPlease list all:\nHonase i Prenatal</th><th>Yes</th><th>No\n\n☐</th></tr><tr><td>2.</td><td>In the past 5 years have you ever used needles to take drugs, steroids, or anything not\nprescribed by your doctor?\nIf YES when/what drug(s):\nLast time used:</td><td>Yes</td><td>ㅁ은 No\n白皮 것</td></tr><tr><td>3.</td><td>Have you ever been exposed to toxic substances, pesticides, chemicals, or heavy\nmetals?\nIf YES when/what type:</td><td>Yes\n\nㅁ</td><td>2 No\n\nA</td></tr><tr><td>4.</td><td>Do you currently have any active major or blood stream bacterial, fungal, or viral\ninfection?\nIf YES, explain.</td><td>Yes\n\n☐</td><td>2 No</td></tr><tr><td>5.</td><td>Have you ever had minor infections? i.e. thrush, fungus-type infections?\nIf YES when:\nDescribe symptoms and reasons:</td><td>Yes\n\n☐</td><td>2 No</td></tr><tr><td>6.</td><td>In the last 120 days, have you been diagnosed with an active brain infection\n(encephalitis) or meningitis (viral or unknown cause)?\nIf YES when:\nDescribe symptoms and reasons:</td><td>Yes\n\n[ ]</td><td>2\n☑ 1</td></tr><tr><td>7.</td><td>In the past 5 years, have you been bitten by an animal suspected of having rabies?\nIf YES when/what animal:</td><td>Yes\n\n☐</td><td>2 No\n\n1</td></tr><tr><td>8.</td><td>Been diagnosed during this pregnancy with, or had close contact with someone with\nSARS, HIV, or Hepatitis?\nIf YES when:\nWhat kind of contact:</td><td>Yes</td><td>2 No\n☐☑ 1</td></tr><tr><td>9.</td><td>Have you ever had hepatitis (Hep A, B, C, D, or unspecified Hepatitis)?\nIf YES when:\nWhat type:</td><td>Yes\n\nㅁ</td><td>2 No\n☑☑</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.83336438721031,
+            "top": 0.6209055268271484,
+            "width": 0.022565575880366586,
+            "height": 0.010002832245543264,
+            "page": 12,
+            "original_page": 12
+          },
+          "content": "Rows for questions 10–18 all showing No for HIV positive test, blood exposure, and rape questions",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.09872952799393206,
+              "top": 0.1413947560564192,
+              "width": 0.7722441523503222,
+              "height": 0.5251486928910202,
+              "page": 12,
+              "original_page": 12
+            },
+            "content": "<table><tr><th>10.</th><th>Have you ever had a prior positive or reactive screening test for Hepatitis B or Hepatitis\nC virus, not relating to your pregnancy?\nIf YES when:\nDescribe symptoms and reasons:</th><th>Yes\n\n[ ]</th><th>No</th></tr><tr><td>11.</td><td>Have you ever had a positive test for HIV/AIDS virus?\nIf YES when:\nWhat type:</td><td>Yes\n\n☐</td><td>No\n☑ 22</td></tr><tr><td>12.</td><td>In the past 5 years, have you been exposed to known or suspected HIV or hepatitis-\ninfected blood either by an accidental needle stick, or through direct contact with an\nopen wound, non-intact skin, or mucus membrane?\nIf YES when/what happened:\nSuspected or known infection (circle one)</td><td>Yes\n☐</td><td>No\n☑</td></tr><tr><td>13.</td><td>Have you lived with, cared for, or had close contact with a person who has had a\nconfirmed or suspected case of COVID-19 infection in the past 14 days?\nIf YES, list date and type of contact:</td><td>Yes\n\n☐</td><td>No\n\nD\n220</td></tr><tr><td>14.</td><td>In the past 14 days, have you tested positive for COVID-19 using a diagnostic test, but\nnever developed symptoms?\nIf YES, please list date:</td><td>Yes\n\n☐</td><td>No</td></tr><tr><td>15.</td><td>Have you ever been diagnosed, or suspected of having COVID-19 in the past 14 days?\nIf YES, list date:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr><tr><td>16.</td><td>In the past 5 years, have you had a tattoo or body piercing?\nIf YES when:\nWas it professionally performed?</td><td>Yes\n\nㅁ</td><td>2 No\n[x]</td></tr><tr><td>17.</td><td>In the past 5 years, have you had a tattoo, ear or body piercing, or acupuncture\nperformed using non-sterile, or contaminated ink or instruments?\nIf YES when/which one:</td><td>Yes\n\n[ ]</td><td>2</td></tr><tr><td>18.</td><td>Have you ever been raped?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.8617403888231054,
+            "top": 0.46351474014358907,
+            "width": 0.025599874028264025,
+            "height": 0.015146495109826463,
+            "page": 15,
+            "original_page": 15
+          },
+          "content": "Rows for questions 51–58 all showing No for sexual risk contact with HIV/AIDS/Hep B/C persons, sex with drug injectors, MSM contact, sex for money, incarceration, and received money for sex",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.12040284316193485,
+              "top": 0.11558291666477279,
+              "width": 0.7821146211493111,
+              "height": 0.7940362745212267,
+              "page": 15,
+              "original_page": 15
+            },
+            "content": "<table><tr><th>45.</th><th>Have you ever been diagnosed with a genetic disorder?\nIf YES when/which one:</th><th>Yes\n༔བ༔བ༔</th><th>No z</th></tr><tr><td>46.</td><td>Do you have liver disease?\nIf YES what type:</td><td></td><td>No z\n☑ zo</td></tr><tr><td>47.</td><td>Have you ever had any surgeries in your life? If transplants, see # 59-61.\nIf YES when:\nWhat surgeries?</td><td></td><td>No\nZQ</td></tr><tr><td>48.</td><td>During this pregnancy, have you had a smallpox vaccine or any other vaccine?\nPlease list all and when:</td><td>༔བ༔བ Yes</td><td>No</td></tr><tr><td>49.</td><td>During this pregnancy, have you had contact with someone who has received the\nsmallpox vaccine?\nIf YES when:\nWhat kind of contact:</td><td>Yes\n\nབ</td><td>02 No</td></tr><tr><td>50.</td><td>In the past 5 years, have you received any vaccinations (such as COVID)?\nIf YES when: Covid\nWhich ones: 2021</td><td>Yes</td><td>270 No</td></tr><tr><td>51.</td><td>In the past 5 years, have you had sexual contact with anyone who was suspected of\nhaving HIV/AIDS, Hep B/C, or has had a positive test for HIV/AIDS, Hep B/C?\nIf YES which one and when:</td><td>Yes\n\nㅁ</td><td>2 No</td></tr><tr><td>52.</td><td>In the past 5 years, have you had sex with anyone who injected drugs, steroids, or\nanything not prescribed by a doctor?\nIf YES when and what drug(s):</td><td>Yes\nབ༔\n☐</td><td>2 No\n☑</td></tr><tr><td>53.</td><td>In the past 5 years, have you had sexual contact with a male who has ever had sexual\ncontact with another male?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n\nA</td></tr><tr><td>54.</td><td>In the past 5 years, have you had sexual contact with anyone who has ever had sex in\nexchange for money or drugs?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n☑</td></tr><tr><td>55.</td><td>In the past 5 years, have you had sexual contact with or lived with a person who has had\nhepatitis?\nIf YES when:</td><td>Yes\n\nㅁ</td><td>2 No\n\n14</td></tr><tr><td>56.</td><td>In the past 5 years, have you been in juvenile detention, lockup, jail, or prison for 72 or\nmore consecutive hours?\n\nIf YES when:</td><td>Yes\n\nㅁ</td><td>No\n✗</td></tr><tr><td>57.</td><td>In the past 5 years, have you had sex with anyone who had been in juvenile detention,\nlockup, jail, or prison for 72 or more consecutive hours?\nIf YES when were they in prison:\nPartners gender:</td><td>Yes\nབ༔\n☐</td><td>No\n\n×</td></tr><tr><td>58.</td><td>In the past 5 years, have you ever received money, drugs, or other payment for sex?\nIf YES when:</td><td>Yes\n\n☐</td><td>2 No\n×</td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "source_inconsistency": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.40081967213114755,
+            "top": 0.5533249686323714,
+            "width": 0.06721311475409836,
+            "height": 0.03575909661229615,
+            "page": 17,
+            "original_page": 17
+          },
+          "content": "Notes: NA — the Cardinal Biologicals staff notes field shows 'NA', indicating no conflicting information from physical assessment or medical records was documented",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.18182626943119237,
+              "top": 0.4879834642972671,
+              "width": 0.6774541761054367,
+              "height": 0.15290868895565402,
+              "page": 17,
+              "original_page": 17
+            },
+            "content": "Notes: NA",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    }
+  },
+  "usage": {
+    "num_fields": 8,
+    "num_pages": 7,
+    "credits": 30.8,
+    "extract_mode": "super_agent"
+  },
+  "job_id": "58157d0c-ebbc-473c-928e-039778e3a6e9",
+  "studio_link": "https://studio.reducto.ai/job/58157d0c-ebbc-473c-928e-039778e3a6e9",
+  "response_type": "v3_extract"
+}

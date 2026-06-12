@@ -2,9 +2,8 @@ import { SectionCard } from "@/components/SectionCard";
 import type { User } from "@/lib/api/types";
 
 const ROLE_LABEL: Record<User["role"], string> = {
-  coordinator: "Coordinator",
-  medical_director: "Medical Director",
   admin: "Administrator",
+  user: "User",
 };
 
 export function ProfileCard({ user }: { user: User }) {

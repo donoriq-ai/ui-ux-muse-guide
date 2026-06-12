@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { auditQuery, donorQuery, qk } from "@/lib/api/queries";
@@ -52,7 +52,18 @@ import {
   Sparkles,
   Info,
   Loader2,
+  Trash2,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { takePendingUpload, hasPendingUpload } from "@/lib/pendingUpload";
 
@@ -145,6 +156,7 @@ function useDonorActivityPoll(donorId: string, active: boolean) {
 function DonorWorkspace() {
   const { id } = Route.useParams();
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { data: donor } = useSuspenseQuery(donorQuery(id));
   const { data: audit } = useSuspenseQuery(auditQuery(id));
 
@@ -208,6 +220,18 @@ function DonorWorkspace() {
     },
   });
 
+  const deleteDonor = useMutation({
+    mutationFn: () => api.deleteDonor(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: qk.donors });
+      qc.removeQueries({ queryKey: qk.donor(id) });
+      toast.success(`Donor ${id} deleted`);
+      navigate({ to: "/donors" });
+    },
+    onError: (err: unknown) =>
+      toast.error(`Delete failed: ${err instanceof Error ? err.message : String(err)}`),
+  });
+
   // All progress is derived from backend state so it survives navigation.
   const { splitting, splitFailed } = deriveUploadPhase(donor.documents, audit);
   const { evaluating, evalFailed } = deriveEvalPhase(donor, audit);
@@ -251,6 +275,8 @@ function DonorWorkspace() {
         donor={donor}
         onMarkReviewed={() => markReviewed.mutate()}
         reviewing={markReviewed.isPending}
+        onDelete={() => deleteDonor.mutate()}
+        deleting={deleteDonor.isPending}
       />
 
       <Tabs defaultValue={defaultTab} className="w-full">
@@ -317,11 +343,16 @@ function DonorHeader({
   donor,
   onMarkReviewed,
   reviewing,
+  onDelete,
+  deleting,
 }: {
   donor: Donor;
   onMarkReviewed: () => void;
   reviewing: boolean;
+  onDelete: () => void;
+  deleting: boolean;
 }) {
+  const [confirmOpen, setConfirmOpen] = useState(false);
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -387,9 +418,57 @@ function DonorHeader({
               <CheckCircle2 className="h-3.5 w-3.5 mr-1.5" />
               {donor.reviewedBy ? "Mark reviewed again" : "Mark reviewed"}
             </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setConfirmOpen(true)}
+              disabled={deleting}
+              className="text-reject hover:text-reject hover:bg-reject/10"
+            >
+              {deleting ? (
+                <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />
+              ) : (
+                <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+              )}
+              Delete
+            </Button>
           </div>
         </div>
       </div>
+
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Delete donor <span className="font-mono">{donor.id}</span>?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This removes the donor record from your list. The audit trail is retained for
+              compliance. This action cannot be undone from the UI.
+              {donor.reviewedBy && (
+                <span className="mt-2 block text-reject">
+                  This donor has already been marked reviewed by {donor.reviewedBy}. Make sure
+                  deletion is intended before proceeding.
+                </span>
+              )}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault();
+                onDelete();
+              }}
+              disabled={deleting}
+              className="bg-reject text-reject-foreground hover:bg-reject/90"
+            >
+              {deleting && <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />}
+              Delete donor
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

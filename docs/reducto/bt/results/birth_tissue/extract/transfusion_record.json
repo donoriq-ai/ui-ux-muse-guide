@@ -1,0 +1,185 @@
+{
+  "result": {
+    "transfusion_occurred_48h": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.7882705790332122,
+            "top": 0.6320831253088945,
+            "width": 0.023965626791569106,
+            "height": 0.01079593629942277,
+            "page": 18,
+            "original_page": 18
+          },
+          "content": "checkbox '[x] NO' following the line 'Was there an Infusion/Transfusion in 48 hours prior to serology blood draws:'",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11727795510854194,
+              "top": 0.5424778198844926,
+              "width": 0.7055905801952801,
+              "height": 0.18144373587152715,
+              "page": 18,
+              "original_page": 18
+            },
+            "content": "Tissue procured from an established hospital:\n[x] Qualified Delivery Suite\n[ ] Qualified OR\nDelivery to End Acquisition Time: 22h 1m\nWas there an Infusion/Transfusion in 48 hours prior to serology blood draws:\n[ ] YES\n[x] NO\nIf yes, what was the volume of colloid + crystalloid +blood received? N/A mL\nHemodilution Factor: N/A (If other than N/A, please see attached for calculations)\nAdditional Testing #s: (place stickers below where applicable)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "blood_colloid_volume_ml": {
+      "value": 0,
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.7882705790332122,
+            "top": 0.6320831253088945,
+            "width": 0.023965626791569106,
+            "height": 0.01079593629942277,
+            "page": 18,
+            "original_page": 18
+          },
+          "content": "text 'N/A mL' in the line 'If yes, what was the volume of colloid + crystalloid +blood received? N/A mL'",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11727795510854194,
+              "top": 0.5424778198844926,
+              "width": 0.7055905801952801,
+              "height": 0.18144373587152715,
+              "page": 18,
+              "original_page": 18
+            },
+            "content": "Tissue procured from an established hospital:\n[x] Qualified Delivery Suite\n[ ] Qualified OR\nDelivery to End Acquisition Time: 22h 1m\nWas there an Infusion/Transfusion in 48 hours prior to serology blood draws:\n[ ] YES\n[x] NO\nIf yes, what was the volume of colloid + crystalloid +blood received? N/A mL\nHemodilution Factor: N/A (If other than N/A, please see attached for calculations)\nAdditional Testing #s: (place stickers below where applicable)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "crystalloid_volume_ml": {
+      "value": 0,
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.7882705790332122,
+            "top": 0.6320831253088945,
+            "width": 0.023965626791569106,
+            "height": 0.01079593629942277,
+            "page": 18,
+            "original_page": 18
+          },
+          "content": "text 'N/A mL' in the line 'If yes, what was the volume of colloid + crystalloid +blood received? N/A mL'",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11727795510854194,
+              "top": 0.5424778198844926,
+              "width": 0.7055905801952801,
+              "height": 0.18144373587152715,
+              "page": 18,
+              "original_page": 18
+            },
+            "content": "Tissue procured from an established hospital:\n[x] Qualified Delivery Suite\n[ ] Qualified OR\nDelivery to End Acquisition Time: 22h 1m\nWas there an Infusion/Transfusion in 48 hours prior to serology blood draws:\n[ ] YES\n[x] NO\nIf yes, what was the volume of colloid + crystalloid +blood received? N/A mL\nHemodilution Factor: N/A (If other than N/A, please see attached for calculations)\nAdditional Testing #s: (place stickers below where applicable)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "pre_transfusion_specimen_available": {
+      "value": "No",
+      "citations": []
+    },
+    "plasma_dilution_algorithm_performed": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.7882705790332122,
+            "top": 0.6320831253088945,
+            "width": 0.023965626791569106,
+            "height": 0.01079593629942277,
+            "page": 18,
+            "original_page": 18
+          },
+          "content": "text 'Hemodilution Factor: N/A (If other than N/A, please see attached for calculations)'",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.11727795510854194,
+              "top": 0.5424778198844926,
+              "width": 0.7055905801952801,
+              "height": 0.18144373587152715,
+              "page": 18,
+              "original_page": 18
+            },
+            "content": "Tissue procured from an established hospital:\n[x] Qualified Delivery Suite\n[ ] Qualified OR\nDelivery to End Acquisition Time: 22h 1m\nWas there an Infusion/Transfusion in 48 hours prior to serology blood draws:\n[ ] YES\n[x] NO\nIf yes, what was the volume of colloid + crystalloid +blood received? N/A mL\nHemodilution Factor: N/A (If other than N/A, please see attached for calculations)\nAdditional Testing #s: (place stickers below where applicable)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    }
+  },
+  "usage": {
+    "num_fields": 5,
+    "num_pages": 1,
+    "credits": 30.5,
+    "extract_mode": "super_agent"
+  },
+  "job_id": "ee7a02e8-afe1-4aa4-882a-be3d8d4574a0",
+  "studio_link": "https://studio.reducto.ai/job/ee7a02e8-afe1-4aa4-882a-be3d8d4574a0",
+  "response_type": "v3_extract"
+}

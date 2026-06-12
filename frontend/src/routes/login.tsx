@@ -29,7 +29,7 @@ function LoginPage() {
   const { redirect: redirectTo } = Route.useSearch();
   const navigate = useNavigate();
   const qc = useQueryClient();
-  const [email, setEmail] = useState("coordinator@acme.dev");
+  const [email, setEmail] = useState("admin@acme.dev");
   const [password, setPassword] = useState("dev-password");
   const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
 
@@ -56,12 +56,9 @@ function LoginPage() {
       title="Sign in"
       subtitle="Welcome back. Sign in to review donor eligibility."
       footer={
-        <>
-          New to TissueQA?{" "}
-          <Link to="/signup" className="text-primary hover:underline font-medium">
-            Create an account
-          </Link>
-        </>
+        <span className="text-muted-foreground">
+          Need access? Ask your administrator to add you.
+        </span>
       }
     >
       <form onSubmit={onSubmit} className="space-y-4" noValidate>

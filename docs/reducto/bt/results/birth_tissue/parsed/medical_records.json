@@ -1,0 +1,43 @@
+[
+  {
+    "id": "f-birth-tissue-medical_records-blood_type-7edd4797",
+    "documentId": "birth-tissue-medical_records",
+    "label": "Blood Type",
+    "key": "blood_type",
+    "value": "A+",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-medical_records",
+      "documentLabel": "Medical Records",
+      "page": 21,
+      "bbox": [
+        0.21563682219419925,
+        0.8008196721311476,
+        0.017023959646910475,
+        0.015573770491803307
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-medical_records-md_eligibility_statement_present-f5e794f4",
+    "documentId": "birth-tissue-medical_records",
+    "label": "MD Eligibility Statement Present",
+    "key": "md_eligibility_statement_present",
+    "value": "No",
+    "confidence": 0.85,
+    "citation": null,
+    "flaggedLowConfidence": false
+  },
+  {
+    "id": "f-birth-tissue-medical_records-md_signature_date-20154753",
+    "documentId": "birth-tissue-medical_records",
+    "label": "MD Eligibility Signature Date",
+    "key": "md_signature_date",
+    "value": "",
+    "confidence": 0.85,
+    "citation": null,
+    "flaggedLowConfidence": false
+  }
+]

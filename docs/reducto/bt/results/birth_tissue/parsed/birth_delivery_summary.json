@@ -1,0 +1,180 @@
+[
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-gestational_age_weeks-e410856d",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "Gestational Age at Delivery (weeks)",
+    "key": "gestational_age_weeks",
+    "value": "39",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.5663934426229508,
+        0.6130653266331658,
+        0.03852459016393439,
+        0.01633165829145733
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-delivery_date-ff639a22",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "Delivery Date",
+    "key": "delivery_date",
+    "value": "2025-05-12",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.20737704918032787,
+        0.5552763819095478,
+        0.1704918032786885,
+        0.02010050251256279
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-birth_weight_g-0293d94f",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "Birth Weight (grams)",
+    "key": "birth_weight_g",
+    "value": "3544",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.5663934426229508,
+        0.6130653266331658,
+        0.0926229508196722,
+        0.01633165829145733
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-apgar_1min-4b89cbad",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "APGAR Score (1 min)",
+    "key": "apgar_1min",
+    "value": "8",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.24344262295081967,
+        0.6878140703517588,
+        0.02868852459016394,
+        0.01821608040201006
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-apgar_5min-065485e7",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "APGAR Score (5 min)",
+    "key": "apgar_5min",
+    "value": "9",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.3237704918032787,
+        0.6896984924623115,
+        0.02868852459016391,
+        0.01821608040201006
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-prenatal_care-e0574bfa",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "Prenatal Care Received",
+    "key": "prenatal_care",
+    "value": "Yes",
+    "confidence": 0.85,
+    "citation": null,
+    "flaggedLowConfidence": false
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-newborn_health_assessment_present-9d473c90",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "Newborn Health Assessment Documented",
+    "key": "newborn_health_assessment_present",
+    "value": "Yes",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.5975409836065574,
+        0.6840452261306532,
+        0.09672131147540985,
+        0.019472361809045213
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-active_neonatal_infection-1f9b185b",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "Active Neonatal Infection at Delivery",
+    "key": "active_neonatal_infection",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.2033842426831605,
+        0.2444696362359586,
+        0.014555386246227826,
+        0.009212841239965606
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-birth_delivery_summary-birth_complications_noted-139ce905",
+    "documentId": "birth-tissue-birth_delivery_summary",
+    "label": "Significant Birth Complications",
+    "key": "birth_complications_noted",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-birth_delivery_summary",
+      "documentLabel": "Birth Delivery Summary",
+      "page": 10,
+      "bbox": [
+        0.2033842426831605,
+        0.4502230905951905,
+        0.014555386246227826,
+        0.009212841239965606
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  }
+]

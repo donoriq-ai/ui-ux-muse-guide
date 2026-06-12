@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import { auditQuery } from "@/lib/api/queries";
+import { auditQuery, currentUserQuery } from "@/lib/api/queries";
 import { AuditFilters } from "@/components/audit/AuditFilters";
 import { AuditTable } from "@/components/audit/AuditTable";
 import { downloadAuditCsv } from "@/lib/audit/exportCsv";
@@ -26,6 +26,12 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_authenticated/audit")({
   head: () => ({ meta: [{ title: "Audit — TissueQA" }] }),
   validateSearch: zodValidator(searchSchema),
+  beforeLoad: async ({ context }) => {
+    const me = await context.queryClient.ensureQueryData(currentUserQuery());
+    if (me.role !== "admin") {
+      throw redirect({ to: "/donors" });
+    }
+  },
   loader: ({ context }) => context.queryClient.ensureQueryData(auditQuery()),
   component: AuditPage,
 });

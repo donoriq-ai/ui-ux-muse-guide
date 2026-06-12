@@ -3,7 +3,7 @@
 export type TissueType = "BT" | "MS";
 export type EvalState = "ACCEPT" | "REJECT" | "INDETERMINATE";
 export type CompletenessState = "COMPLETE" | "INCOMPLETE";
-export type Role = "coordinator" | "medical_director" | "admin";
+export type Role = "admin" | "user";
 
 export type DocumentType =
   | "authorization_consent"

@@ -1,0 +1,79 @@
+{
+  "sourcePdf": "docs/birth_tissue.pdf",
+  "outputDir": "docs/reducto/bt/results/birth_tissue",
+  "pipelineId": "k9768937hwbyzt7d8bmm199hes87zhve",
+  "reductoFileId": "reducto://9cefad25-ce42-4a8c-b3fb-a1575c589c97.bin",
+  "runAt": "2026-06-10T23:39:27.383962+00:00",
+  "splitSectionCount": 8,
+  "extractedSectionCount": 8,
+  "sections": [
+    {
+      "docType": "authorization_consent",
+      "fieldCount": 2,
+      "rawFile": "extract/authorization_consent.json",
+      "parsedFile": "parsed/authorization_consent.json"
+    },
+    {
+      "docType": "birth_delivery_summary",
+      "fieldCount": 9,
+      "rawFile": "extract/birth_delivery_summary.json",
+      "parsedFile": "parsed/birth_delivery_summary.json"
+    },
+    {
+      "docType": "culture_results",
+      "fieldCount": 4,
+      "rawFile": "extract/culture_results.json",
+      "parsedFile": "parsed/culture_results.json"
+    },
+    {
+      "docType": "drai",
+      "fieldCount": 7,
+      "rawFile": "extract/drai.json",
+      "parsedFile": "parsed/drai.json"
+    },
+    {
+      "docType": "idt_report",
+      "fieldCount": 12,
+      "rawFile": "extract/idt_report.json",
+      "parsedFile": "parsed/idt_report.json"
+    },
+    {
+      "docType": "medical_records",
+      "fieldCount": 3,
+      "rawFile": "extract/medical_records.json",
+      "parsedFile": "parsed/medical_records.json"
+    },
+    {
+      "docType": "physical_assessment",
+      "fieldCount": 6,
+      "rawFile": "extract/physical_assessment.json",
+      "parsedFile": "parsed/physical_assessment.json"
+    },
+    {
+      "docType": "recovery_timing_record",
+      "fieldCount": 5,
+      "rawFile": "extract/recovery_timing_record.json",
+      "parsedFile": "parsed/recovery_timing_record.json"
+    }
+  ],
+  "splitTypes": [
+    "idt_report",
+    "culture_results",
+    "recovery_timing_record",
+    "authorization_consent",
+    "physical_assessment",
+    "birth_delivery_summary",
+    "drai",
+    "medical_records"
+  ],
+  "extractedTypes": [
+    "authorization_consent",
+    "birth_delivery_summary",
+    "culture_results",
+    "drai",
+    "idt_report",
+    "medical_records",
+    "physical_assessment",
+    "recovery_timing_record"
+  ]
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "f-birth-tissue-culture_results-aerobic_culture-ed5b0cfd",
+    "documentId": "birth-tissue-culture_results",
+    "label": "Aerobic Culture Result",
+    "key": "aerobic_culture",
+    "value": "No Growth, Day 7",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-culture_results",
+      "documentLabel": "Culture Results",
+      "page": 30,
+      "bbox": [
+        0.6276470508450777,
+        0.26142808162804804,
+        0.1298400280522365,
+        0.01734677709714333
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-culture_results-anaerobic_culture-502d97bf",
+    "documentId": "birth-tissue-culture_results",
+    "label": "Anaerobic Culture Result",
+    "key": "anaerobic_culture",
+    "value": "No Growth, Day 7",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-culture_results",
+      "documentLabel": "Culture Results",
+      "page": 30,
+      "bbox": [
+        0.6276470508450777,
+        0.26142808162804804,
+        0.1298400280522365,
+        0.01734677709714333
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-culture_results-culture_date-fcdef7c8",
+    "documentId": "birth-tissue-culture_results",
+    "label": "Culture Date",
+    "key": "culture_date",
+    "value": "2025-05-13",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-culture_results",
+      "documentLabel": "Culture Results",
+      "page": 4,
+      "bbox": [
+        0.11386138613861387,
+        0.4104665825977301,
+        0.0924092409240924,
+        0.018915510718789386
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-culture_results-culture_release_approved-c0964ab3",
+    "documentId": "birth-tissue-culture_results",
+    "label": "Culture Release Approved by MD",
+    "key": "culture_release_approved",
+    "value": "Yes",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-culture_results",
+      "documentLabel": "Culture Results",
+      "page": 30,
+      "bbox": [
+        0.6021241830065359,
+        0.02904040404040404,
+        0.20751633986928109,
+        0.02904040404040404
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  }
+]

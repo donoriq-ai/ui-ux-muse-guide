@@ -1,0 +1,107 @@
+[
+  {
+    "id": "f-birth-tissue-recovery_timing_record-acquisition_datetime-4765f8a4",
+    "documentId": "birth-tissue-recovery_timing_record",
+    "label": "Tissue Acquisition Date/Time",
+    "key": "acquisition_datetime",
+    "value": "2025-05-12T14:30:00",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-recovery_timing_record",
+      "documentLabel": "Recovery Timing Record",
+      "page": 5,
+      "bbox": [
+        0.3341543513957307,
+        0.3224592220828105,
+        0.0960591133004926,
+        0.02446675031367629
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-recovery_timing_record-processing_start_datetime-c9e244d8",
+    "documentId": "birth-tissue-recovery_timing_record",
+    "label": "Processing Start Date/Time",
+    "key": "processing_start_datetime",
+    "value": "2025-05-13T09:30:00",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-recovery_timing_record",
+      "documentLabel": "Recovery Timing Record",
+      "page": 5,
+      "bbox": [
+        0.2651888341543514,
+        0.5489335006273526,
+        0.09523809523809523,
+        0.014429109159347586
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-recovery_timing_record-recovery_site_documented-2db219d2",
+    "documentId": "birth-tissue-recovery_timing_record",
+    "label": "Recovery Site Documented",
+    "key": "recovery_site_documented",
+    "value": "Yes",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-recovery_timing_record",
+      "documentLabel": "Recovery Timing Record",
+      "page": 18,
+      "bbox": [
+        0.6810079990009973,
+        0.6343870413199147,
+        0.03220965813116161,
+        0.008916880358051271
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-recovery_timing_record-recovery_site_type-faa10b3f",
+    "documentId": "birth-tissue-recovery_timing_record",
+    "label": "Recovery Site Type",
+    "key": "recovery_site_type",
+    "value": "Delivery Room",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-recovery_timing_record",
+      "documentLabel": "Recovery Timing Record",
+      "page": 18,
+      "bbox": [
+        0.1977481569678742,
+        0.5632108892028861,
+        0.18321271945586684,
+        0.013025588165601065
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-recovery_timing_record-site_qualification_documented-9cea55e7",
+    "documentId": "birth-tissue-recovery_timing_record",
+    "label": "Site Qualification Documented",
+    "key": "site_qualification_documented",
+    "value": "Exempt",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-recovery_timing_record",
+      "documentLabel": "Recovery Timing Record",
+      "page": 18,
+      "bbox": [
+        0.1977481569678742,
+        0.5632108892028861,
+        0.18321271945586684,
+        0.013025588165601065
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  }
+]

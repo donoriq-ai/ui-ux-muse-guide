@@ -26,14 +26,18 @@ Expected claims:
   "sub": "u-123",          // user id
   "email": "user@org.com",
   "name": "Jane Doe",
-  "role": "coordinator | medical_director | admin",
+  "role": "admin | user",
   "tenant_id": "t-acme",
   "iat": 0,
   "exp": 0
 }
 ```
 
-RBAC is enforced server-side from `role`. The client uses it only for UI gating. `POST /auth/role` is a prototype-only role switcher and **must not ship** in the FastAPI backend.
+RBAC is enforced server-side from `role`. Two roles exist: `admin` and `user`. The client
+uses `role` only for UI gating; the server is authoritative. Admin-only surfaces: user
+management (`GET/POST /users`, `PATCH /users/{id}/role`) and the project-wide audit trail
+(`GET /audit` without `donorId`). There is no public self-signup — admins create users via
+`POST /users`.
 
 ---
 
@@ -88,11 +92,6 @@ Standard codes:
 - **200**: `User` + sets/returns JWT (header `Authorization` or body `{ token }` — pick one and document).
 - **Audit**: `auth.login`.
 
-#### `POST /auth/signup`
-- **Body**: `{ email: string, name: string, password: string }`
-- **200**: `User`. Default role: `coordinator`.
-- **Audit**: `auth.signup`.
-
 #### `POST /auth/logout`
 - **204**. Invalidates the token server-side.
 - **Audit**: `auth.logout`.
@@ -107,9 +106,6 @@ Standard codes:
 
 #### `GET /auth/me`
 - **200**: `User` for the bearer token.
-
-#### `POST /auth/role` *(prototype-only — DO NOT IMPLEMENT)*
-- Mock-only role switcher used by the prototype UI. Real RBAC comes from the JWT.
 
 #### `GET /tenants/current`
 - **200**: `Tenant`.
@@ -148,6 +144,14 @@ Standard codes:
 #### `POST /donors/{id}:mark-reviewed`
 - **200**: updated `Donor` (sets `reviewedBy`, `reviewedAt`).
 - **Audit**: `donor.reviewed`.
+
+#### `DELETE /donors/{id}`
+- **Body**: none.
+- **204**: donor soft-deleted (sets `deleted_at`). The row is **never** hard-deleted —
+  the append-only audit FK (`ondelete=RESTRICT`) forbids it. Soft-deleted donors are
+  excluded from `GET /donors` and `GET /donors/{id}` (which then returns **404**).
+- **Errors**: **404** `NOT_FOUND` if the donor is missing, already deleted, or in another tenant.
+- **Audit**: `donor.deleted`.
 
 ---
 
@@ -207,25 +211,34 @@ Standard codes:
 ### 5.4 Audit
 
 #### `GET /audit?donorId=...`
-- **Query**: `donorId?` (optional). Without it, returns the full tenant trail (most recent first).
+- **Query**: `donorId?` (optional). Without it, returns the full tenant trail (most recent first) —
+  this project-wide view is **admin-only** (**403** `FORBIDDEN` for non-admins). With `donorId`,
+  the donor-scoped trail is available to any authenticated tenant user.
 - **200**: `AuditEntry[]`.
 - **Server-derived `actor`**: must come from the JWT (`name` claim) or system jobs, **never** from the client.
 
 Action vocabulary (extend as needed, but keep stable for filtering):
-`auth.login`, `auth.signup`, `auth.logout`, `auth.password_reset_requested`, `auth.password_reset`,
-`donor.created`, `donor.reviewed`,
+`auth.login`, `auth.logout`, `auth.password_reset_requested`, `auth.password_reset`,
+`donor.created`, `donor.reviewed`, `donor.deleted`,
 `document.uploaded`, `document.upload_started`, `document.combined_uploaded`, `document.upload_failed`,
 `evaluation.started`, `evaluation.completed`, `evaluation.failed`,
-`evaluation.completed`,
 `field.reviewed`, `field.unreviewed`,
-`user.role_changed`, `settings.updated`.
+`user.created`, `user.role_changed`, `settings.updated`.
 
 ---
 
-### 5.5 Users
+### 5.5 Users *(admin-only)*
+
+All endpoints in this section require `role: admin`; otherwise **403** `FORBIDDEN`.
 
 #### `GET /users`
 - **200**: `User[]` (tenant-scoped).
+
+#### `POST /users`
+- **Body**: `{ email: string, name: string, role: Role, password?: string }`
+- **200**: created `User`. When `password` is omitted, the server generates a temporary one.
+- **Errors**: **409** `CONFLICT` if `email` already exists.
+- **Audit**: `user.created`.
 
 #### `PATCH /users/{id}/role`
 - **Body**: `{ role: Role }`

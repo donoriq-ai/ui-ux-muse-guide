@@ -119,18 +119,6 @@ export async function login(email: string, password: string): Promise<User> {
   return user as User;
 }
 
-export async function signup(input: {
-  email: string;
-  name: string;
-  password?: string;
-}): Promise<User> {
-  return req<User>("POST", "/auth/signup", {
-    email: input.email,
-    name: input.name,
-    password: input.password ?? "changeme",
-  });
-}
-
 export async function logout(): Promise<void> {
   await req<void>("POST", "/auth/logout");
   setToken(null);
@@ -146,11 +134,6 @@ export async function resetPassword(token: string, newPassword: string): Promise
 
 export async function getCurrentUser(): Promise<User> {
   return req<User>("GET", "/auth/me");
-}
-
-// Prototype-only — not implemented on the server; no-op in HTTP mode.
-export async function setRole(_role: Role): Promise<User> {
-  return getCurrentUser();
 }
 
 export async function getTenant(): Promise<Tenant> {
@@ -200,6 +183,10 @@ export async function createDonor(input: CreateDonorInput): Promise<Donor> {
     tissueType: input.tissueType,
     documents: input.documents,
   });
+}
+
+export async function deleteDonor(id: string): Promise<void> {
+  await req<void>("DELETE", `/donors/${id}`);
 }
 
 // ─────────────────────────── Documents ───────────────────────────────────────
@@ -281,6 +268,20 @@ export async function getAuditTrail(donorId?: string): Promise<AuditEntry[]> {
 
 export async function listUsers(): Promise<User[]> {
   return req<User[]>("GET", "/users");
+}
+
+export async function createUser(input: {
+  email: string;
+  name: string;
+  role: Role;
+  password?: string;
+}): Promise<User> {
+  return req<User>("POST", "/users", {
+    email: input.email,
+    name: input.name,
+    role: input.role,
+    password: input.password,
+  });
 }
 
 export async function updateUserRole(userId: string, role: Role): Promise<User> {

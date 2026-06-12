@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   Sidebar,
   SidebarContent,
@@ -11,12 +12,16 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Users, ScrollText, Settings, Activity } from "lucide-react";
+import { Users, UsersRound, ScrollText, Settings, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { currentUserQuery } from "@/lib/api/queries";
 
-const items = [
+type NavItem = { title: string; url: string; icon: typeof Users; adminOnly?: boolean };
+
+const items: NavItem[] = [
   { title: "Donors", url: "/donors", icon: Users },
-  { title: "Audit", url: "/audit", icon: ScrollText },
+  { title: "Users", url: "/users", icon: UsersRound, adminOnly: true },
+  { title: "Audit", url: "/audit", icon: ScrollText, adminOnly: true },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
@@ -24,9 +29,14 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const { data: user } = useQuery(currentUserQuery());
+  const isAdmin = user?.role === "admin";
+  const visibleItems = items.filter((item) => !item.adminOnly || isAdmin);
 
   const isActive = (url: string) =>
-    pathname === url || (url !== "/" && pathname.startsWith(url + "/")) || (url === "/donors" && pathname.startsWith("/donors"));
+    pathname === url ||
+    (url !== "/" && pathname.startsWith(url + "/")) ||
+    (url === "/donors" && pathname.startsWith("/donors"));
 
   return (
     <Sidebar collapsible="icon">
@@ -38,7 +48,9 @@ export function AppSidebar() {
           {!collapsed && (
             <div className="flex flex-col leading-tight">
               <span className="font-medium text-sm text-sidebar-foreground">TissueQA</span>
-              <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Donor review</span>
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                Donor review
+              </span>
             </div>
           )}
         </Link>
@@ -49,7 +61,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {visibleItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)} tooltip={item.title}>
                     <Link to={item.url} className={cn("flex items-center gap-2")}>

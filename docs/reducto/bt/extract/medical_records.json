@@ -1,0 +1,56 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "birth_mother_name": {
+          "type": "string",
+          "description": "Full legal name of the birth mother"
+        },
+        "birth_mother_dob": {
+          "type": "string",
+          "description": "Birth mother's date of birth (ISO 8601)"
+        },
+        "blood_type": {
+          "type": "string",
+          "description": "ABO blood type of the birth mother, if documented"
+        },
+        "maternal_cause_of_death": {
+          "type": "string",
+          "description": "Maternal cause of death — only if a maternal death/complication occurred; otherwise null"
+        },
+        "maternal_cause_of_death_documented": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether a maternal cause of death is documented (applicable only if maternal death occurred)"
+        },
+        "md_eligibility_statement_present": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether a signed Medical Director eligibility determination statement is present in the donor record"
+        },
+        "md_signature_date": {
+          "type": "string",
+          "description": "Date of Medical Director eligibility signature (ISO 8601)"
+        }
+      },
+      "required": [
+        "birth_mother_name",
+        "birth_mother_dob",
+        "blood_type",
+        "maternal_cause_of_death",
+        "maternal_cause_of_death_documented",
+        "md_eligibility_statement_present",
+        "md_signature_date"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Medical Records (Birth Tissue)\nExtraction instructions: This is a birth tissue donor packet — the screened individual is the birth mother. Extract only values that are explicitly present in the document. md_eligibility_statement_present should be 'Yes' if a signed Medical Director eligibility determination is in the record, 'No' if absent. Maternal cause-of-death fields apply only when a maternal death or complication is documented; otherwise return null. If a field cannot be found verbatim, return null — do not infer or guess."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "split_description": [
+    {
+      "name": "authorization_consent",
+      "description": "Authorization and informed-consent forms for birth tissue donation. Includes the birth mother's (or authorizing person's) signature, consent to donate gestational tissue, and authorization statements."
+    },
+    {
+      "name": "medical_records",
+      "description": "Birth mother medical history, physician notes, hospital records, and the signed Medical Director eligibility determination for the birth tissue donor. May include maternal cause-of-death documentation only if a maternal complication or death occurred."
+    },
+    {
+      "name": "drai",
+      "description": "Donor Risk Assessment Interview (DRAI) of the birth mother. Contains behavioral risk questions and responses about HIV, hepatitis, and other infectious disease risks. Performed during the delivery admission or within 14 days before/after delivery."
+    },
+    {
+      "name": "physical_assessment",
+      "description": "Physical examination of the birth mother performed during admission for delivery or within 14 days prior to delivery. Includes observations about skin, lesions, jaundice, needle tracks, and other signs of high-risk behavior or infection."
+    },
+    {
+      "name": "idt_report",
+      "description": "Infectious Disease Testing (IDT) report for the birth mother specimen with serology results (HIV, HBsAg, total anti-HBc, HCV, HTLV, syphilis) and NAT results (HIV-1, HCV, HBV, and seasonal WNV)."
+    },
+    {
+      "name": "birth_delivery_summary",
+      "description": "Birth and delivery summary for the birth tissue donor. Contains gestational age at delivery, delivery date, delivery route, APGAR scores, newborn health assessment, and any birth-canal or intrauterine infection noted at delivery."
+    },
+    {
+      "name": "recovery_timing_record",
+      "description": "Recovery and acquisition timing log for birth tissue. Records acquisition/collection date-time, processing start date-time, and recovery site details. Birth tissue is from a living donor; there is no time of death or asystole."
+    },
+    {
+      "name": "transfusion_record",
+      "description": "Blood transfusion and fluid infusion records for the birth mother, documenting any transfusion or infusion within the 48 hours before specimen collection and any plasma dilution algorithm applied."
+    },
+    {
+      "name": "culture_results",
+      "description": "Microbiological culture results from the birth tissue (e.g. amnion/chorion) including aerobic, anaerobic, and fungal cultures, and any Medical Director release approval."
+    }
+  ],
+  "split_rules": "Split the document into the applicable birth tissue donor-packet sections. Sections may only overlap at their first and last page if at all.",
+  "split_options": {
+    "table_cutoff": "truncate"
+  }
+}

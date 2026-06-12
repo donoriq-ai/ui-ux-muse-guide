@@ -1,0 +1,254 @@
+[
+  {
+    "id": "f-birth-tissue-idt_report-hiv_result-73f4e76b",
+    "documentId": "birth-tissue-idt_report",
+    "label": "HIV-1/2 Serology Result",
+    "key": "hiv_result",
+    "value": "Non-Reactive",
+    "confidence": 0.833,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.37563131313131315,
+        0.10375816993464053,
+        0.027146464646464648
+      ],
+      "confidence": 0.833
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-hbsag_result-022a245b",
+    "documentId": "birth-tissue-idt_report",
+    "label": "Hepatitis B Surface Antigen (HBsAg)",
+    "key": "hbsag_result",
+    "value": "Non-Reactive",
+    "confidence": 0.833,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.3226010101010101,
+        0.10375816993464053,
+        0.027146464646464648
+      ],
+      "confidence": 0.833
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-anti_hbc_total_result-1946a911",
+    "documentId": "birth-tissue-idt_report",
+    "label": "Total Anti-HBc (Hepatitis B Core Ab)",
+    "key": "anti_hbc_total_result",
+    "value": "Non-Reactive",
+    "confidence": 0.833,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.2986111111111111,
+        0.10375816993464053,
+        0.02462121212121212
+      ],
+      "confidence": 0.833
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-hcv_result-6ddbc6ef",
+    "documentId": "birth-tissue-idt_report",
+    "label": "Hepatitis C Antibody (anti-HCV)",
+    "key": "hcv_result",
+    "value": "Non-Reactive",
+    "confidence": 0.833,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.34974747474747475,
+        0.10375816993464053,
+        0.026515151515151516
+      ],
+      "confidence": 0.833
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-syphilis_result-33e703fc",
+    "documentId": "birth-tissue-idt_report",
+    "label": "Syphilis Serology",
+    "key": "syphilis_result",
+    "value": "Non-Reactive",
+    "confidence": 0.833,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.4292929292929293,
+        0.10375816993464053,
+        0.027777777777777776
+      ],
+      "confidence": 0.833
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-htlv_result-c0dabcf1",
+    "documentId": "birth-tissue-idt_report",
+    "label": "HTLV-I/II Serology Result",
+    "key": "htlv_result",
+    "value": "Non-Reactive",
+    "confidence": 0.832,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.40214646464646464,
+        0.10375816993464053,
+        0.027146464646464648
+      ],
+      "confidence": 0.832
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-hiv1_nat-5d691c2b",
+    "documentId": "birth-tissue-idt_report",
+    "label": "HIV-1 NAT",
+    "key": "hiv1_nat",
+    "value": "Non-Reactive",
+    "confidence": 0.832,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.509469696969697,
+        0.10375816993464053,
+        0.026515151515151516
+      ],
+      "confidence": 0.832
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-hcv_nat-dea13ade",
+    "documentId": "birth-tissue-idt_report",
+    "label": "HCV NAT",
+    "key": "hcv_nat",
+    "value": "Non-Reactive",
+    "confidence": 0.832,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.4823232323232323,
+        0.10375816993464053,
+        0.027146464646464648
+      ],
+      "confidence": 0.832
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-hbv_nat-0742eee4",
+    "documentId": "birth-tissue-idt_report",
+    "label": "HBV NAT",
+    "key": "hbv_nat",
+    "value": "Non-Reactive",
+    "confidence": 0.832,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.4564393939393939,
+        0.10375816993464053,
+        0.026515151515151516
+      ],
+      "confidence": 0.832
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-wnv_nat-1e3a9665",
+    "documentId": "birth-tissue-idt_report",
+    "label": "West Nile Virus NAT",
+    "key": "wnv_nat",
+    "value": "Non-Reactive",
+    "confidence": 0.832,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.6078431372549019,
+        0.5359848484848485,
+        0.10375816993464053,
+        0.025252525252525252
+      ],
+      "confidence": 0.832
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-idt_report-collection_month-06f0e360",
+    "documentId": "birth-tissue-idt_report",
+    "label": "Specimen Collection Month",
+    "key": "collection_month",
+    "value": "5",
+    "confidence": 0.954,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 3,
+      "bbox": [
+        0.09872398507848851,
+        0.3965516665457385,
+        0.8282093571605619,
+        0.07068138218985007
+      ],
+      "confidence": 0.954
+    },
+    "flaggedLowConfidence": false
+  },
+  {
+    "id": "f-birth-tissue-idt_report-specimen_date-35143600",
+    "documentId": "birth-tissue-idt_report",
+    "label": "Specimen Collection Date",
+    "key": "specimen_date",
+    "value": "2025-05-12",
+    "confidence": 1.0,
+    "citation": {
+      "documentId": "birth-tissue-idt_report",
+      "documentLabel": "Idt Report",
+      "page": 1,
+      "bbox": [
+        0.44689542483660133,
+        0.6590909090909091,
+        0.12826797385620914,
+        0.020833333333333332
+      ],
+      "confidence": 1.0
+    },
+    "flaggedLowConfidence": false
+  }
+]

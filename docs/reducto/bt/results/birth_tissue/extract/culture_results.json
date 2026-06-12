@@ -1,0 +1,380 @@
+{
+  "result": {
+    "tissue_source": {
+      "value": "Amnion/Chorion",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.594059405940594,
+            "top": 0.5819672131147541,
+            "width": 0.10396039603960394,
+            "height": 0.010088272383354302,
+            "page": 4,
+            "original_page": 4
+          },
+          "content": "checked [x] AMC: Amnion/Chorion line in site code/description section",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.10344266734107493,
+              "top": 0.5729109197667087,
+              "width": 0.8405027861642366,
+              "height": 0.04456232174347809,
+              "page": 4,
+              "original_page": 4
+            },
+            "content": "[ ] PLC: Placenta\n[ ] UMC: Umbilical Cord\n[x] AMC: Amnion/Chorion\n[ ] NFSK: Neonatal Foreskin",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.4256535947712418,
+            "top": 0.2657828282828283,
+            "width": 0.1168300653594771,
+            "height": 0.009469696969696961,
+            "page": 30,
+            "original_page": 30
+          },
+          "content": "Source: Amnion/Chorion",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Text",
+            "bbox": {
+              "left": 0.23039215686274508,
+              "top": 0.2455808080808081,
+              "width": 0.31209150326797386,
+              "height": 0.029671717171717172,
+              "page": 30,
+              "original_page": 30
+            },
+            "content": "Product Description: \nSource: Amnion/Chorion",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "aerobic_culture": {
+      "value": "No Growth, Day 7",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.6276470508450777,
+            "top": 0.26142808162804804,
+            "width": 0.1298400280522365,
+            "height": 0.01734677709714333,
+            "page": 30,
+            "original_page": 30
+          },
+          "content": "Result: No Growth, Day 7",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.6261844510346456,
+              "top": 0.24423635848844893,
+              "width": 0.2355427960165186,
+              "height": 0.035030962240816366,
+              "page": 30,
+              "original_page": 30
+            },
+            "content": "Result: No Growth, Day 7\nStatus: Final",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "anaerobic_culture": {
+      "value": "No Growth, Day 7",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.6276470508450777,
+            "top": 0.26142808162804804,
+            "width": 0.1298400280522365,
+            "height": 0.01734677709714333,
+            "page": 30,
+            "original_page": 30
+          },
+          "content": "Result: No Growth, Day 7",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.6261844510346456,
+              "top": 0.24423635848844893,
+              "width": 0.2355427960165186,
+              "height": 0.035030962240816366,
+              "page": 30,
+              "original_page": 30
+            },
+            "content": "Result: No Growth, Day 7\nStatus: Final",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "fungal_culture": {
+      "value": "No Growth, Day 7",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.6276470508450777,
+            "top": 0.26142808162804804,
+            "width": 0.1298400280522365,
+            "height": 0.01734677709714333,
+            "page": 30,
+            "original_page": 30
+          },
+          "content": "Result: No Growth, Day 7",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.6261844510346456,
+              "top": 0.24423635848844893,
+              "width": 0.2355427960165186,
+              "height": 0.035030962240816366,
+              "page": 30,
+              "original_page": 30
+            },
+            "content": "Result: No Growth, Day 7\nStatus: Final",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "organism_identified": {
+      "value": "",
+      "citations": []
+    },
+    "culture_date": {
+      "value": "2025-05-13",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.11386138613861387,
+            "top": 0.4104665825977301,
+            "width": 0.0924092409240924,
+            "height": 0.018915510718789386,
+            "page": 4,
+            "original_page": 4
+          },
+          "content": "DATE COLLECTED: 5-13-25",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.10159659306995153,
+              "top": 0.3378114255349543,
+              "width": 0.8397161905521607,
+              "height": 0.09603958803347651,
+              "page": 4,
+              "original_page": 4
+            },
+            "content": "DATE COLLECTED: 5-13-25\nTIME COLLECTED: 0945\nTIME ZONE: [x] CT\nSAMPLES PACKAGED IN SHIPPER:\nDate: 5-13-25\nTime: 1530",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.4137677653758704,
+            "top": 0.22158527236652237,
+            "width": 0.037614441450880644,
+            "height": 0.009644435425685426,
+            "page": 30,
+            "original_page": 30
+          },
+          "content": "05/13/2025 09:45 Central Standard Time (collection date/time)",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Text",
+            "bbox": {
+              "left": 0.032679738562091505,
+              "top": 0.21717171717171718,
+              "width": 0.7883986928104575,
+              "height": 0.018308080808080808,
+              "page": 30,
+              "original_page": 30
+            },
+            "content": "72800 (test code)|Dual Swab (sample type)|05/13/2025 09:45 Central Standard Time (collection date/time)",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "culture_release_approved": {
+      "value": "Yes",
+      "citations": [
+        {
+          "type": "Title",
+          "bbox": {
+            "left": 0.6021241830065359,
+            "top": 0.02904040404040404,
+            "width": 0.20751633986928109,
+            "height": 0.02904040404040404,
+            "page": 30,
+            "original_page": 30
+          },
+          "content": "Final Report title text",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Title",
+            "bbox": {
+              "left": 0.6021241830065359,
+              "top": 0.02904040404040404,
+              "width": 0.20751633986928106,
+              "height": 0.02904040404040404,
+              "page": 30,
+              "original_page": 30
+            },
+            "content": "Final Report",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Footer",
+          "bbox": {
+            "left": 0.27145469930396404,
+            "top": 0.9546130952380952,
+            "width": 0.06950479055258471,
+            "height": 0.008060515873015872,
+            "page": 30,
+            "original_page": 30
+          },
+          "content": "Laboratory Directors: Sara O. Dionne Ph.D., F(ACHI), Michael J. Bauer, M.D.",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Footer",
+            "bbox": {
+              "left": 0.032679738562091505,
+              "top": 0.9513888888888888,
+              "width": 0.5825163398692811,
+              "height": 0.013888888888888888,
+              "page": 30,
+              "original_page": 30
+            },
+            "content": "Laboratory Directors: Sara O. Dionne Ph.D., F(ACHI), Michael J. Bauer, M.D. | CLIA:06D0717586",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    }
+  },
+  "usage": {
+    "num_fields": 7,
+    "num_pages": 2,
+    "credits": 30.7,
+    "extract_mode": "super_agent"
+  },
+  "job_id": "b63facc1-1132-4e4d-9922-2be4e8a335d1",
+  "studio_link": "https://studio.reducto.ai/job/b63facc1-1132-4e4d-9922-2be4e8a335d1",
+  "response_type": "v3_extract"
+}

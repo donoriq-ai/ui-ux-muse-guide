@@ -1,0 +1,96 @@
+[
+  {
+    "id": "f-birth-tissue-transfusion_record-transfusion_occurred_48h-f7e280ac",
+    "documentId": "birth-tissue-transfusion_record",
+    "label": "Transfusion in Prior 48h",
+    "key": "transfusion_occurred_48h",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-transfusion_record",
+      "documentLabel": "Transfusion Record",
+      "page": 18,
+      "bbox": [
+        0.7882705790332122,
+        0.6320831253088945,
+        0.023965626791569106,
+        0.01079593629942277
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-transfusion_record-blood_colloid_volume_ml-66bc2162",
+    "documentId": "birth-tissue-transfusion_record",
+    "label": "Blood/Colloid Volume (mL, 48h)",
+    "key": "blood_colloid_volume_ml",
+    "value": "0",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-transfusion_record",
+      "documentLabel": "Transfusion Record",
+      "page": 18,
+      "bbox": [
+        0.7882705790332122,
+        0.6320831253088945,
+        0.023965626791569106,
+        0.01079593629942277
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-transfusion_record-crystalloid_volume_ml-115468dd",
+    "documentId": "birth-tissue-transfusion_record",
+    "label": "Crystalloid Volume (mL, 1h)",
+    "key": "crystalloid_volume_ml",
+    "value": "0",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-transfusion_record",
+      "documentLabel": "Transfusion Record",
+      "page": 18,
+      "bbox": [
+        0.7882705790332122,
+        0.6320831253088945,
+        0.023965626791569106,
+        0.01079593629942277
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-transfusion_record-pre_transfusion_specimen_available-0e91186c",
+    "documentId": "birth-tissue-transfusion_record",
+    "label": "Pre-Transfusion Specimen Available",
+    "key": "pre_transfusion_specimen_available",
+    "value": "No",
+    "confidence": 0.85,
+    "citation": null,
+    "flaggedLowConfidence": false
+  },
+  {
+    "id": "f-birth-tissue-transfusion_record-plasma_dilution_algorithm_performed-241b7a4e",
+    "documentId": "birth-tissue-transfusion_record",
+    "label": "Plasma Dilution Algorithm Performed",
+    "key": "plasma_dilution_algorithm_performed",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-transfusion_record",
+      "documentLabel": "Transfusion Record",
+      "page": 18,
+      "bbox": [
+        0.7882705790332122,
+        0.6320831253088945,
+        0.023965626791569106,
+        0.01079593629942277
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  }
+]

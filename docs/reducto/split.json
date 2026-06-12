@@ -1,0 +1,44 @@
+{
+  "split_description": [
+    {
+      "name": "authorization_consent",
+      "description": "Authorization and consent forms. Includes donor or next-of-kin signature, consent to donate, and authorization statements."
+    },
+    {
+      "name": "medical_records",
+      "description": "Medical history records, physician notes, hospital records, labs, diagnoses, and cause of death documentation."
+    },
+    {
+      "name": "drai",
+      "description": "Donor Risk Assessment Interview (DRAI). Contains behavioral risk questions and responses about HIV, hepatitis, and other infectious disease risks."
+    },
+    {
+      "name": "physical_assessment",
+      "description": "Physical assessment or body evaluation form completed during recovery. Includes observations about skin, lesions, and physical condition."
+    },
+    {
+      "name": "idt_report",
+      "description": "Infectious Disease Testing (IDT) report with serology results including HIV, HBV, HCV, HTLV, syphilis, CMV, and other required tests."
+    },
+    {
+      "name": "birth_delivery_summary",
+      "description": "Birth and delivery summary for birth tissue donors. Contains gestational age, delivery date, APGAR scores, and prenatal care information."
+    },
+    {
+      "name": "recovery_timing_record",
+      "description": "Recovery timing log recording time of death, cross-clamp time, refrigeration time, and recovery start/end times."
+    },
+    {
+      "name": "transfusion_record",
+      "description": "Blood transfusion records documenting any transfusions received within 48 hours before death."
+    },
+    {
+      "name": "culture_results",
+      "description": "Microbiological culture results from tissue samples including aerobic, anaerobic, and fungal cultures."
+    }
+  ],
+  "split_rules": "Split the document into the applicable sections. Sections may only overlap at their first and last page if at all.",
+  "split_options": {
+    "table_cutoff": "truncate"
+  }
+}

@@ -149,7 +149,6 @@ function RootComponent() {
   // Bare layout (no shell) for auth screens and the printable report
   const bare =
     pathname === "/login" ||
-    pathname === "/signup" ||
     pathname === "/forgot-password" ||
     pathname === "/reset-password" ||
     /^\/donors\/[^/]+\/report$/.test(pathname);

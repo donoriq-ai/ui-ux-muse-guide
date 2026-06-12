@@ -4,13 +4,6 @@ import { currentUserQuery, qk, tenantQuery } from "@/lib/api/queries";
 import * as api from "@/lib/api/client";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -22,9 +15,8 @@ import { Building2, LogOut, User as UserIcon } from "lucide-react";
 import type { Role } from "@/lib/api/types";
 
 const roleLabel: Record<Role, string> = {
-  coordinator: "Coordinator",
-  medical_director: "Medical Director",
   admin: "Admin",
+  user: "User",
 };
 
 export function TopBar() {
@@ -32,11 +24,6 @@ export function TopBar() {
   const navigate = useNavigate();
   const { data: user } = useQuery(currentUserQuery());
   const { data: tenant } = useQuery(tenantQuery());
-
-  const setRoleM = useMutation({
-    mutationFn: (role: Role) => api.setRole(role),
-    onSuccess: () => qc.invalidateQueries({ queryKey: qk.currentUser }),
-  });
 
   const logoutM = useMutation({
     mutationFn: () => api.logout(),
@@ -57,16 +44,11 @@ export function TopBar() {
         </div>
 
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
-          <Select value={user?.role} onValueChange={(v) => setRoleM.mutate(v as Role)}>
-            <SelectTrigger className="h-8 w-[160px] text-xs" aria-label="Switch role">
-              <SelectValue placeholder="Role" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="coordinator">{roleLabel.coordinator}</SelectItem>
-              <SelectItem value="medical_director">{roleLabel.medical_director}</SelectItem>
-              <SelectItem value="admin">{roleLabel.admin}</SelectItem>
-            </SelectContent>
-          </Select>
+          {user?.role && (
+            <span className="inline-flex items-center rounded border border-border bg-surface-muted/60 px-2 h-7 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+              {roleLabel[user.role]}
+            </span>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 h-8 hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">

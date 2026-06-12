@@ -1,0 +1,55 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "tissue_source": {
+          "type": "string",
+          "description": "Birth tissue source cultured (e.g. Amnion/Chorion, placenta, umbilical cord)"
+        },
+        "aerobic_culture": {
+          "type": "string",
+          "description": "Aerobic culture result (e.g. No Growth, Negative, or organism name)"
+        },
+        "anaerobic_culture": {
+          "type": "string",
+          "description": "Anaerobic culture result"
+        },
+        "fungal_culture": {
+          "type": "string",
+          "description": "Fungal culture result"
+        },
+        "organism_identified": {
+          "type": "string",
+          "description": "Name of any organism identified, if growth is reported"
+        },
+        "culture_date": {
+          "type": "string",
+          "description": "Date cultures were taken (ISO 8601)"
+        },
+        "culture_release_approved": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether Medical Director approved culture results for release"
+        }
+      },
+      "required": [
+        "tissue_source",
+        "aerobic_culture",
+        "anaerobic_culture",
+        "fungal_culture",
+        "organism_identified",
+        "culture_date",
+        "culture_release_approved"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Culture Results (Birth Tissue)\nExtraction instructions: Extract the birth tissue source cultured (tissue_source, e.g. 'Amnion/Chorion') and the aerobic, anaerobic, and fungal culture results exactly as written (e.g. 'No Growth', 'Negative', or an organism name). organism_identified: the organism name only if growth is reported; otherwise null. culture_release_approved: 'Yes' if Medical Director approval is documented, 'No' if refused, null if not mentioned. Return null for any field not explicitly present."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

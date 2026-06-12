@@ -9,12 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedUsersRouteImport } from './routes/_authenticated.users'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated.settings'
 import { Route as AuthenticatedAuditRouteImport } from './routes/_authenticated.audit'
 import { Route as AuthenticatedDonorsIndexRouteImport } from './routes/_authenticated.donors.index'
@@ -22,11 +22,6 @@ import { Route as AuthenticatedDonorsNewRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDonorsIdRouteImport } from './routes/_authenticated.donors.$id'
 import { Route as AuthenticatedDonorsIdReportRouteImport } from './routes/_authenticated.donors.$id_.report'
 
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -50,6 +45,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedUsersRoute = AuthenticatedUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
@@ -89,9 +89,9 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/signup': typeof SignupRoute
   '/audit': typeof AuthenticatedAuditRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/users': typeof AuthenticatedUsersRoute
   '/donors/$id': typeof AuthenticatedDonorsIdRoute
   '/donors/new': typeof AuthenticatedDonorsNewRoute
   '/donors/': typeof AuthenticatedDonorsIndexRoute
@@ -102,9 +102,9 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/signup': typeof SignupRoute
   '/audit': typeof AuthenticatedAuditRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/users': typeof AuthenticatedUsersRoute
   '/donors/$id': typeof AuthenticatedDonorsIdRoute
   '/donors/new': typeof AuthenticatedDonorsNewRoute
   '/donors': typeof AuthenticatedDonorsIndexRoute
@@ -117,9 +117,9 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/signup': typeof SignupRoute
   '/_authenticated/audit': typeof AuthenticatedAuditRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/users': typeof AuthenticatedUsersRoute
   '/_authenticated/donors/$id': typeof AuthenticatedDonorsIdRoute
   '/_authenticated/donors/new': typeof AuthenticatedDonorsNewRoute
   '/_authenticated/donors/': typeof AuthenticatedDonorsIndexRoute
@@ -132,9 +132,9 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/signup'
     | '/audit'
     | '/settings'
+    | '/users'
     | '/donors/$id'
     | '/donors/new'
     | '/donors/'
@@ -145,9 +145,9 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/signup'
     | '/audit'
     | '/settings'
+    | '/users'
     | '/donors/$id'
     | '/donors/new'
     | '/donors'
@@ -159,9 +159,9 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
-    | '/signup'
     | '/_authenticated/audit'
     | '/_authenticated/settings'
+    | '/_authenticated/users'
     | '/_authenticated/donors/$id'
     | '/_authenticated/donors/new'
     | '/_authenticated/donors/'
@@ -174,18 +174,10 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -220,6 +212,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/users': {
+      id: '/_authenticated/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthenticatedUsersRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
@@ -269,6 +268,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedAuditRoute: typeof AuthenticatedAuditRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedUsersRoute: typeof AuthenticatedUsersRoute
   AuthenticatedDonorsIdRoute: typeof AuthenticatedDonorsIdRoute
   AuthenticatedDonorsNewRoute: typeof AuthenticatedDonorsNewRoute
   AuthenticatedDonorsIndexRoute: typeof AuthenticatedDonorsIndexRoute
@@ -278,6 +278,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAuditRoute: AuthenticatedAuditRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedUsersRoute: AuthenticatedUsersRoute,
   AuthenticatedDonorsIdRoute: AuthenticatedDonorsIdRoute,
   AuthenticatedDonorsNewRoute: AuthenticatedDonorsNewRoute,
   AuthenticatedDonorsIndexRoute: AuthenticatedDonorsIndexRoute,
@@ -294,7 +295,6 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

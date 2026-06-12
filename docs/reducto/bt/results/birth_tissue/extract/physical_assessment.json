@@ -1,0 +1,381 @@
+{
+  "result": {
+    "exam_performed": {
+      "value": "Yes",
+      "citations": [
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.7172131147540983,
+            "top": 0.28454773869346733,
+            "width": 0.11311475409836069,
+            "height": 0.009422110552763818,
+            "page": 9,
+            "original_page": 9
+          },
+          "content": "a physical exam at the time of presentation to the hospital or at delivery",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Text",
+            "bbox": {
+              "left": 0.16967213114754098,
+              "top": 0.26884422110552764,
+              "width": 0.6844262295081968,
+              "height": 0.04082914572864322,
+              "page": 9,
+              "original_page": 9
+            },
+            "content": "Assessment of the mother is conducted by the physician and/or the labor and delivery nurse. The assessment should include a review of any available medical records as well as a physical exam at the time of presentation to the hospital or at delivery. Results must be documented in the medical record.",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.14754098360655737,
+            "top": 0.2663316582914573,
+            "width": 0.02950819672131147,
+            "height": 0.005653266331658302,
+            "page": 10,
+            "original_page": 10
+          },
+          "content": "[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1)",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.1411195348520748,
+              "top": 0.24324125740396318,
+              "width": 0.7245347820344519,
+              "height": 0.29235416201490855,
+              "page": 10,
+              "original_page": 10
+            },
+            "content": "1. [ ] YES\n[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1) If YES, explain: <empty>\n2. [ ] YES\n[x] NO Is there any evidence of placental infection or abnormality?\nIf YES, describe: <empty>\n3. [ ] YES\n[x] NO Were antibiotics used within 24 hours of delivery or during labor and/or delivery? If YES, state reason:\n[ ] Group B Strep Prophylaxis\n[ ] C-Section Prophylaxis\n[ ] Other: <empty>\n4. [ ] YES\n[x] NO Does the infant have any evidence of a congenital abnormality?\nIf YES, describe: <empty>\n5. [ ] YES\n[x] NO Was a blood transfusion or colloids given PRIOR to delivery? If YES, product <empty> Amount <empty> mL\n6. [ ] YES\n[x] NO Did membranes rupture more than 18 hours before start of labor? If YES, number of hours: <empty>\n7. [ ] YES\n[x] NO Was the mother febrile at time of delivery? If YES, give temperature <empty> Explain: <empty>\n8. [ ] YES\n[x] NO Were there pregnancy or birth complications which may preclude the use of this unit?\nIf YES, explain: <empty>\n9. [ ] YES\n[x] NO PRIOR to drawing the donation maternal samples, were MORE THAN 2000 mL of IV fluids/crystalloids given to the patient in one (1) hour or less? If YES, product <empty> Amount <empty> mL\n10. [ ] YES\n[x] NO Was there any adverse reaction of the donor to the donation process?\nIf YES, specify: <empty>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "exam_date": {
+      "value": "2025-05-12",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.7262295081967213,
+            "top": 0.7701005025125628,
+            "width": 0.12213114754098364,
+            "height": 0.028894472361809087,
+            "page": 10,
+            "original_page": 10
+          },
+          "content": "Date: 5/12/25",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.12118672855564805,
+              "top": 0.7262293369925801,
+              "width": 0.7561490168336962,
+              "height": 0.11718565974403267,
+              "page": 10,
+              "original_page": 10
+            },
+            "content": "The above patient information is accurate to the best of my knowledge.\nHealthcare Provider:\n(Dr./nurse/midwife, etc.)\nPrint Name: Rachel Bell, RN\nTitle: RN\nSignature: <signature>\nDate: 5/12/25\nCollection Performed By:\n(If different from above)\nPrint Name: N/A\nTitle: N/A",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "delivery_date": {
+      "value": "2025-05-12",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.20655737704918034,
+            "top": 0.5760050251256281,
+            "width": 0.13360655737704916,
+            "height": 0.021356783919597944,
+            "page": 10,
+            "original_page": 10
+          },
+          "content": "Date of Delivery: 5/12/25",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.10748558669793801,
+              "top": 0.5480424890566111,
+              "width": 0.7746805409916112,
+              "height": 0.16347584173307947,
+              "page": 10,
+              "original_page": 10
+            },
+            "content": "Date of Membrane Rupture: 5/12/25\nTime of Membrane Rupture: 1030\nam/pm: [x] am\n[ ] pm\nType of Rupture (circle one): [x] AROM\n[ ] SROM\nDate of Delivery: 5/12/25\nHospital: Mercy Hospital\nState: MO\nDelivery Time: 1149\nam/pm: [x] am\n[ ] pm\nType of Delivery (circle one): [x] Vaginal\n[ ] C-section\nMother's Race: C\nFather's Race: C\nGestational Age:\nweeks: 39\ndays: 1\nAge of Mother: 44\nBaby's Sex (circle one): [x] Male\n[ ] Female\nPlacenta Expulsion Time: 1153\nam/pm: [x] am\n[ ] pm\nBaby's Birth Weight:\nlbs: 7\noz: 13\nPlacenta Placed in Refrigerator Time: 1215\nam/pm: [ ] am\n[x] pm\nAPGAR Score:\n1min: 8\n5 min: 9\nAmniotic Fluid Color: clear",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "exam_during_delivery_admission": {
+      "value": "Yes",
+      "citations": [
+        {
+          "type": "Section Header",
+          "bbox": {
+            "left": 0.41119699536598736,
+            "top": 0.23743718592964824,
+            "width": 0.019287831979670142,
+            "height": 0.00628140703517588,
+            "page": 10,
+            "original_page": 10
+          },
+          "content": "To Be Completed by HEALTHCARE PROFESSIONAL at Time of Delivery:",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Section Header",
+            "bbox": {
+              "left": 0.28688524590163933,
+              "top": 0.23743718592964824,
+              "width": 0.44016393442622953,
+              "height": 0.008793969849246231,
+              "page": 10,
+              "original_page": 10
+            },
+            "content": "To Be Completed by HEALTHCARE PROFESSIONAL at Time of Delivery:",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.7172131147540983,
+            "top": 0.28454773869346733,
+            "width": 0.11311475409836069,
+            "height": 0.009422110552763818,
+            "page": 9,
+            "original_page": 9
+          },
+          "content": "a physical exam at the time of presentation to the hospital or at delivery",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Text",
+            "bbox": {
+              "left": 0.16967213114754098,
+              "top": 0.26884422110552764,
+              "width": 0.6844262295081968,
+              "height": 0.04082914572864322,
+              "page": 9,
+              "original_page": 9
+            },
+            "content": "Assessment of the mother is conducted by the physician and/or the labor and delivery nurse. The assessment should include a review of any available medical records as well as a physical exam at the time of presentation to the hospital or at delivery. Results must be documented in the medical record.",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "visible_lesions": {
+      "value": "None",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.20176697754469075,
+            "top": 0.3126446614117041,
+            "width": 0.017789916523167353,
+            "height": 0.009212841239965606,
+            "page": 10,
+            "original_page": 10
+          },
+          "content": "[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1)",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.1411195348520748,
+              "top": 0.24324125740396318,
+              "width": 0.7245347820344519,
+              "height": 0.29235416201490855,
+              "page": 10,
+              "original_page": 10
+            },
+            "content": "1. [ ] YES\n[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1) If YES, explain: <empty>\n2. [ ] YES\n[x] NO Is there any evidence of placental infection or abnormality?\nIf YES, describe: <empty>\n3. [ ] YES\n[x] NO Were antibiotics used within 24 hours of delivery or during labor and/or delivery? If YES, state reason:\n[ ] Group B Strep Prophylaxis\n[ ] C-Section Prophylaxis\n[ ] Other: <empty>\n4. [ ] YES\n[x] NO Does the infant have any evidence of a congenital abnormality?\nIf YES, describe: <empty>\n5. [ ] YES\n[x] NO Was a blood transfusion or colloids given PRIOR to delivery? If YES, product <empty> Amount <empty> mL\n6. [ ] YES\n[x] NO Did membranes rupture more than 18 hours before start of labor? If YES, number of hours: <empty>\n7. [ ] YES\n[x] NO Was the mother febrile at time of delivery? If YES, give temperature <empty> Explain: <empty>\n8. [ ] YES\n[x] NO Were there pregnancy or birth complications which may preclude the use of this unit?\nIf YES, explain: <empty>\n9. [ ] YES\n[x] NO PRIOR to drawing the donation maternal samples, were MORE THAN 2000 mL of IV fluids/crystalloids given to the patient in one (1) hour or less? If YES, product <empty> Amount <empty> mL\n10. [ ] YES\n[x] NO Was there any adverse reaction of the donor to the donation process?\nIf YES, specify: <empty>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "findings_abnormal": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.2025756101139256,
+            "top": 0.33107034389163525,
+            "width": 0.016981283953932468,
+            "height": 0.009212841239965606,
+            "page": 10,
+            "original_page": 10
+          },
+          "content": "[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1)",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.1411195348520748,
+              "top": 0.24324125740396318,
+              "width": 0.7245347820344519,
+              "height": 0.29235416201490855,
+              "page": 10,
+              "original_page": 10
+            },
+            "content": "1. [ ] YES\n[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1) If YES, explain: <empty>\n2. [ ] YES\n[x] NO Is there any evidence of placental infection or abnormality?\nIf YES, describe: <empty>\n3. [ ] YES\n[x] NO Were antibiotics used within 24 hours of delivery or during labor and/or delivery? If YES, state reason:\n[ ] Group B Strep Prophylaxis\n[ ] C-Section Prophylaxis\n[ ] Other: <empty>\n4. [ ] YES\n[x] NO Does the infant have any evidence of a congenital abnormality?\nIf YES, describe: <empty>\n5. [ ] YES\n[x] NO Was a blood transfusion or colloids given PRIOR to delivery? If YES, product <empty> Amount <empty> mL\n6. [ ] YES\n[x] NO Did membranes rupture more than 18 hours before start of labor? If YES, number of hours: <empty>\n7. [ ] YES\n[x] NO Was the mother febrile at time of delivery? If YES, give temperature <empty> Explain: <empty>\n8. [ ] YES\n[x] NO Were there pregnancy or birth complications which may preclude the use of this unit?\nIf YES, explain: <empty>\n9. [ ] YES\n[x] NO PRIOR to drawing the donation maternal samples, were MORE THAN 2000 mL of IV fluids/crystalloids given to the patient in one (1) hour or less? If YES, product <empty> Amount <empty> mL\n10. [ ] YES\n[x] NO Was there any adverse reaction of the donor to the donation process?\nIf YES, specify: <empty>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "rejection_signs_present": {
+      "value": "No",
+      "citations": [
+        {
+          "type": "Key Value",
+          "bbox": {
+            "left": 0.2025756101139256,
+            "top": 0.36177981469152065,
+            "width": 0.016981283953932468,
+            "height": 0.009212841239965606,
+            "page": 10,
+            "original_page": 10
+          },
+          "content": "[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1)",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Key Value",
+            "bbox": {
+              "left": 0.1411195348520748,
+              "top": 0.24324125740396318,
+              "width": 0.7245347820344519,
+              "height": 0.29235416201490855,
+              "page": 10,
+              "original_page": 10
+            },
+            "content": "1. [ ] YES\n[x] NO Was there any physical or clinical evidence of relevant communicable disease or high-risk behavior noted upon maternal assessment? (See Page 1) If YES, explain: <empty>\n2. [ ] YES\n[x] NO Is there any evidence of placental infection or abnormality?\nIf YES, describe: <empty>\n3. [ ] YES\n[x] NO Were antibiotics used within 24 hours of delivery or during labor and/or delivery? If YES, state reason:\n[ ] Group B Strep Prophylaxis\n[ ] C-Section Prophylaxis\n[ ] Other: <empty>\n4. [ ] YES\n[x] NO Does the infant have any evidence of a congenital abnormality?\nIf YES, describe: <empty>\n5. [ ] YES\n[x] NO Was a blood transfusion or colloids given PRIOR to delivery? If YES, product <empty> Amount <empty> mL\n6. [ ] YES\n[x] NO Did membranes rupture more than 18 hours before start of labor? If YES, number of hours: <empty>\n7. [ ] YES\n[x] NO Was the mother febrile at time of delivery? If YES, give temperature <empty> Explain: <empty>\n8. [ ] YES\n[x] NO Were there pregnancy or birth complications which may preclude the use of this unit?\nIf YES, explain: <empty>\n9. [ ] YES\n[x] NO PRIOR to drawing the donation maternal samples, were MORE THAN 2000 mL of IV fluids/crystalloids given to the patient in one (1) hour or less? If YES, product <empty> Amount <empty> mL\n10. [ ] YES\n[x] NO Was there any adverse reaction of the donor to the donation process?\nIf YES, specify: <empty>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    }
+  },
+  "usage": {
+    "num_fields": 7,
+    "num_pages": 2,
+    "credits": 30.7,
+    "extract_mode": "super_agent"
+  },
+  "job_id": "b7b3a32c-70c9-4345-b17b-587e438be9f5",
+  "studio_link": "https://studio.reducto.ai/job/b7b3a32c-70c9-4345-b17b-587e438be9f5",
+  "response_type": "v3_extract"
+}

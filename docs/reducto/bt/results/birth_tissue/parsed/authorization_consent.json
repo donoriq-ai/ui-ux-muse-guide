@@ -1,0 +1,44 @@
+[
+  {
+    "id": "f-birth-tissue-authorization_consent-consent_date-1cbab8c4",
+    "documentId": "birth-tissue-authorization_consent",
+    "label": "Consent Date",
+    "key": "consent_date",
+    "value": "2025-05-15",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-authorization_consent",
+      "documentLabel": "Authorization Consent",
+      "page": 7,
+      "bbox": [
+        0.614646111670311,
+        0.8859280286311227,
+        0.1001176060693082,
+        0.03635440735625839
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-authorization_consent-consent_signature_present-b3270c11",
+    "documentId": "birth-tissue-authorization_consent",
+    "label": "Consent Signature Present",
+    "key": "consent_signature_present",
+    "value": "Yes",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-authorization_consent",
+      "documentLabel": "Authorization Consent",
+      "page": 7,
+      "bbox": [
+        0.21151108199948473,
+        0.8525424197459359,
+        0.03846820397838276,
+        0.016966724954558837
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  }
+]

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "f-birth-tissue-physical_assessment-exam_performed-0ea021d2",
+    "documentId": "birth-tissue-physical_assessment",
+    "label": "Birth Mother Exam Performed",
+    "key": "exam_performed",
+    "value": "Yes",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-physical_assessment",
+      "documentLabel": "Physical Assessment",
+      "page": 9,
+      "bbox": [
+        0.7172131147540983,
+        0.28454773869346733,
+        0.11311475409836069,
+        0.009422110552763818
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-physical_assessment-exam_date-30e55ae6",
+    "documentId": "birth-tissue-physical_assessment",
+    "label": "Birth Mother Exam Date",
+    "key": "exam_date",
+    "value": "2025-05-12",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-physical_assessment",
+      "documentLabel": "Physical Assessment",
+      "page": 10,
+      "bbox": [
+        0.7262295081967213,
+        0.7701005025125628,
+        0.12213114754098364,
+        0.028894472361809087
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-physical_assessment-delivery_date-61bf375f",
+    "documentId": "birth-tissue-physical_assessment",
+    "label": "Delivery Date",
+    "key": "delivery_date",
+    "value": "2025-05-12",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-physical_assessment",
+      "documentLabel": "Physical Assessment",
+      "page": 10,
+      "bbox": [
+        0.20655737704918034,
+        0.5760050251256281,
+        0.13360655737704916,
+        0.021356783919597944
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-physical_assessment-visible_lesions-b62ef6f5",
+    "documentId": "birth-tissue-physical_assessment",
+    "label": "Visible Lesions",
+    "key": "visible_lesions",
+    "value": "None",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-physical_assessment",
+      "documentLabel": "Physical Assessment",
+      "page": 10,
+      "bbox": [
+        0.20176697754469075,
+        0.3126446614117041,
+        0.017789916523167353,
+        0.009212841239965606
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-physical_assessment-findings_abnormal-936d241f",
+    "documentId": "birth-tissue-physical_assessment",
+    "label": "Abnormal Findings on Exam",
+    "key": "findings_abnormal",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-physical_assessment",
+      "documentLabel": "Physical Assessment",
+      "page": 10,
+      "bbox": [
+        0.2025756101139256,
+        0.33107034389163525,
+        0.016981283953932468,
+        0.009212841239965606
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-physical_assessment-rejection_signs_present-d816c76b",
+    "documentId": "birth-tissue-physical_assessment",
+    "label": "Rejection Signs Present (BT)",
+    "key": "rejection_signs_present",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-physical_assessment",
+      "documentLabel": "Physical Assessment",
+      "page": 10,
+      "bbox": [
+        0.2025756101139256,
+        0.36177981469152065,
+        0.016981283953932468,
+        0.009212841239965606
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  }
+]

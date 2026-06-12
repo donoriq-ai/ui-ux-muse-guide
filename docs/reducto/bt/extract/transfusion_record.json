@@ -1,0 +1,47 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "transfusion_occurred_48h": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether any blood transfusion or fluid infusion occurred in the 48 hours before specimen collection"
+        },
+        "blood_colloid_volume_ml": {
+          "type": "number",
+          "description": "Total volume of blood and colloid products transfused (mL) in the 48 hours before specimen collection"
+        },
+        "crystalloid_volume_ml": {
+          "type": "number",
+          "description": "Total volume of crystalloid solutions infused (mL) in the 1 hour before specimen collection"
+        },
+        "pre_transfusion_specimen_available": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether a pre-transfusion blood specimen is available for testing"
+        },
+        "plasma_dilution_algorithm_performed": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether a validated plasma dilution algorithm was performed and the specimen was determined acceptable"
+        }
+      },
+      "required": [
+        "transfusion_occurred_48h",
+        "blood_colloid_volume_ml",
+        "crystalloid_volume_ml",
+        "pre_transfusion_specimen_available",
+        "plasma_dilution_algorithm_performed"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Transfusion Record (Birth Tissue)\nExtraction instructions: For birth tissue, the screened/tested individual is the birth mother (a living adult). transfusion_occurred_48h, pre_transfusion_specimen_available, and plasma_dilution_algorithm_performed must be exactly 'Yes' or 'No'. Extract blood_colloid_volume_ml and crystalloid_volume_ml as numbers in milliliters. Return null for any field not explicitly documented."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

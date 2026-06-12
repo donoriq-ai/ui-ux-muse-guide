@@ -1,0 +1,89 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "hiv_result": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative"],
+          "description": "HIV-1/2 serology result"
+        },
+        "hbsag_result": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative"],
+          "description": "Hepatitis B surface antigen result"
+        },
+        "anti_hbc_total_result": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative"],
+          "description": "Total anti-HBc (hepatitis B core antibody, IgG+IgM) result"
+        },
+        "hcv_result": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative"],
+          "description": "Hepatitis C antibody result"
+        },
+        "syphilis_result": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative", "RPR Reactive", "RPR Non-Reactive"],
+          "description": "Syphilis serology result"
+        },
+        "htlv_result": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative"],
+          "description": "HTLV-I/II serology result (required for living donors per AATB §D1.100)"
+        },
+        "hiv1_nat": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative", "Not Detected", "Detected"],
+          "description": "HIV-1 NAT (nucleic acid test) result"
+        },
+        "hcv_nat": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative", "Not Detected", "Detected"],
+          "description": "HCV NAT result"
+        },
+        "hbv_nat": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative", "Not Detected", "Detected"],
+          "description": "HBV NAT result"
+        },
+        "wnv_nat": {
+          "type": "string",
+          "enum": ["Reactive", "Non-Reactive", "Repeatedly Reactive", "Positive", "Negative", "Not Detected", "Detected", "Not Performed"],
+          "description": "West Nile Virus NAT result (required Jun–Oct for living donors)"
+        },
+        "collection_month": {
+          "type": "integer",
+          "description": "Month of specimen collection (1=January through 12=December)"
+        },
+        "specimen_date": {
+          "type": "string",
+          "description": "Specimen collection date (ISO 8601)"
+        }
+      },
+      "required": [
+        "hiv_result",
+        "hbsag_result",
+        "anti_hbc_total_result",
+        "hcv_result",
+        "syphilis_result",
+        "htlv_result",
+        "hiv1_nat",
+        "hcv_nat",
+        "hbv_nat",
+        "wnv_nat",
+        "collection_month",
+        "specimen_date"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Idt Report\nExtraction instructions: Extract every serology and NAT test result explicitly documented. For each serological marker (HIV, HBsAg, anti-HBc total, anti-HCV, HTLV-I/II, syphilis) return the exact result word from the document (e.g. 'Reactive', 'Non-Reactive', 'Repeatedly Reactive'). HTLV-I/II (htlv_result) is a required field — look for 'HTLV I/II Ab', 'HTLV-I/II', or 'HTLV' in the test list. For NAT results (HIV-1, HCV, HBV, WNV) return the exact result word. Use enum values only: Reactive, Non-Reactive, Repeatedly Reactive, Positive, Negative, Not Detected, Detected, Not Performed. Extract collection_month as an integer (1–12). If a marker is not tested or result is absent from the document, return null — do not infer."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

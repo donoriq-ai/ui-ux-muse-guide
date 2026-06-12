@@ -1,0 +1,154 @@
+{
+  "result": {
+    "birth_mother_name": {
+      "value": "",
+      "citations": []
+    },
+    "birth_mother_dob": {
+      "value": "1981-05-09",
+      "citations": [
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.5252206809583859,
+            "top": 0.2983606557377049,
+            "width": 0.0510718789407314,
+            "height": 0.012295081967213128,
+            "page": 23,
+            "original_page": 23
+          },
+          "content": "DOB: 5/9/1981 in the header row of the Delivery Note table",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.08007566204287515,
+              "top": 0.26639344262295084,
+              "width": 0.5006305170239597,
+              "height": 0.6549180327868852,
+              "page": 23,
+              "original_page": 23
+            },
+            "content": "<table><tr><th>Patient: 44 y.o./female</th><th>DOB: 5/9/1981</th></tr><tr><td>Date of Delivery: 5/12/2025</td><td></td></tr><tr><td>MRN:</td><td></td></tr><tr><td>Primary Obstetrician: Lagow, Julia M, DO\nDelivering Obstetrician: Julia M Lagow, DO</td><td></td></tr><tr><td>DELIVERY TYPE: induced vaginal</td><td></td></tr><tr><td>Findings:</td><td></td></tr><tr><td>Gestational Age: 39w1d</td><td></td></tr><tr><td>Date of Delivery: 5/12/2025</td><td></td></tr><tr><td>Time of Delivery: 11:49 AM</td><td></td></tr><tr><td>Newborn Sex: Male</td><td></td></tr><tr><td>Delivery Type: Refer to Delivery Summary.</td><td></td></tr><tr><td>Delayed Cord Clamping: (Refer to Delivery Summary)</td><td></td></tr><tr><td>Newborn Weight: Refer to Delivery Summary.</td><td></td></tr><tr><td>Apgar 1 Minute: Refer to Delivery Summary.</td><td></td></tr><tr><td>Apgar 5 Minutes: Refer to Delivery Summary.</td><td></td></tr><tr><td>Neonatal Team present at delivery? no</td><td></td></tr><tr><td>EBL: *No surgery found *</td><td></td></tr><tr><td><u>Review the Delivery Report for details.</u></td><td></td></tr><tr><td>Indications: 44 y.o. y/o G7P3033 with IUP at 39w1d</td><td></td></tr><tr><td>Pregnancy Complications: none</td><td></td></tr><tr><td>Findings &amp; Description of Procedure</td><td></td></tr><tr><td>Information for the patient's newborn:</td><td></td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "blood_type": {
+      "value": "A+",
+      "citations": [
+        {
+          "type": "List Item",
+          "bbox": {
+            "left": 0.21563682219419925,
+            "top": 0.8008196721311476,
+            "width": 0.017023959646910475,
+            "height": 0.015573770491803307,
+            "page": 21,
+            "original_page": 21
+          },
+          "content": "Blood type: A+ in the prenatal labs list item",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "List Item",
+            "bbox": {
+              "left": 0.13619167717528374,
+              "top": 0.8008196721311476,
+              "width": 0.09709962168978563,
+              "height": 0.01557377049180328,
+              "page": 21,
+              "original_page": 21
+            },
+            "content": "\t- Blood type: A+",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        },
+        {
+          "type": "Text",
+          "bbox": {
+            "left": 0.1889168765743073,
+            "top": 0.34075907590759075,
+            "width": 0.008186397984886656,
+            "height": 0.010726072607260717,
+            "page": 26,
+            "original_page": 26
+          },
+          "content": "ABO row showing value 'A' and Rh row showing value 'Positive' in the 1st Trimester/NOB labs table",
+          "image_url": null,
+          "chart_data": null,
+          "confidence": null,
+          "granular_confidence": null,
+          "extra": null,
+          "parentBlock": {
+            "type": "Table",
+            "bbox": {
+              "left": 0.08060453400503778,
+              "top": 0.2706270627062706,
+              "width": 0.4086901763224181,
+              "height": 0.6485148514851485,
+              "page": 26,
+              "original_page": 26
+            },
+            "content": "<table><tr><th colspan=\"5\">1st Trimester/NOB labs</th></tr><tr><td>Test</td><td>Value</td><td>Reference\nRange</td><td>Date</td><td>Time</td></tr><tr><td>ABO</td><td>A</td><td></td><td>05/12/25</td><td>0701</td></tr><tr><td></td><td>A</td><td></td><td>05/12/25</td><td>0544</td></tr><tr><td></td><td>A</td><td></td><td>10/21/24</td><td>0902</td></tr><tr><td rowspan=\"3\">Rh</td><td>Positive</td><td></td><td>05/12/25</td><td>0701</td></tr><tr><td>Positive</td><td></td><td>05/12/25</td><td>0544</td></tr><tr><td>RH(D)\nPOSITIVE</td><td></td><td>10/21/24</td><td>0902</td></tr><tr><td>Antibody</td><td>ΝΟ</td><td></td><td>10/21/24</td><td>0902</td></tr><tr><td>Screen</td><td>ANTIBODIES\nDETECTED</td><td></td><td></td><td></td></tr><tr><td>HCT</td><td>38.5 %</td><td>35.0-45.0</td><td>10/21/24</td><td>0902</td></tr><tr><td>HGB</td><td>12.3 g/dL</td><td>11.7-15.5</td><td>10/21/24</td><td>0902</td></tr><tr><td>MCV</td><td>96.7 fL</td><td>80.0 100.0</td><td>10/21/24</td><td>0902</td></tr><tr><td>Rubella</td><td>1.61 Index</td><td></td><td>10/21/24</td><td>0902</td></tr><tr><td>Varicella IgG</td><td>9.00 S/CO</td><td></td><td>10/21/24</td><td>0902</td></tr><tr><td rowspan=\"3\">RPR</td><td>Non-\nReactive</td><td>Non-Reactive</td><td>05/12/25</td><td>0544</td></tr><tr><td>NON-\nREACTIVE</td><td>NON-\nREACTIVE</td><td>02/13/25</td><td>0917</td></tr><tr><td>NON-\nREACTIVE</td><td>NON-\nREACTIVE</td><td>10/21/24</td><td>0902</td></tr><tr><td colspan=\"5\">UA-Bacteria</td></tr><tr><td>HBsAg</td><td>NON-\nREACTIVE</td><td>NON-\nREACTIVE</td><td>10/21/24</td><td>0902</td></tr><tr><td>Hep C</td><td>NON-\nREACTIVE</td><td>NON-\nREACTIVE</td><td>10/21/24</td><td>0902</td></tr><tr><td>TSH</td><td></td><td></td><td></td><td></td></tr></table>",
+            "image_url": null,
+            "chart_data": null,
+            "confidence": "low",
+            "granular_confidence": {
+              "extract_confidence": null,
+              "parse_confidence": null
+            },
+            "extra": null
+          }
+        }
+      ]
+    },
+    "maternal_cause_of_death": {
+      "value": "",
+      "citations": []
+    },
+    "maternal_cause_of_death_documented": {
+      "value": "No",
+      "citations": []
+    },
+    "md_eligibility_statement_present": {
+      "value": "No",
+      "citations": []
+    },
+    "md_signature_date": {
+      "value": "",
+      "citations": []
+    }
+  },
+  "usage": {
+    "num_fields": 7,
+    "num_pages": 11,
+    "credits": 30.7,
+    "extract_mode": "super_agent"
+  },
+  "job_id": "d99a2c4e-e556-4bc2-96d1-84e16d701b12",
+  "studio_link": "https://studio.reducto.ai/job/d99a2c4e-e556-4bc2-96d1-84e16d701b12",
+  "response_type": "v3_extract"
+}

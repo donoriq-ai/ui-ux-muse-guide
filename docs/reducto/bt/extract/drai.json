@@ -1,0 +1,65 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "hiv_iv_drug_use": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "IV drug use risk answer"
+        },
+        "hiv_msm": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Male-with-male sexual contact risk behavior answer"
+        },
+        "high_risk_sexual": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "High-risk sexual behavior answer"
+        },
+        "recent_incarceration": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Incarceration within 12 months"
+        },
+        "drai_date": {
+          "type": "string",
+          "description": "Date DRAI was completed (ISO 8601)"
+        },
+        "delivery_date": {
+          "type": "string",
+          "description": "Date of delivery (ISO 8601), used to check the 14-day DRAI window for the birth mother"
+        },
+        "high_risk_behavior_composite": {
+          "type": "string",
+          "enum": ["Yes", "No", "Inconsistent"],
+          "description": "Overall composite high-risk flag based on all DRAI answers and any cross-check with physical assessment and medical records"
+        },
+        "source_inconsistency": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether DRAI, physical assessment, and medical records give inconsistent information about high-risk behaviors"
+        }
+      },
+      "required": [
+        "hiv_iv_drug_use",
+        "hiv_msm",
+        "high_risk_sexual",
+        "recent_incarceration",
+        "drai_date",
+        "delivery_date",
+        "high_risk_behavior_composite",
+        "source_inconsistency"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: DRAI (Birth Tissue)\nExtraction instructions: This is the Donor Risk Assessment Interview of the birth mother. Extract every documented behavioral risk question answer as 'Yes' or 'No' exactly. high_risk_behavior_composite should be 'Yes' if any risk factor is confirmed, 'No' if all are negative, or 'Inconsistent' if the document contains conflicting information. source_inconsistency should be 'Yes' only if the DRAI contains explicit notes of conflicting information from physical assessment or medical records. Capture drai_date and delivery_date so the 14-day birth-mother interview window can be checked. If an answer is not explicitly stated, return null."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}

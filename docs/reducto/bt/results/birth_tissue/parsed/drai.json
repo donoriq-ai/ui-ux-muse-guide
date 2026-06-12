@@ -1,0 +1,149 @@
+[
+  {
+    "id": "f-birth-tissue-drai-hiv_iv_drug_use-3f9ef51d",
+    "documentId": "birth-tissue-drai",
+    "label": "High-Risk Behavior - IV Drug Use",
+    "key": "hiv_iv_drug_use",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-drai",
+      "documentLabel": "Drai",
+      "page": 11,
+      "bbox": [
+        0.8597359735973598,
+        0.5112640801001251,
+        0.022277227722772297,
+        0.01126408010012514
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-drai-hiv_msm-3dfee43d",
+    "documentId": "birth-tissue-drai",
+    "label": "High-Risk Behavior - MSM",
+    "key": "hiv_msm",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-drai",
+      "documentLabel": "Drai",
+      "page": 15,
+      "bbox": [
+        0.8610217425929263,
+        0.5916542551625315,
+        0.024769011596478596,
+        0.012633932295756156
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-drai-high_risk_sexual-de232eb2",
+    "documentId": "birth-tissue-drai",
+    "label": "High-Risk Sexual Behavior",
+    "key": "high_risk_sexual",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-drai",
+      "documentLabel": "Drai",
+      "page": 12,
+      "bbox": [
+        0.83336438721031,
+        0.6209055268271484,
+        0.022565575880366586,
+        0.010002832245543264
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-drai-recent_incarceration-89833415",
+    "documentId": "birth-tissue-drai",
+    "label": "Recent Incarceration (12 mo)",
+    "key": "recent_incarceration",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-drai",
+      "documentLabel": "Drai",
+      "page": 15,
+      "bbox": [
+        0.8578176482701813,
+        0.7204136680718043,
+        0.02066115453176487,
+        0.012002992869621587
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-drai-drai_date-1ae521e8",
+    "documentId": "birth-tissue-drai",
+    "label": "DRAI Completion Date",
+    "key": "drai_date",
+    "value": "2025-05-12",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-drai",
+      "documentLabel": "Drai",
+      "page": 17,
+      "bbox": [
+        0.6114754098360655,
+        0.31304893350062735,
+        0.13442622950819672,
+        0.02948557089084064
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-drai-high_risk_behavior_composite-e3c9135e",
+    "documentId": "birth-tissue-drai",
+    "label": "Composite High-Risk Flag",
+    "key": "high_risk_behavior_composite",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-drai",
+      "documentLabel": "Drai",
+      "page": 11,
+      "bbox": [
+        0.8597359735973598,
+        0.5112640801001251,
+        0.022277227722772297,
+        0.01126408010012514
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  },
+  {
+    "id": "f-birth-tissue-drai-source_inconsistency-b909c73f",
+    "documentId": "birth-tissue-drai",
+    "label": "Source Inconsistency (DRAI vs Physical vs Records)",
+    "key": "source_inconsistency",
+    "value": "No",
+    "confidence": 0.5,
+    "citation": {
+      "documentId": "birth-tissue-drai",
+      "documentLabel": "Drai",
+      "page": 17,
+      "bbox": [
+        0.40081967213114755,
+        0.5533249686323714,
+        0.06721311475409836,
+        0.03575909661229615
+      ],
+      "confidence": 0.5
+    },
+    "flaggedLowConfidence": true
+  }
+]

@@ -1,0 +1,80 @@
+{
+  "instructions": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "gestational_age_weeks": {
+          "type": "number",
+          "description": "Gestational age at delivery in completed weeks"
+        },
+        "delivery_date": {
+          "type": "string",
+          "description": "Date of delivery (ISO 8601)"
+        },
+        "delivery_route": {
+          "type": "string",
+          "enum": ["Vaginal", "Cesarean"],
+          "description": "Route of delivery (Vaginal or Cesarean)"
+        },
+        "birth_weight_g": {
+          "type": "number",
+          "description": "Birth weight in grams"
+        },
+        "apgar_1min": {
+          "type": "number",
+          "description": "APGAR score at 1 minute"
+        },
+        "apgar_5min": {
+          "type": "number",
+          "description": "APGAR score at 5 minutes"
+        },
+        "prenatal_care": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Prenatal care received"
+        },
+        "newborn_health_assessment_present": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether a newborn health assessment is documented"
+        },
+        "active_neonatal_infection": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether an active neonatal infection was present at delivery"
+        },
+        "birth_canal_or_intrauterine_infection": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether a significant birth-canal infection (viral, parasitic, mycotic, or bacterial) at vaginal delivery or a current intrauterine infection was documented"
+        },
+        "birth_complications_noted": {
+          "type": "string",
+          "enum": ["Yes", "No"],
+          "description": "Whether significant birth complications were noted"
+        }
+      },
+      "required": [
+        "gestational_age_weeks",
+        "delivery_date",
+        "delivery_route",
+        "birth_weight_g",
+        "apgar_1min",
+        "apgar_5min",
+        "prenatal_care",
+        "newborn_health_assessment_present",
+        "active_neonatal_infection",
+        "birth_canal_or_intrauterine_infection",
+        "birth_complications_noted"
+      ]
+    },
+    "system_prompt": "You are a precise medical document data extractor. Your output will be used for regulated tissue bank eligibility determinations under HIPAA and 21 CFR Part 11. CRITICAL RULES:\n1. Return null for any field whose value is absent, redacted, illegible, or cannot be found verbatim in the document — never infer, estimate, or default.\n2. For enum fields, return only one of the specified enum values exactly as written.\n3. For date/time fields, return ISO 8601 format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ).\n4. Do not carry values forward from one section to another.\n5. Scanned/handwritten values: transcribe exactly as written; flag low confidence appropriately.\n\nDocument type: Birth Delivery Summary (Birth Tissue)\nExtraction instructions: Extract gestational_age_weeks as a number (integer or decimal weeks); do not calculate or infer it from dates. delivery_route must be exactly 'Vaginal' or 'Cesarean'. newborn_health_assessment_present: 'Yes' if a newborn assessment section exists and is completed, 'No' otherwise. active_neonatal_infection: 'Yes' only if explicitly documented, 'No' if explicitly negative, null if not mentioned. birth_canal_or_intrauterine_infection: 'Yes' only if a significant birth-canal infection at vaginal delivery or a current intrauterine infection is explicitly documented; 'No' if explicitly negative; null if not mentioned. All Yes/No fields must use 'Yes' or 'No' exactly. Return null for any absent field."
+  },
+  "settings": {
+    "citations": {
+      "enabled": true,
+      "numerical_confidence": true
+    },
+    "deep_extract": true
+  }
+}
