@@ -137,10 +137,11 @@ class LoginRequest(ApiModel):
     password: str
 
 
-class SignupRequest(ApiModel):
+class CreateUserRequest(ApiModel):
     email: str
     name: str
-    password: str
+    role: Role
+    password: str | None = None
 
 
 class PasswordResetRequest(ApiModel):

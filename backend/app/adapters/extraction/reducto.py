@@ -2,12 +2,10 @@
 ReductoExtractor — real document processing via Reducto API.
 
 Two ingestion paths:
-  1. Single-doc: extract_fields(content, ...) — upload raw bytes, run_job, poll.
-  2. Combined packet: prepare_combined(content, ...) -> file_id + section page lists
-     then extract_section(file_id, ..., pages) per detected section.
-
-Both paths use the shared _submit_and_poll helper (run_job -> /extract_async,
-poll job.get() with backoff, parse V3Extract result).
+  1. Single-doc: extract_fields(content, ...) — upload raw bytes, extract.run_job, poll.
+  2. Combined BT packet: prepare_combined(content, ...) — upload once, submit to the
+     configured BT pipeline (pipeline.run_job), poll a single job until complete, then
+     parse both split classifications and per-section extracted fields from the result.
 
 Only active when REDUCTO_API_KEY is set and EXTRACTOR_BACKEND=reducto.
 """
@@ -20,22 +18,6 @@ from app.adapters.extraction.base import DocumentExtractor
 from app.core.config import settings
 
 logger = logging.getLogger(__name__)
-
-# ── Split descriptions (used by prepare_combined / classify_combined) ─────────
-
-_SPLIT_DESCRIPTIONS = [
-    {"name": "authorization_consent", "description": "Authorization and consent forms. Includes donor or next-of-kin signature, consent to donate, and authorization statements."},
-    {"name": "medical_records", "description": "Medical history records, physician notes, hospital records, labs, diagnoses, and cause of death documentation."},
-    {"name": "drai", "description": "Donor Risk Assessment Interview (DRAI). Contains behavioral risk questions and responses about HIV, hepatitis, and other infectious disease risks."},
-    {"name": "physical_assessment", "description": "Physical assessment or body evaluation form completed during recovery. Includes observations about skin, lesions, and physical condition."},
-    {"name": "idt_report", "description": "Infectious Disease Testing (IDT) report with serology results including HIV, HBV, HCV, HTLV, syphilis, CMV, and other required tests."},
-    {"name": "birth_delivery_summary", "description": "Birth and delivery summary for birth tissue donors. Contains gestational age, delivery date, APGAR scores, and prenatal care information."},
-    {"name": "death_certificate", "description": "Official death certificate with date, time, cause, and manner of death."},
-    {"name": "autopsy_report", "description": "Autopsy report with pathological findings, manner of death determination, and tissue suitability notes."},
-    {"name": "recovery_timing_record", "description": "Recovery timing log recording time of death, cross-clamp time, refrigeration time, and recovery start/end times."},
-    {"name": "transfusion_record", "description": "Blood transfusion records documenting any transfusions received within 48 hours before death."},
-    {"name": "culture_results", "description": "Microbiological culture results from tissue samples including aerobic, anaerobic, and fungal cultures."},
-]
 
 # ── Per-doc extraction schemas ────────────────────────────────────────────────
 
@@ -600,13 +582,7 @@ class ReductoExtractor(DocumentExtractor):
 
             time.sleep(interval)
 
-    # ── classify_combined (legacy split path, kept for backward compat) ───────
-
-    async def classify_combined(self, content: bytes, filename: str) -> list[dict]:
-        prep = await self.prepare_combined(content, filename)
-        return prep["classifications"]
-
-    # ── prepare_combined ──────────────────────────────────────────────────────
+    # ── prepare_combined (BT pipeline path) ──────────────────────────────────
 
     async def prepare_combined(self, content: bytes, filename: str) -> dict:
         import asyncio
@@ -616,30 +592,84 @@ class ReductoExtractor(DocumentExtractor):
 
     def _sync_prepare_combined(self, content: bytes, filename: str) -> dict:
         """
-        Upload the combined PDF once, deep_split to detect sections with their
-        exact page lists. Returns the reusable file_id so per-section extraction
-        can target only those pages without re-uploading.
+        Upload the combined BT packet once, then submit it to the configured
+        pipeline (pipeline.run_job → /pipeline_async). A single Reducto job
+        handles split + extract for all BT sections. Poll job.get() until
+        terminal, then parse both the split classifications and the per-section
+        extraction results.
+
+        Returns:
+          {
+            "fileId": str,
+            "classifications": [{"type", "pages", "pageRange", "confidence"}, ...],
+            "pipeline_sections": {doc_type: raw_extract_result, ...},
+          }
         """
         upload = self._client.upload(file=BytesIO(content))
         file_id: str = upload.file_id
         logger.info("reducto: combined upload file_id=%s filename=%s", file_id, filename)
 
-        split_result = self._client.split.run(
+        submission = self._client.pipeline.run_job(
             input=file_id,
-            split_description=_SPLIT_DESCRIPTIONS,
-            settings={"deep_split": True},
+            pipeline_id=settings.reducto_pipeline_id,
         )
+        job_id: str = submission.job_id
+        logger.info("reducto: pipeline job submitted job_id=%s file_id=%s", job_id, file_id[:60])
 
+        deadline = time.monotonic() + settings.reducto_max_wait_seconds
+        interval = settings.reducto_poll_interval_seconds
+        attempt = 0
+
+        while True:
+            job = self._client.job.get(job_id, timeout=30)
+            status = (job.status or "").lower()
+            attempt += 1
+            logger.info(
+                "reducto: pipeline poll attempt=%d job_id=%s status=%s",
+                attempt, job_id, status,
+            )
+
+            if status == "completed":
+                logger.info("reducto: pipeline job_id=%s completed", job_id)
+                break
+
+            if status == "failed":
+                reason = getattr(job, "reason", None) or "Pipeline job failed (no reason provided)"
+                logger.error("reducto: pipeline job_id=%s FAILED reason=%s", job_id, reason)
+                raise RuntimeError(f"Reducto pipeline job failed: {reason}")
+
+            if time.monotonic() > deadline:
+                logger.error("reducto: pipeline job_id=%s TIMED OUT after %.0fs", job_id, settings.reducto_max_wait_seconds)
+                try:
+                    self._client.job.cancel(job_id)
+                    logger.info("reducto: cancelled timed-out pipeline job_id=%s", job_id)
+                except Exception as cancel_err:
+                    logger.warning("reducto: cancel failed for pipeline job_id=%s: %s", job_id, cancel_err)
+                raise TimeoutError(
+                    f"Reducto pipeline job {job_id} timed out after {settings.reducto_max_wait_seconds:.0f}s"
+                )
+
+            time.sleep(interval)
+
+        pipeline_result = job.result
+
+        # The pipeline envelope nests the actual parse/split/extract body one level
+        # deeper under `.result` (job.result.result). Descend if that hop exists;
+        # fall back to the top object in case the SDK ever flattens it.
+        inner = getattr(pipeline_result, "result", None) or pipeline_result
+
+        # ── Parse split classifications ────────────────────────────────────────
         _CAT_CONF = {"high": 0.95, "medium": 0.80, "low": 0.60}
-
         classifications: list[dict] = []
-        for split in split_result.result.splits:
-            pages_raw = split.pages
 
-            # Collect page ints and, for deep-split, per-page categorical confidence.
-            # Standard split: pages is List[int]; confidence lives on split.conf.
-            # Deep split:     pages is List[DeepSplitPageEvidence]; no split-level conf,
-            #                 each page has .page_number and .confidence ("high"|"medium"|"low").
+        try:
+            splits_raw = inner.split.result.splits
+        except AttributeError:
+            splits_raw = []
+            logger.warning("reducto: pipeline result missing split.result.splits job_id=%s", job_id)
+
+        for split in splits_raw:
+            pages_raw = split.pages
             page_ints: list[int] = []
             page_confidences: list[float] = []
 
@@ -658,10 +688,8 @@ class ReductoExtractor(DocumentExtractor):
                 continue
 
             if page_confidences:
-                # Deep-split path: take the minimum across all pages (most conservative).
                 confidence = min(page_confidences)
             else:
-                # Standard-split path: fall back to split-level conf.
                 conf_raw = getattr(split, "conf", None)
                 confidence = 0.95 if conf_raw == "high" else 0.70 if conf_raw == "low" else 0.90
 
@@ -672,11 +700,50 @@ class ReductoExtractor(DocumentExtractor):
                 "confidence": confidence,
             })
 
+        # ── Parse per-section extraction results ──────────────────────────────
+        pipeline_sections: dict[str, object] = {}
+
+        try:
+            extract_list = inner.extract or []
+        except AttributeError:
+            extract_list = []
+            logger.warning("reducto: pipeline result missing extract list job_id=%s", job_id)
+
+        for section in extract_list:
+            name = getattr(section, "split_name", None)
+            raw = getattr(section, "result", None)
+            if name and raw is not None:
+                pipeline_sections[name] = raw
+
         logger.info(
-            "reducto: combined split file_id=%s sections=%d",
-            file_id, len(classifications),
+            "reducto: pipeline completed job_id=%s file_id=%s sections=%d extracted=%d",
+            job_id, file_id[:40], len(classifications), len(pipeline_sections),
         )
-        return {"fileId": file_id, "classifications": classifications}
+        return {
+            "fileId": file_id,
+            "classifications": classifications,
+            "pipeline_sections": pipeline_sections,
+        }
+
+    # ── parse_pipeline_section ────────────────────────────────────────────────
+
+    def parse_pipeline_section(
+        self,
+        raw: object,
+        doc_type: str,
+        doc_id: str,
+        doc_label: str,
+    ) -> list[dict]:
+        """
+        Convert a raw pipeline extract result for one section into our
+        ExtractedField list. raw is the .result object from the pipeline
+        extract array entry for this section.
+        """
+        schema = _EXTRACT_SCHEMAS.get(doc_type)
+        if not schema:
+            logger.warning("reducto: no schema for doc_type=%s in pipeline section", doc_type)
+            return []
+        return _extract_fields_from_result(raw, schema, doc_id, doc_label)
 
     # ── extract_fields (single-doc path) ─────────────────────────────────────
 
@@ -696,44 +763,3 @@ class ReductoExtractor(DocumentExtractor):
         result_obj = self._submit_and_poll(upload.file_id, schema, doc_type)
         return _extract_fields_from_result(result_obj, schema, doc_id, doc_label)
 
-    # ── extract_section (combined path) ──────────────────────────────────────
-
-    async def extract_section(
-        self,
-        file_id: str,
-        doc_type: str,
-        doc_id: str,
-        doc_label: str,
-        pages: list[int],
-    ) -> list[dict]:
-        import asyncio
-        return await asyncio.get_event_loop().run_in_executor(
-            None, self._run_extract_section, file_id, doc_type, doc_id, doc_label, pages
-        )
-
-    def _run_extract_section(
-        self,
-        file_id: str,
-        doc_type: str,
-        doc_id: str,
-        doc_label: str,
-        pages: list[int],
-    ) -> list[dict]:
-        """
-        Extract one section from an already-uploaded combined PDF using its
-        detected page list. parsing.settings.page_range restricts Reducto to only
-        those pages so the schema extraction doesn't bleed across section boundaries.
-        """
-        schema = _EXTRACT_SCHEMAS.get(doc_type)
-        if not schema:
-            logger.warning("reducto: no schema for doc_type=%s, returning empty fields", doc_type)
-            return []
-
-        logger.info(
-            "reducto: extracting section doc_type=%s file_id=%s pages=%s",
-            doc_type, file_id[:60], pages,
-        )
-        # page_range restricts extraction to the section's pages within the combined PDF
-        parsing_override = {"settings": {"page_range": pages}}
-        result_obj = self._submit_and_poll(file_id, schema, doc_type, parsing_override)
-        return _extract_fields_from_result(result_obj, schema, doc_id, doc_label)

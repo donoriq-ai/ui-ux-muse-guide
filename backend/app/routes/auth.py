@@ -1,18 +1,16 @@
-import secrets
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, status
 from sqlalchemy import select
 
 from app.core.deps import CurrentClaims, Db
-from app.core.errors import AppError, not_found, conflict
-from app.core.security import create_access_token, hash_password, verify_password
-from app.models import TenantModel, UserModel, AuditEntryModel
+from app.core.errors import AppError, not_found
+from app.core.security import create_access_token, verify_password
+from app.models import AuditEntryModel, UserModel
 from app.schemas.domain import (
     LoginRequest,
     PasswordReset,
     PasswordResetRequest,
-    SignupRequest,
     User,
 )
 
@@ -58,31 +56,6 @@ async def login(body: LoginRequest, db: Db) -> dict:
     db.add(entry)
     await db.commit()
     return {"token": token, **_user_to_schema(user).model_dump()}
-
-
-@router.post("/signup", status_code=status.HTTP_200_OK)
-async def signup(body: SignupRequest, db: Db) -> User:
-    existing = await db.execute(select(UserModel).where(UserModel.email == body.email))
-    if existing.scalar_one_or_none():
-        raise conflict(f"Email {body.email} already registered")
-
-    # Use the first tenant (single-tenant dev mode)
-    tenant = (await db.execute(select(TenantModel))).scalar_one()
-
-    user = UserModel(
-        id=f"u-{secrets.token_hex(6)}",
-        tenant_id=tenant.id,
-        email=body.email,
-        name=body.name,
-        role="coordinator",
-        password_hash=hash_password(body.password),
-    )
-    db.add(user)
-    entry = _audit(None, tenant.id, body.name, "auth.signup", body.email)
-    db.add(entry)
-    await db.commit()
-    await db.refresh(user)
-    return _user_to_schema(user)
 
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)

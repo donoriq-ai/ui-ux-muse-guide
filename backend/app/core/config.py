@@ -18,8 +18,9 @@ class Settings(BaseSettings):
 
     # Extraction — Reducto
     reducto_api_key: str = ""
+    reducto_pipeline_id: str = "k9768937hwbyzt7d8bmm199hes87zhve"
     reducto_poll_interval_seconds: float = 3.0
-    reducto_max_wait_seconds: float = 600.0
+    reducto_max_wait_seconds: float = 800.0
     reducto_submit_timeout_seconds: float = 60.0
 
     # Evaluation — Anthropic

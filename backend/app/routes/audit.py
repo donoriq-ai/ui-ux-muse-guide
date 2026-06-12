@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
 from app.core.deps import CurrentClaims, Db
@@ -10,6 +10,13 @@ router = APIRouter()
 
 @router.get("")
 async def get_audit(claims: CurrentClaims, db: Db, donorId: str | None = None) -> list[AuditEntry]:
+    # The project-wide audit trail (no donor scope) is admin-only. Per-donor audit
+    # stays available to any authenticated tenant user inside a donor workspace.
+    if donorId is None and claims.get("role") != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"code": "FORBIDDEN", "message": "Insufficient permissions"},
+        )
     tenant_id = claims["tenant_id"]
     stmt = select(AuditEntryModel).where(AuditEntryModel.tenant_id == tenant_id)
     if donorId:

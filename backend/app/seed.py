@@ -23,27 +23,19 @@ TENANT = TenantModel(
 
 USERS = [
     UserModel(
-        id="u-coord-1",
-        tenant_id="t-dev",
-        email="coordinator@acme.dev",
-        name="Alice Coordinator",
-        role="coordinator",
-        password_hash=hash_password("dev-password"),
-    ),
-    UserModel(
-        id="u-md-1",
-        tenant_id="t-dev",
-        email="medical.director@acme.dev",
-        name="Dr. Bob Director",
-        role="medical_director",
-        password_hash=hash_password("dev-password"),
-    ),
-    UserModel(
         id="u-admin-1",
         tenant_id="t-dev",
         email="admin@acme.dev",
         name="Carol Admin",
         role="admin",
+        password_hash=hash_password("dev-password"),
+    ),
+    UserModel(
+        id="u-user-1",
+        tenant_id="t-dev",
+        email="user@acme.dev",
+        name="Alice Coordinator",
+        role="user",
         password_hash=hash_password("dev-password"),
     ),
 ]
@@ -64,9 +56,8 @@ async def seed() -> None:
         await db.commit()
         print("Seed complete.")
         print("  Tenant:   t-dev / Acme Tissue Bank (Dev)")
-        print("  Users:    coordinator@acme.dev")
-        print("            medical.director@acme.dev")
-        print("            admin@acme.dev")
+        print("  Users:    admin@acme.dev (admin)")
+        print("            user@acme.dev (user)")
         print("  Password: dev-password (all users)")
 
 

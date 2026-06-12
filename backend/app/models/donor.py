@@ -15,6 +15,9 @@ class DonorModel(Base):
     created_by: Mapped[str]
     reviewed_by: Mapped[str | None] = mapped_column(nullable=True)
     reviewed_at: Mapped[str | None] = mapped_column(nullable=True)
+    # Soft-delete marker. The audit log FK is ondelete=RESTRICT, so donors are never
+    # hard-deleted; this timestamp hides the donor from list/get without losing history.
+    deleted_at: Mapped[str | None] = mapped_column(nullable=True)
     # Denormalized for fast reads; evaluation written as immutable JSONB blob
     evaluation: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
 

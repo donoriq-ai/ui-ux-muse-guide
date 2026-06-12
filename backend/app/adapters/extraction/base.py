@@ -6,33 +6,44 @@ from abc import ABC, abstractmethod
 
 class DocumentExtractor(ABC):
     @abstractmethod
-    async def classify_combined(
-        self, content: bytes, filename: str
-    ) -> list[dict]:
-        """
-        Upload a combined PDF, split and classify it.
-        Returns: list of {type: DocumentType, pageRange: [start, end], confidence: float}
-        """
-
-    @abstractmethod
     async def prepare_combined(
         self, content: bytes, filename: str
     ) -> dict:
         """
-        Upload the combined PDF once and split it.
+        Upload the combined BT packet once and run it through the configured
+        Reducto pipeline (split + extract in one job).
         Returns:
           {
-            "fileId": str,          # reducto:// ref reusable for section extraction
+            "fileId": str,
             "classifications": [
               {
-                "type": str,         # detected document type
-                "pages": [int, ...], # full list of 1-indexed pages for that section
-                "pageRange": [int, int],  # [first, last] for display
+                "type": str,
+                "pages": [int, ...],
+                "pageRange": [int, int],
                 "confidence": float,
               },
               ...
-            ]
+            ],
+            "pipeline_sections": {
+              doc_type: raw_extract_result,  # keyed by split_name
+              ...
+            },
           }
+        """
+
+    @abstractmethod
+    def parse_pipeline_section(
+        self,
+        raw: object,
+        doc_type: str,
+        doc_id: str,
+        doc_label: str,
+    ) -> list[dict]:
+        """
+        Convert a raw pipeline extract result for one section into our
+        ExtractedField list. raw is the .result from the pipeline extract
+        array entry for this section.
+        Returns: list of ExtractedField dicts with citation JSONB.
         """
 
     @abstractmethod
@@ -41,21 +52,5 @@ class DocumentExtractor(ABC):
     ) -> list[dict]:
         """
         Extract fields from a single-document PDF (raw bytes).
-        Returns: list of ExtractedField dicts with citation JSONB.
-        """
-
-    @abstractmethod
-    async def extract_section(
-        self,
-        file_id: str,
-        doc_type: str,
-        doc_id: str,
-        doc_label: str,
-        pages: list[int],
-    ) -> list[dict]:
-        """
-        Extract fields from one section of an already-uploaded combined PDF.
-        file_id: the reducto:// URL returned by prepare_combined.
-        pages: the 1-indexed page list for this section from deep_split.
         Returns: list of ExtractedField dicts with citation JSONB.
         """

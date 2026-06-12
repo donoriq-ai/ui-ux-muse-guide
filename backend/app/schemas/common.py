@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict
 TissueType = Literal["BT", "MS"]
 EvalState = Literal["ACCEPT", "REJECT", "INDETERMINATE"]
 CompletenessState = Literal["COMPLETE", "INCOMPLETE"]
-Role = Literal["coordinator", "medical_director", "admin"]
+Role = Literal["admin", "user"]
 DocumentType = Literal[
     "authorization_consent",
     "medical_records",

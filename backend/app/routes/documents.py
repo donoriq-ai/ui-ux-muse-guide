@@ -4,10 +4,11 @@ Uses the adapter interfaces — real Reducto/Anthropic when keys are set, stub o
 
 Two upload paths:
   1. POST /donors/{id}/documents:upload-combined
-     - Accepts a combined donor packet (any page order).
-     - Calls prepare_combined: upload once + deep_split to detect section types and pages.
-     - Spawns one async _run_section_extraction per detected section with a known schema.
-     - Returns {classifications} immediately; client polls GET /donors/{id} for status.
+     - Accepts a combined BT donor packet (any page order).
+     - Calls prepare_combined: upload once + run the BT Reducto pipeline (split + extract
+       in a single async job). Returns {classifications: []} immediately; the background
+       task _run_combined_pipeline writes all section fields once the pipeline completes.
+     - Client polls GET /donors/{id} for document status.
 
   2. POST /donors/{id}/documents
      - Accepts a single-type PDF with an explicit type= form field.
@@ -30,10 +31,6 @@ from app.models import AuditEntryModel, DonorDocumentModel, DonorModel, Extracte
 from app.schemas.domain import DonorDocument
 from app.adapters.extraction.factory import get_extractor
 from app.adapters.evaluation.factory import get_evaluator
-
-# Import schema registry from the Reducto adapter to know which doc types are extractable.
-# Document types for which Reducto extraction is supported.
-from app.adapters.extraction.reducto import _EXTRACT_SCHEMAS as _KNOWN_SCHEMAS
 
 router = APIRouter()
 
@@ -277,11 +274,15 @@ async def _run_combined_pipeline(
     filename: str,
     actor: str,
 ) -> None:
-    """Deep-split a combined packet, create section rows, and spawn extraction.
+    """Submit combined BT packet to the Reducto pipeline, then write all fields.
 
     Runs in the background so the upload request returns immediately and the UI
     can mirror progress from backend state (documents + audit) regardless of
     client-side navigation.
+
+    prepare_combined uploads the PDF and submits a single pipeline job that handles
+    split + extract. This task blocks on the poll loop inside prepare_combined, then
+    writes all section fields inline once the pipeline completes — no sub-tasks.
 
     Audit lifecycle: ``document.upload_started`` (written by the request) ->
     ``document.combined_uploaded`` on success | ``document.upload_failed`` on error.
@@ -292,11 +293,13 @@ async def _run_combined_pipeline(
     try:
         extractor = get_extractor()
         prep = await extractor.prepare_combined(content, filename)
-        file_id: str = prep["fileId"]
         classifications: list[dict] = prep["classifications"]
+        pipeline_sections: dict[str, object] = prep.get("pipeline_sections") or {}
 
         now = datetime.now(UTC).isoformat()
-        spawned: list[dict] = []
+
+        # Create document records and collect sections that have pipeline results.
+        section_writes: list[dict] = []
 
         async with AsyncSessionLocal() as session:
             for cls in classifications:
@@ -314,17 +317,16 @@ async def _run_combined_pipeline(
                     if len(page_range) == 2
                     else len(pages),
                     uploaded_at=now,
-                    # Only mark as processing if we can extract it; otherwise 'uploaded'
-                    status="processing" if doc_type in _KNOWN_SCHEMAS else "uploaded",
+                    status="processing" if doc_type in pipeline_sections else "uploaded",
                 )
                 session.add(doc)
 
-                if doc_type in _KNOWN_SCHEMAS and pages:
-                    spawned.append({
+                if doc_type in pipeline_sections:
+                    section_writes.append({
                         "doc_id": doc.id,
                         "doc_type": doc_type,
                         "doc_label": doc_type.replace("_", " ").title(),
-                        "pages": pages,
+                        "raw": pipeline_sections[doc_type],
                     })
 
             session.add(
@@ -340,23 +342,24 @@ async def _run_combined_pipeline(
             )
             await session.commit()
 
-        # Spawn per-section extraction after commit so doc rows are visible to each task's session
-        for s in spawned:
-            asyncio.create_task(
-                _run_section_extraction(
-                    doc_id=s["doc_id"],
-                    donor_id=donor_id,
-                    tenant_id=tenant_id,
-                    file_id=file_id,
-                    doc_type=s["doc_type"],
-                    doc_label=s["doc_label"],
-                    pages=s["pages"],
-                )
-            )
+        # Write extracted fields for each section — pipeline already did the work.
+        async with AsyncSessionLocal() as session:
+            for s in section_writes:
+                try:
+                    fields = extractor.parse_pipeline_section(
+                        s["raw"], s["doc_type"], s["doc_id"], s["doc_label"]
+                    )
+                    await _write_fields_and_complete(session, s["doc_id"], donor_id, tenant_id, fields)
+                except Exception as exc:
+                    logger.error(
+                        "combined pipeline: field write failed doc_id=%s doc_type=%s error=%s",
+                        s["doc_id"], s["doc_type"], type(exc).__name__,
+                    )
+                    await _mark_error(session, s["doc_id"])
 
         logger.info(
-            "combined pipeline: split donor_id=%s sections=%d extracting=%d file_id=%s",
-            donor_id, len(classifications), len(spawned), file_id[:40],
+            "combined pipeline: completed donor_id=%s sections=%d written=%d",
+            donor_id, len(classifications), len(section_writes),
         )
 
     except Exception as exc:
@@ -372,55 +375,13 @@ async def _run_combined_pipeline(
                         donor_id=donor_id,
                         actor="system",
                         action="document.upload_failed",
-                        detail="Packet split failed during processing. Re-upload to retry.",
+                        detail="Pipeline processing failed. Re-upload to retry.",
                         timestamp=datetime.now(UTC).isoformat(),
                     )
                 )
                 await session.commit()
         except Exception:
             logger.error("combined pipeline: could not write failure audit donor_id=%s", donor_id)
-
-
-async def _run_section_extraction(
-    doc_id: str,
-    donor_id: str,
-    tenant_id: str,
-    file_id: str,
-    doc_type: str,
-    doc_label: str,
-    pages: list[int],
-) -> None:
-    """
-    Background task for one section of a combined upload.
-    Reuses the already-uploaded file_id; extraction targets only the detected pages.
-    Status flow: processing -> extracted (success) | error (failure).
-    """
-    from app.core.database import AsyncSessionLocal
-
-    logger.info(
-        "extraction: starting section doc_id=%s doc_type=%s pages=%s file_id=%s",
-        doc_id, doc_type, pages, file_id[:40],
-    )
-
-    async with AsyncSessionLocal() as session:
-        try:
-            extractor = get_extractor()
-            fields = await extractor.extract_section(
-                file_id=file_id,
-                doc_type=doc_type,
-                doc_id=doc_id,
-                doc_label=doc_label,
-                pages=pages,
-            )
-            await _write_fields_and_complete(session, doc_id, donor_id, tenant_id, fields)
-
-        except (RuntimeError, TimeoutError) as exc:
-            logger.error("extraction: reducto error doc_id=%s error=%s", doc_id, str(exc))
-            await _mark_error(session, doc_id)
-
-        except Exception as exc:
-            logger.exception("extraction: unexpected error doc_id=%s error_type=%s", doc_id, type(exc).__name__)
-            await _mark_error(session, doc_id)
 
 
 async def _write_fields_and_complete(session, doc_id: str, donor_id: str, tenant_id: str, fields: list[dict]) -> None:

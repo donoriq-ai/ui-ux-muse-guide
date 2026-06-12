@@ -33,10 +33,16 @@ async def list_donors_page(
     pageSize: int = Query(default=200, ge=1, le=500),
 ) -> DonorListResult:
     tenant_id = claims["tenant_id"]
-    stmt = select(DonorModel).where(DonorModel.tenant_id == tenant_id)
+    stmt = select(DonorModel).where(
+        DonorModel.tenant_id == tenant_id, DonorModel.deleted_at.is_(None)
+    )
 
     total_unfiltered = (
-        await db.execute(select(func.count()).select_from(DonorModel).where(DonorModel.tenant_id == tenant_id))
+        await db.execute(
+            select(func.count())
+            .select_from(DonorModel)
+            .where(DonorModel.tenant_id == tenant_id, DonorModel.deleted_at.is_(None))
+        )
     ).scalar_one()
 
     if q:
@@ -107,7 +113,11 @@ async def next_donor_id(claims: CurrentClaims, db: Db) -> dict:
 async def get_donor(donor_id: str, claims: CurrentClaims, db: Db) -> Donor:
     tenant_id = claims["tenant_id"]
     result = await db.execute(
-        select(DonorModel).where(DonorModel.id == donor_id, DonorModel.tenant_id == tenant_id)
+        select(DonorModel).where(
+            DonorModel.id == donor_id,
+            DonorModel.tenant_id == tenant_id,
+            DonorModel.deleted_at.is_(None),
+        )
     )
     d = result.scalar_one_or_none()
     if not d:
@@ -192,6 +202,37 @@ async def mark_reviewed(donor_id: str, claims: CurrentClaims, db: Db) -> Donor:
     db.add(entry)
     await db.commit()
     return await build_donor_schema(db, d, tenant_id)
+
+
+@router.delete("/{donor_id}", status_code=204)
+async def delete_donor(donor_id: str, claims: CurrentClaims, db: Db) -> None:
+    tenant_id = claims["tenant_id"]
+    result = await db.execute(
+        select(DonorModel).where(
+            DonorModel.id == donor_id,
+            DonorModel.tenant_id == tenant_id,
+            DonorModel.deleted_at.is_(None),
+        )
+    )
+    d = result.scalar_one_or_none()
+    if not d:
+        raise not_found(f"Donor {donor_id}")
+
+    # Soft delete only — the append-only audit log FK (ondelete=RESTRICT) forbids
+    # destroying the row. Mark deleted and record the action.
+    now = datetime.now(UTC).isoformat()
+    d.deleted_at = now
+    entry = AuditEntryModel(
+        id=f"a-{datetime.now(UTC).timestamp()}-deleted",
+        tenant_id=tenant_id,
+        donor_id=donor_id,
+        actor=claims["name"],
+        action="donor.deleted",
+        detail=f"Donor {donor_id} deleted by {claims['name']}",
+        timestamp=now,
+    )
+    db.add(entry)
+    await db.commit()
 
 
 @router.patch("/{donor_id}/fields/{field_id}", status_code=204)
